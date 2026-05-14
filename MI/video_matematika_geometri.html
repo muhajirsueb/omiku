@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Matematika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3f51b5 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #e8eaf6; font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .video-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1200px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: #ffffff; 
+            border-radius: 20px; overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+
+        .video-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 20px; }
+        .video-info h3 { 
+            font-size: 18px; color: #1a237e; margin-bottom: 8px; font-weight: 800; 
+        }
+        .video-info p { font-size: 14px; color: #5c5c5c; line-height: 1.6; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1a237e;
+            padding: 15px 40px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1a237e; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Video Pengayaan Matematika</h1>
+        <p class="sub-title">Koleksi Pembahasan Soal & Konsep Matematika</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/5WKCMRKquOI" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 1</h3>
+                <p>Pembahasan materi dan penyelesaian soal matematika bagian pertama.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/ttFYzOnJhTg" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 2</h3>
+                <p>Lanjutan pembahasan soal dengan metode yang lebih praktis.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/0Z2f5yppJbo" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 3</h3>
+                <p>Tips dan trik mengerjakan soal matematika dengan cepat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/zAAejw2NKu0" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 4</h3>
+                <p>Pendalaman konsep dasar untuk persiapan ujian/olimpiade.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/I0lhxppFlsc" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 5</h3>
+                <p>Pembahasan mendalam mengenai logika angka.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/SWIMw2lcfmo" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 6</h3>
+                <p>Latihan soal variatif untuk mengasah kemampuan analisis.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/T8A-15iTqK4" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 7</h3>
+                <p>Strategi menyelesaikan soal-soal sulit secara sistematis.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/MZE_6Hfmz9g" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 8</h3>
+                <p>Eksplorasi rumus dan penerapannya dalam kasus nyata.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/colrvXX1UMc" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 9</h3>
+                <p>Review materi penting yang sering muncul dalam tes.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/xikH0zJeO48" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 10</h3>
+                <p>Penjelasan langkah demi langkah solusi matematika.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/ggCxVmeEXjU" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi Matematika 11</h3>
+                <p>Materi tambahan untuk pengayaan kompetensi siswa.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer" style="padding-bottom: 50px;">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Materi Utama</a>
+    </div>
+
+</body>
+</html>
