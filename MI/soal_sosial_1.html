@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOSIAL MI - OMI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { 
+            --primary-deep: #0a3d0e; 
+            --primary-light: #1b5e20; 
+            --accent-gold: #fdd835; 
+            --danger: #be123c;
+            --sosial-theme: #5d4037; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+
+        /* POP-UP AWAL (START SCREEN) */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .start-box i { font-size: 80px; color: var(--sosial-theme); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(253, 216, 53, 0.3); }
+
+        /* APP CONTENT */
+        .app-container { width: 100%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #1e293b; }
+        .options-grid { display: grid; gap: 12px; }
+        .option { padding: 18px 25px; border: 2px solid #f1f5f9; border-radius: 15px; cursor: pointer; transition: 0.2s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        .sidebar { width: 280px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 15px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        .action-bar { padding: 15px 30px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; }
+        
+        /* MODAL & RESULT */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); line-height: 1; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-people-group"></i>
+        <h2>Sudah Siap?</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik. Kerjakan dengan jujur dan teliti.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h3>Simulasi Sosial <span style="color: var(--accent-gold);">OMI</span></h3>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 11px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav" style="background:#f1f5f9" onclick="changeQ(-1)">SEBELUMNYA</button>
+        <button class="btn-nav" style="background:#fef9c3; color:#854d0e; border:1px solid #facc15" onclick="toggleDoubt()">RAGU-RAGU</button>
+        <button class="btn-nav" id="btn-step" style="background:#0f172a; color:white; min-width:150px" onclick="handleNextStep()">SELANJUTNYA</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span style="font-size:11px; color:#64748b;">BENAR</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span style="font-size:11px; color:#64748b;">SALAH</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span style="font-size:11px; color:#64748b;">KOSONG</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_sosial.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE HALAMAN TRYOUT</button>
+    </div>
+</div>
+
+<script>
+    let current = 0, timer = 90 * 60, isStarted = false;
+    const bank = [
+    {
+        q: "1. Indonesia dikenal sebagai negara kepulauan yang sangat luas, yang merupakan anugerah Allah SWT bagi bangsa kita. Secara astronomis, Indonesia terletak di antara 6°LU – 11°LS dan 95°BT – 141°BT. Letak astronomis ini menyebabkan Indonesia berada di wilayah iklim tropis. Salah satu ciri utama dari iklim tropis yang memengaruhi pola kehidupan petani di lingkungan madrasah kita adalah...",
+        options: [
+            "A. Memiliki empat musim yang berganti setiap tiga bulan sekali",
+            "B. Memiliki curah hujan yang tinggi dan penyinaran matahari sepanjang tahun",
+            "C. Suhu udara yang sangat dingin sehingga tanaman sulit untuk tumbuh",
+            "D. Sering terjadi badai salju yang menutupi lahan-lahan pertanian"
+        ],
+        correct: 1
+    },
+    {
+        q: "2. Dalam sejarah Islam di Indonesia, para pedagang dari Gujarat, Arab, dan Persia menyebarkan agama Islam melalui jalur perdagangan yang jujur. Selain perdagangan, Islam juga disebarkan melalui jalur pendidikan, yaitu dengan didirikannya lembaga tempat para santri menimba ilmu agama dan ilmu pengetahuan. Lembaga pendidikan tradisional tertua di Indonesia tersebut dikenal dengan nama...",
+        options: [
+            "A. Sekolah Madrasah Ibtidaiyah Negeri",
+            "B. Pondok Pesantren",
+            "C. Padepokan Silat",
+            "D. Universitas Islam"
+        ],
+        correct: 1
+    },
+    {
+        q: "3. Allah SWT menciptakan manusia sebagai makhluk sosial yang tidak dapat hidup sendiri. Dalam kehidupan di madrasah, para santri saling membantu dalam menjaga kebersihan lingkungan asrama. Proses interaksi sosial yang mengarah pada persatuan dan kerja sama antarindividu atau kelompok untuk mencapai tujuan bersama disebut dengan...",
+        options: [
+            "A. Interaksi Sosial Disosiatif",
+            "B. Interaksi Sosial Asosiatif",
+            "C. Konflik Sosial Antarsantri",
+            "D. Persaingan yang tidak sehat"
+        ],
+        correct: 1
+    },
+    {
+        q: "4. Secara geografis, Indonesia terletak di antara dua benua dan dua samudra. Posisi silang ini menjadikan Indonesia sebagai jalur lalu lintas perdagangan internasional sejak zaman dahulu. Dua samudra besar yang mengapit wilayah kedaulatan negara Indonesia tersebut adalah...",
+        options: [
+            "A. Samudra Atlantik dan Samudra Arktik",
+            "B. Samudra Hindia dan Samudra Pasifik",
+            "C. Samudra Hindia dan Samudra Atlantik",
+            "D. Samudra Pasifik dan Samudra Antartika"
+        ],
+        correct: 1
+    },
+    {
+        q: "5. Kerajaan Samudera Pasai merupakan kerajaan Islam pertama di Indonesia yang terletak di Aceh. Kerajaan ini menjadi pusat perdagangan dan syiar Islam yang sangat maju karena letaknya yang strategis di jalur pelayaran internasional. Raja pertama yang memimpin Kerajaan Samudera Pasai dan dikenal sangat taat menjalankan syariat Islam adalah...",
+        options: [
+            "A. Sultan Hasanuddin",
+            "B. Sultan Ageng Tirtayasa",
+            "C. Sultan Malik al-Saleh (Meurah Silu)",
+            "D. Sultan Iskandar Muda"
+        ],
+        correct: 2
+    },
+    {
+        q: "6. Dalam kegiatan ekonomi, Allah SWT melarang hamba-Nya untuk melakukan kecurangan atau penipuan. Seseorang yang melakukan kegiatan menyalurkan barang-barang kebutuhan dari produsen (pembuat) agar sampai ke tangan konsumen (pemakai) dengan jujur disebut sebagai...",
+        options: [
+            "A. Produsen, yang menciptakan nilai guna suatu barang",
+            "B. Distributor, yang berperan dalam proses distribusi atau penyaluran",
+            "C. Konsumen, yang menghabiskan atau menggunakan nilai suatu barang",
+            "D. Investor, yang menanamkan modal dalam sebuah perusahaan"
+        ],
+        correct: 1
+    },
+    {
+        q: "7. Indonesia memiliki keragaman suku bangsa dan budaya yang sangat kaya sebagai bentuk keberagaman yang diciptakan Allah. Meskipun berbeda-beda suku seperti Jawa, Sunda, Batak, dan Papua, kita tetap satu bangsa Indonesia. Semboyan nasional yang menggambarkan persatuan di tengah perbedaan tersebut adalah...",
+        options: [
+            "A. Tut Wuri Handayani",
+            "B. Bhinneka Tunggal Ika",
+            "C. Ing Ngarso Sung Tulodo",
+            "D. Rawe-rawe Rantas Malang-malang Putung"
+        ],
+        correct: 1
+    },
+    {
+        q: "8. Sumber daya alam adalah rezeki dari Allah yang harus dikelola secara bijaksana. Ada sumber daya alam yang tidak dapat diperbarui karena jumlahnya terbatas dan membutuhkan waktu jutaan tahun untuk terbentuk kembali. Contoh sumber daya alam yang tidak dapat diperbarui dan menjadi bahan bakar utama kendaraan bermotor adalah...",
+        options: [
+            "A. Hutan jati dan kelapa sawit",
+            "B. Sinar matahari dan energi angin",
+            "C. Minyak bumi dan batu bara",
+            "D. Air terjun dan arus laut"
+        ],
+        correct: 2
+    },
+    {
+        q: "9. Pada masa penjajahan, bangsa Indonesia mengalami penderitaan akibat kebijakan kerja paksa yang diterapkan oleh pemerintah kolonial Belanda. Kebijakan pembangunan jalan raya dari Anyer sampai Panarukan yang memakan banyak korban jiwa rakyat Indonesia tersebut dilakukan di bawah pimpinan Gubernur Jenderal...",
+        options: [
+            "A. Thomas Stamford Raffles",
+            "B. Jan Pieterszoon Coen",
+            "C. Herman Willem Daendels",
+            "D. Johannes van den Bosch"
+        ],
+        correct: 2
+    },
+    {
+        q: "10. Interaksi manusia dengan lingkungan alam harus dilakukan dengan cara yang bertanggung jawab. Jika manusia menebang hutan secara liar untuk kepentingan pribadi tanpa melakukan penanaman kembali, maka amanah untuk menjaga bumi telah dilanggar. Dampak sosial dan ekonomi yang paling merugikan bagi masyarakat akibat penggundulan hutan adalah...",
+        options: [
+            "A. Udara menjadi semakin segar karena tidak ada pepohonan",
+            "B. Terjadinya bencana banjir dan tanah longsor yang merusak rumah penduduk",
+            "C. Harga kayu menjadi sangat murah sehingga masyarakat senang",
+            "D. Hewan-hewan hutan akan masuk ke kota untuk membantu manusia"
+        ],
+        correct: 1
+    },
+    {
+        q: "11. Kebutuhan manusia dibedakan menjadi beberapa tingkatan. Kebutuhan dasar yang harus dipenuhi terlebih dahulu agar manusia dapat bertahan hidup dengan layak sesuai martabat yang diberikan Allah, seperti makanan (pangan), pakaian (sandang), dan tempat tinggal (papan), disebut sebagai kebutuhan...",
+        options: [
+            "A. Sekunder, yaitu kebutuhan tambahan setelah kebutuhan pokok terpenuhi",
+            "B. Tersier, yaitu kebutuhan akan barang-barang mewah untuk gaya hidup",
+            "C. Primer, yaitu kebutuhan pokok yang tidak bisa ditunda pemenuhannya",
+            "D. Jasmani, yaitu kebutuhan yang hanya berkaitan dengan kesehatan fisik"
+        ],
+        correct: 2
+    },
+    {
+        q: "12. Tokoh nasional yang dikenal sebagai 'Bapak Proklamator' dan juga Presiden pertama Republik Indonesia adalah Ir. Soekarno. Bersama dengan Drs. Moh. Hatta, beliau membacakan teks proklamasi kemerdekaan atas nama bangsa Indonesia. Peristiwa bersejarah pembacaan teks proklamasi tersebut terjadi pada tanggal...",
+        options: [
+            "A. 1 Juni 1945, bertepatan dengan lahirnya Pancasila",
+            "B. 17 Agustus 1945, di Jalan Pegangsaan Timur No. 56 Jakarta",
+            "C. 10 November 1945, bertepatan dengan Hari Pahlawan",
+            "D. 20 Mei 1908, bertepatan dengan Hari Kebangkitan Nasional"
+        ],
+        correct: 1
+    },
+    {
+        q: "13. ASEAN adalah organisasi kerja sama negara-negara di kawasan Asia Tenggara. Indonesia merupakan salah satu negara pendiri ASEAN melalui Deklarasi Bangkok. Tujuan utama dibentuknya ASEAN demi menjaga kedamaian sesuai prinsip persaudaraan antarnegara tetangga adalah...",
+        options: [
+            "A. Membentuk satu tentara gabungan untuk menyerang negara lain",
+            "B. Menciptakan kerja sama di bidang ekonomi, sosial, budaya, dan keamanan wilayah",
+            "C. Menghapuskan seluruh batas negara sehingga menjadi satu negara besar",
+            "D. Menguasai sumber daya alam negara-negara tetangga yang lebih kecil"
+        ],
+        correct: 1
+    },
+    {
+        q: "14. Kenampakan alam di permukaan bumi sangat beragam, mulai dari pegunungan hingga dataran rendah. Dataran luas yang memiliki ketinggian lebih dari 600 meter di atas permukaan laut dan biasanya memiliki udara yang sejuk untuk bercocok tanam sayuran disebut sebagai...",
+        options: [
+            "A. Dataran Rendah",
+            "B. Dataran Tinggi (Plato)",
+            "C. Lembah Sungai",
+            "D. Pesisir Pantai"
+        ],
+        correct: 1
+    },
+    {
+        q: "15. Wali Songo memiliki peran yang sangat besar dalam sejarah penyebaran Islam di tanah Jawa. Salah satu anggota Wali Songo yang menyebarkan Islam melalui media seni budaya, seperti wayang kulit dan tembang Jawa, sehingga ajaran Islam mudah diterima oleh masyarakat luas dengan damai adalah...",
+        options: [
+            "A. Sunan Gresik (Maulana Malik Ibrahim)",
+            "B. Sunan Kalijaga (Raden Said)",
+            "C. Sunan Ampel (Raden Rahmat)",
+            "D. Sunan Giri (Raden Paku)"
+        ],
+        correct: 1
+    },
+    {
+        q: "16. Penjajahan Belanda di Indonesia berlangsung sangat lama. Salah satu kebijakan ekonomi yang sangat menyengsarakan petani adalah sistem Tanam Paksa, di mana rakyat wajib menanam tanaman ekspor untuk kepentingan Belanda. Tokoh Belanda yang menentang kebijakan zalim ini melalui bukunya yang berjudul 'Max Havelaar' adalah...",
+        options: [
+            "A. Van Deventer",
+            "B. Douwes Dekker (Multatuli)",
+            "C. Baron van Hoevell",
+            "D. Van den Bosch"
+        ],
+        correct: 1
+    },
+    {
+        q: "17. Manusia dalam memenuhi kebutuhannya harus melakukan tindakan ekonomi yang rasional. Sikap manusia dalam menggunakan sumber daya yang ada dengan penuh perhitungan agar tidak boros (mubazir) sesuai tuntunan agama disebut dengan menerapkan...",
+        options: [
+            "A. Prinsip Ekonomi",
+            "B. Motif Ekonomi",
+            "C. Politik Ekonomi",
+            "D. Konsumsi Berlebihan"
+        ],
+        correct: 0
+    },
+    {
+        q: "18. Kerajaan Majapahit merupakan kerajaan Hindu-Buddha terbesar di Indonesia yang mampu menyatukan wilayah Nusantara. Seorang Patih yang sangat terkenal dengan Sumpah Palapa-nya, yang bertekad tidak akan memakan buah palapa (bersenang-senang) sebelum Nusantara bersatu, adalah...",
+        options: [
+            "A. Raden Wijaya",
+            "B. Hayam Wuruk",
+            "C. Gajah Mada",
+            "D. Ken Arok"
+        ],
+        correct: 2
+    },
+    {
+        q: "19. Penduduk yang tinggal di daerah pesisir pantai sebagian besar bekerja sebagai nelayan. Sedangkan penduduk yang tinggal di daerah dataran tinggi biasanya bekerja sebagai petani perkebunan. Perbedaan jenis pekerjaan ini membuktikan bahwa kegiatan ekonomi manusia sangat dipengaruhi oleh...",
+        options: [
+            "A. Tingkat pendidikan masyarakat setempat",
+            "B. Kondisi geografis atau keadaan alam tempat tinggal",
+            "C. Jenis agama yang dianut oleh penduduk",
+            "D. Jumlah anggota keluarga dalam satu rumah"
+        ],
+        correct: 1
+    },
+    {
+        q: "20. Simbol-simbol pada peta membantu kita untuk memahami informasi geografis suatu wilayah. Simbol berupa garis yang bercabang-cabang dan biasanya berwarna biru pada peta menggambarkan kenampakan alam berupa...",
+        options: [
+            "A. Jalan raya utama",
+            "B. Batas wilayah provinsi",
+            "C. Aliran sungai",
+            "D. Jalur kereta api"
+        ],
+        correct: 2
+    },
+    {
+        q: "21. Kerajaan Demak merupakan kerajaan Islam pertama di Pulau Jawa yang didirikan oleh Raden Patah dengan dukungan penuh dari Wali Songo. Kerajaan ini menjadi pusat penyebaran Islam dan kekuatan militer yang disegani di Nusantara. Sebagai bukti kejayaan dan pusat peradaban Islam pada masa itu, terdapat bangunan monumental yang masih berdiri kokoh hingga saat ini, yaitu...",
+        options: [
+            "A. Masjid Raya Baiturrahman di Aceh",
+            "B. Masjid Agung Demak dengan atap tumpang khas Indonesia",
+            "C. Candi Borobudur yang merupakan peninggalan Dinasti Syailendra",
+            "D. Istana Maimun yang merupakan pusat pemerintahan Kesultanan Deli"
+        ],
+        correct: 1
+    },
+    {
+        q: "22. Allah SWT memberikan anugerah berupa tanah yang subur di wilayah Indonesia karena banyaknya gunung berapi yang aktif. Abu vulkanik dari letusan gunung berapi tersebut lama-kelamaan akan membuat tanah menjadi sangat produktif untuk pertanian. Jenis tanah yang terbentuk dari proses pelapukan material letusan gunung berapi ini disebut...",
+        options: [
+            "A. Tanah Gambut, yang banyak terdapat di rawa-rawa",
+            "B. Tanah Andosol atau tanah vulkanik yang berwarna gelap",
+            "C. Tanah Aluvial, yang terbentuk dari endapan lumpur sungai",
+            "D. Tanah Laterit, yang sudah kehilangan banyak unsur haranya"
+        ],
+        correct: 1
+    },
+    {
+        q: "23. Kehidupan masyarakat masa kini sangat dipengaruhi oleh perkembangan teknologi informasi dan komunikasi (globalisasi). Sebagai santri yang bijak, kita harus mampu menyaring pengaruh budaya asing agar tidak bertentangan dengan nilai-nilai agama dan Pancasila. Sikap mencintai dan mempertahankan budaya sendiri sambil menghormati budaya orang lain merupakan pengamalan dari nilai...",
+        options: [
+            "A. Chauvinisme, yaitu merasa bangsa sendiri paling hebat di dunia",
+            "B. Kearifan Lokal (Local Wisdom) dan rasa Nasionalisme",
+            "C. Hedonisme, yaitu gaya hidup yang hanya mengejar kesenangan duniawi",
+            "D. Individualisme, yaitu sikap yang hanya mementingkan diri sendiri"
+        ],
+        correct: 1
+    },
+    {
+        q: "24. Indonesia memiliki dua musim, yaitu musim kemarau dan musim penghujan. Perubahan musim ini sangat dipengaruhi oleh pergerakan angin periodik yang bertiup dari satu benua ke benua lain melewati samudra. Angin yang membawa uap air dalam jumlah besar dari Samudra Pasifik sehingga menyebabkan terjadinya musim hujan di Indonesia (Oktober - April) adalah...",
+        options: [
+            "A. Angin Muson Barat",
+            "B. Angin Muson Timur",
+            "C. Angin Darat yang bertiup pada malam hari",
+            "D. Angin Gunung yang membawa hawa dingin"
+        ],
+        correct: 0
+    },
+    {
+        q: "25. Dalam kegiatan ekonomi, Allah SWT menganjurkan kita untuk saling tolong-menolong dalam kebaikan. Sebuah badan usaha yang dimiliki dan dijalankan oleh para anggotanya berdasarkan asas kekeluargaan dan bertujuan untuk menyejahterakan seluruh anggotanya disebut...",
+        options: [
+            "A. Perseroan Terbatas (PT)",
+            "B. Koperasi",
+            "C. Badan Usaha Milik Negara (BUMN)",
+            "D. Perusahaan Perorangan"
+        ],
+        correct: 1
+    },
+    {
+        q: "26. Organisasi Budi Utomo yang didirikan pada tanggal 20 Mei 1908 oleh para pelajar STOVIA dipandang sebagai titik awal perjuangan bangsa yang bersifat nasional dan terorganisir. Peristiwa ini kemudian diperingati oleh bangsa Indonesia setiap tahun sebagai hari...",
+        options: [
+            "A. Hari Pendidikan Nasional",
+            "B. Hari Kebangkitan Nasional",
+            "C. Hari Sumpah Pemuda",
+            "D. Hari Kesaktian Pancasila"
+        ],
+        correct: 1
+    },
+    {
+        q: "27. Sumber daya alam di laut Indonesia sangat melimpah, mulai dari ikan hingga terumbu karang yang indah. Namun, tindakan menggunakan bahan peledak atau racun untuk menangkap ikan sangat dilarang karena merusak ekosistem ciptaan Allah. Tindakan yang paling tepat untuk melestarikan sumber daya laut agar tetap dapat dinikmati oleh generasi mendatang adalah...",
+        options: [
+            "A. Menggunakan jaring pukat harimau agar semua ikan terjaring",
+            "B. Menangkap ikan di daerah konservasi atau suaka alam perairan",
+            "C. Melakukan budidaya laut dan menggunakan alat tangkap yang ramah lingkungan",
+            "D. Membuang sampah plastik ke laut agar ikan mendapatkan tempat berlindung"
+        ],
+        correct: 2
+    },
+    {
+        q: "28. Pada masa awal kemerdekaan, bangsa Indonesia harus berjuang mempertahankan kedaulatan dari upaya Belanda yang ingin kembali menjajah. Salah satu pertempuran besar yang menunjukkan semangat juang para pahlawan dan santri terjadi di Surabaya, di mana Bung Tomo membakar semangat rakyat melalui pidato-pidatonya. Peristiwa heroik ini diperingati sebagai Hari Pahlawan pada tanggal...",
+        options: [
+            "A. 10 November",
+            "B. 5 Oktober",
+            "C. 1 Oktober",
+            "D. 1 Juni"
+        ],
+        correct: 0
+    },
+    {
+        q: "29. Manusia adalah makhluk ekonomi yang selalu berusaha memenuhi kebutuhannya. Namun, dalam Islam kita diajarkan untuk memiliki prioritas. Jika seorang santri memiliki uang saku yang terbatas, tindakan ekonomi yang paling bijaksana adalah...",
+        options: [
+            "A. Membeli mainan yang sedang tren agar tidak merasa ketinggalan zaman",
+            "B. Membeli buku pelajaran dan peralatan sekolah yang sangat dibutuhkan (Kebutuhan Primer)",
+            "C. Menabung seluruh uangnya tanpa makan dan minum agar cepat kaya",
+            "D. Meminta uang tambahan kepada orang tua secara paksa"
+        ],
+        correct: 1
+    },
+    {
+        q: "30. Negara-negara di Asia Tenggara memiliki beragam bentuk pemerintahan. Indonesia berbentuk Republik dengan kepala negara seorang Presiden. Namun, ada negara tetangga yang berbentuk Kerajaan atau Monarki, di mana kepala negaranya adalah seorang Raja atau Sultan. Contoh negara di Asia Tenggara yang berbentuk kerajaan adalah...",
+        options: [
+            "A. Filipina dan Vietnam",
+            "B. Thailand dan Brunei Darussalam",
+            "C. Singapura dan Myanmar",
+            "D. Laos dan Timor Leste"
+        ],
+        correct: 1
+    },
+    {
+        q: "31. Sejarah mencatat bahwa perlawanan rakyat Indonesia terhadap penjajah sebelum tahun 1908 selalu gagal. Penyebab utama kegagalan tersebut, yang menjadi pelajaran penting bagi kita tentang arti persatuan, adalah...",
+        options: [
+            "A. Kurangnya semangat ibadah dari para pejuang",
+            "B. Perlawanan masih bersifat kedaerahan dan mudah diadu domba (Devide et Impera)",
+            "C. Senjata yang digunakan rakyat Indonesia terlalu modern sehingga sulit digunakan",
+            "D. Rakyat Indonesia tidak memiliki pemimpin yang berani"
+        ],
+        correct: 1
+    },
+    {
+        q: "32. Garis khayal yang memisahkan wilayah persebaran fauna (hewan) di Indonesia menjadi tipe Asiatis (Barat), tipe Peralihan (Tengah), dan tipe Australis (Timur) adalah garis...",
+        options: [
+            "A. Garis Khatulistiwa (Ekuator)",
+            "B. Garis Wallace dan Garis Weber",
+            "C. Garis Bujur dan Garis Lintang",
+            "D. Garis Horison dan Garis Vertikal"
+        ],
+        correct: 1
+    },
+    {
+        q: "33. Salah satu cara manusia berinteraksi dengan lingkungan sosialnya adalah melalui gotong royong. Tradisi gotong royong merupakan warisan luhur bangsa Indonesia yang sesuai dengan prinsip Ta’awun (tolong-menolong) dalam Islam. Manfaat utama dari budaya gotong royong di lingkungan masyarakat adalah...",
+        options: [
+            "A. Pekerjaan yang berat menjadi terasa lebih ringan dan cepat selesai",
+            "B. Menciptakan persaingan antarwarga untuk menjadi yang terbaik",
+            "C. Mengurangi jumlah waktu istirahat warga di rumah",
+            "D. Menghasilkan upah yang besar bagi warga yang bekerja paling giat"
+        ],
+        correct: 0
+    },
+    {
+        q: "34. Di dalam kegiatan ekonomi, pasar merupakan tempat bertemunya penjual dan pembeli untuk melakukan transaksi. Pasar yang hanya menyediakan barang-barang kebutuhan pokok sehari-hari seperti sayur, buah, dan beras disebut sebagai...",
+        options: [
+            "A. Pasar Modal",
+            "B. Pasar Tradisional atau Pasar Barang Konsumsi",
+            "C. Pasar Tenaga Kerja",
+            "D. Pasar Internasional"
+        ],
+        correct: 1
+    },
+    {
+        q: "35. Salah satu pahlawan nasional dari Maluku yang memimpin perlawanan terhadap monopoli perdagangan rempah-rempah oleh VOC (Belanda) pada tahun 1817 adalah Thomas Matulessy. Beliau lebih dikenal dengan julukan...",
+        options: [
+            "A. Pangeran Diponegoro",
+            "B. Kapitan Pattimura",
+            "C. Sultan Baabullah",
+            "D. Silas Papare"
+        ],
+        correct: 1
+    },
+    {
+        q: "36. Bentuk muka bumi yang berupa daratan yang menjorok ke arah laut disebut sebagai...",
+        options: [
+            "A. Teluk, yang biasanya ombaknya lebih tenang",
+            "B. Tanjung atau Semenanjung",
+            "C. Selat, yaitu laut sempit di antara dua pulau",
+            "D. Palung, yaitu bagian laut yang sangat dalam"
+        ],
+        correct: 1
+    },
+    {
+        q: "37. Globalisasi membawa dampak positif dan negatif bagi kebudayaan bangsa. Salah satu cara yang tepat bagi generasi muda untuk melestarikan budaya bangsa di tengah arus modernisasi adalah...",
+        options: [
+            "A. Menghilangkan budaya lokal karena dianggap sudah kuno dan tertinggal",
+            "B. Mempelajari dan memperkenalkan kesenian daerah melalui media sosial",
+            "C. Mengikuti seluruh tren budaya asing tanpa menyaringnya",
+            "D. Menolak semua jenis teknologi dari luar negeri"
+        ],
+        correct: 1
+    },
+    {
+        q: "38. Sumber daya alam tambang seperti emas dan perak merupakan kekayaan alam yang dikuasai oleh negara untuk kemakmuran rakyat. Daerah di Indonesia yang terkenal sebagai penghasil tambang emas terbesar adalah...",
+        options: [
+            "A. Bangka Belitung, yang terkenal dengan tambang timahnya",
+            "B. Papua (Mimika), melalui PT Freeport Indonesia",
+            "C. Kalimantan Timur, yang kaya akan batubara",
+            "D. Kepulauan Riau, yang kaya akan bauksit"
+        ],
+        correct: 1
+    },
+    {
+        q: "39. Sumpah Pemuda pada tanggal 28 Oktober 1928 merupakan tonggak sejarah persatuan pemuda Indonesia. Dalam peristiwa tersebut, untuk pertama kalinya lagu \"Indonesia Raya\" dikumandangkan dan bendera Merah Putih diperkenalkan. Nama pencipta lagu kebangsaan Indonesia Raya adalah...",
+        options: [
+            "A. Ibu Sud",
+            "B. W.R. Supratman",
+            "C. Ismail Marzuki",
+            "D. Cornel Simanjuntak"
+        ],
+        correct: 1
+    },
+    {
+        q: "40. Kegiatan menggunakan barang atau jasa untuk memenuhi kebutuhan hidup sehari-hari disebut konsumsi. Allah SWT melarang umat-Nya melakukan konsumsi secara berlebihan atau boros (Israf). Orang yang melakukan kegiatan konsumsi disebut sebagai...",
+        options: [
+            "A. Konsumen",
+            "B. Produsen",
+            "C. Distributor",
+            "D. Makelar"
+        ],
+        correct: 0
+    }
+];
+    let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} DARI ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        const box = document.getElementById('options-box'); box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+        
+        const btnStep = document.getElementById('btn-step');
+        if (current === bank.length - 1) btnStep.innerText = "SELESAI";
+        else btnStep.innerText = "SELANJUTNYA";
+
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            let cls = 'nav-item';
+            if(doubts[i]) cls += ' doubt'; else if(answers[i] !== null) cls += ' answered';
+            if(current === i) cls += ' active';
+            item.className = cls; item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } }
+    
+    function triggerFinish() {
+        const unsolved = answers.filter(a => a === null).length;
+        document.getElementById('modal-msg').innerText = unsolved > 0 ? `Masih ada ${unsolved} soal kosong. Yakin ingin selesai?` : `Yakin ingin mengirim jawaban sekarang?`;
+        document.getElementById('modal-container').style.display = 'flex';
+        document.getElementById('confirm-box').style.display = 'block';
+        document.getElementById('result-box').style.display = 'none';
+    }
+
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+    function finalSubmit() {
+        let correct = 0, wrong = 0, empty = 0;
+        answers.forEach((ans, i) => {
+            if(ans === null) empty++;
+            else if(ans === bank[i].correct) correct++;
+            else wrong++;
+        });
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((correct / bank.length) * 100);
+        document.getElementById('count-correct').innerText = correct;
+        document.getElementById('count-wrong').innerText = wrong;
+        document.getElementById('count-empty').innerText = empty;
+    }
+
+    setInterval(() => {
+        if(isStarted && timer > 0) {
+            timer--; let m = Math.floor(timer/60), s = timer%60;
+            document.getElementById('timer-text').innerText = `${m}:${s<10?'0'+s:s}`;
+        }
+    }, 1000);
+</script>
+</body>
+</html>

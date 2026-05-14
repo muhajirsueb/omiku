@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Pembinaan OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --apple-gray: #f5f5f7;
+            --apple-blue: #0071e3;
+            --apple-dark: #1d1d1f;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background-color: var(--apple-gray); 
+            color: var(--apple-dark);
+            padding-bottom: 100px;
+        }
+
+        /* Navigasi Minimalis */
+        nav {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 20px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .logo { font-weight: 700; font-size: 20px; letter-spacing: -0.5px; }
+
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+
+        .header-section h1 { font-size: 48px; font-weight: 700; letter-spacing: -1px; margin-bottom: 10px; }
+        .header-section p { color: #86868b; font-size: 21px; max-width: 700px; margin: 0 auto; }
+
+        /* Progress Tracker */
+        .tracker-container {
+            max-width: 900px;
+            margin: 20px auto 50px;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #e5e5e7;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 22%; /* Contoh: Berjalan 2 minggu dari 9 minggu */
+            height: 100%;
+            background: var(--apple-blue);
+            transition: 1s ease;
+        }
+
+        /* Roadmap Grid */
+        .roadmap-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .week-card {
+            background: white;
+            border-radius: 22px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .week-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--apple-blue);
+        }
+
+        .week-number {
+            min-width: 80px;
+            height: 80px;
+            background: var(--apple-gray);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .week-number span { font-size: 12px; color: #86868b; text-transform: uppercase; }
+        .week-number big { font-size: 28px; color: var(--apple-blue); }
+
+        .week-info { flex-grow: 1; }
+        .week-info h3 { font-size: 20px; margin-bottom: 5px; }
+        .week-info p { color: #86868b; font-size: 15px; }
+
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-done { background: #e6f4ea; color: #1e8e3e; }
+        .status-lock { background: #f5f5f7; color: #86868b; }
+        .status-current { background: #e8f0fe; color: var(--apple-blue); border: 1px solid var(--apple-blue); }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 40px;
+            color: var(--apple-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">OMI <span style="font-weight: 300; color: #86868b;">Learning</span></div>
+        <div class="user-profile"><i class="fa-regular fa-circle-user fa-lg"></i></div>
+    </nav>
+
+    <div class="header-section">
+        <h1>Program Pembinaan</h1>
+        <p>Perjalanan 9 Minggu Menuju Medali Emas OMI</p>
+    </div>
+
+    <div class="tracker-container">
+        <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;">
+            <span>Progress Anda</span>
+            <span>22% Selesai (Minggu 2/9)</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="roadmap-container">
+        <div class="week-card" onclick="location.href='minggu1.html'">
+            <div class="week-number">
+                <span>Minggu</span>
+                <big>01</big>
+            </div>
+            <div class="week-info">
+                <h3>Fondasi & Logika Dasar</h3>
+                <p>Memahami struktur olimpiade dan penguatan konsep dasar mapel.</p>
+            </div>
+            <div class="status-badge status-done"><i class="fa-solid fa-check"></i> SELESAI</div>
+        </div>
+
+        <div class="week-card" onclick="location.href='minggu2.html'">
+            <div class="week-number">
+                <span>Minggu</span>
+                <big>02</big>
+            </div>
+            <div class="week-info">
+                <h3>Pendalaman Materi I</h3>
+                <p>Fokus pada materi yang sering muncul dalam kisi-kisi OMI tahun lalu.</p>
+            </div>
+            <div class="status-badge status-current">SEDANG JALAN</div>
+        </div>
+
+        <div class="week-card" style="opacity: 0.7; cursor: not-allowed;">
+            <div class="week-number">
+                <span>Minggu</span>
+                <big>03</big>
+            </div>
+            <div class="week-info">
+                <h3>Eksplorasi Konsep Menengah</h3>
+                <p>Belum tersedia. Selesaikan minggu sebelumnya untuk membuka.</p>
+            </div>
+            <div class="status-badge status-lock"><i class="fa-solid fa-lock"></i> TERKUNCI</div>
+        </div>
+
+        <div class="week-card" style="opacity: 0.7; cursor: not-allowed;">
+            <div class="week-number">
+                <span>Minggu</span>
+                <big>09</big>
+            </div>
+            <div class="week-info">
+                <h3>Simulasi Final & Mental Juara</h3>
+                <p>Persiapan akhir sebelum kompetisi dimulai.</p>
+            </div>
+            <div class="status-badge status-lock"><i class="fa-solid fa-lock"></i> TERKUNCI</div>
+        </div>
+    </div>
+
+    <center>
+        <a href="dashboard_mi.html" class="btn-back">← Kembali ke Persiapan OMI MI</a>
+    </center>
+
+</body>
+</html>

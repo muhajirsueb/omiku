@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Sains MTs - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            /* Background tetap biru MTs agar senada dengan halaman utama */
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #bbdefb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 60px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        
+        h1 { 
+            font-size: 32px; 
+            font-weight: 800; 
+            color: #ffffff; 
+            text-transform: uppercase; 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .sub-desc { 
+            color: #fdd835; /* Warna kuning agar kontras dan mudah dibaca */
+            font-weight: 700; 
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .video-container {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px; 
+            max-width: 1100px; 
+            width: 100%; 
+            margin-bottom: 50px;
+        }
+
+        .card-video {
+            background: white; 
+            border-radius: 25px; 
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); 
+            transition: 0.3s ease;
+        }
+
+        .card-video:hover { 
+            transform: translateY(-10px); 
+        }
+
+        /* Area Video (Tempat menaruh Iframe YouTube nanti) */
+        .video-box {
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #222;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #888;
+            font-size: 14px;
+        }
+
+        .info-video { padding: 25px; }
+
+        /* Judul materi menggunakan warna HIJAU SAINS */
+        .info-video h3 { 
+            font-size: 20px; 
+            color: #2e7d32; 
+            margin-bottom: 10px; 
+            font-weight: 800; 
+        }
+
+        .info-video p { 
+            font-size: 14px; 
+            color: #444; 
+            line-height: 1.6; 
+            font-weight: 600; 
+        }
+
+        .btn-footer { margin-top: 20px; }
+
+        .btn-back {
+            text-decoration: none; 
+            background: #ffffff; 
+            color: #2e7d32; /* Teks tombol warna Hijau */
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            transition: 0.3s; 
+            display: inline-block;
+            border: 2px solid white;
+        }
+
+        .btn-back:hover { 
+            background: #2e7d32; 
+            color: white; 
+            transform: scale(1.05); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>VIDEO PENGAYAAN: SAINS MTs</h1>
+        <p class="sub-desc">Pilih video penjelasan yang paling mudah dipahami</p>
+    </div>
+
+    <div class="video-container">
+        
+        <div class="card-video">
+            <div class="video-box">
+                <span>[ Area Video Iframe YouTube ]</span>
+            </div>
+            <div class="info-video">
+                <h3>Dasar Mekanika & Newton</h3>
+                <p>Penjelasan fundamental mengenai hukum gerak Newton dan aplikasinya pada soal olimpiade sains.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-box">
+                <span>[ Area Video Iframe YouTube ]</span>
+            </div>
+            <div class="info-video">
+                <h3>Biologi Sel & Ekskresi</h3>
+                <p>Memahami struktur terkecil makhluk hidup dan sistem pembuangan zat sisa pada tubuh manusia.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-box">
+                <span>[ Area Video Iframe YouTube ]</span>
+            </div>
+            <div class="info-video">
+                <h3>Latihan Soal OMI Sains</h3>
+                <p>Pembahasan teknik menjawab soal-soal tingkat tinggi (HOTS) pada kompetisi sains nasional.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mts.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Sains MA - OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Latar belakang sama dengan dashboard MA */
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #5c6bc0 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 60px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        
+        h1 { 
+            font-size: 32px; 
+            font-weight: 800; 
+            color: white; 
+            text-transform: uppercase; 
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .sub-desc { 
+            color: #e8eaf6; 
+            font-weight: 700; 
+            font-size: 16px; 
+        }
+
+        .video-container {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px; 
+            max-width: 1100px; 
+            width: 100%; 
+            margin-bottom: 50px;
+        }
+
+        .card-video {
+            background: white; 
+            border-radius: 25px; 
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25); 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-video:hover { 
+            transform: translateY(-10px); 
+        }
+
+        .video-placeholder {
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #111;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #888;
+            font-size: 14px;
+        }
+
+        .info-video { padding: 25px; }
+
+        .info-video h3 { 
+            font-size: 20px; 
+            color: #1b5e20; /* Warna Hijau untuk Sains */
+            margin-bottom: 10px; 
+            font-weight: 800; 
+        }
+
+        .info-video p { 
+            font-size: 14px; 
+            color: #444; 
+            line-height: 1.6; 
+            font-weight: 600; 
+        }
+
+        .btn-back {
+            text-decoration: none; 
+            background: white; 
+            color: #1a237e;
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+            transition: 0.3s;
+        }
+
+        .btn-back:hover { 
+            transform: scale(1.05); 
+            background: #1a237e; 
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>VIDEO PENGAYAAN: SAINS MA</h1>
+        <p class="sub-desc">Eksplorasi Konsep Fisika, Biologi, Kimia, & Astronomi Terpadu</p>
+    </div>
+
+    <div class="video-container">
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 1 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Fluida & Termodinamika</h3>
+                <p>Analisis statika dan dinamika fluida serta hukum-hukum termodinamika pada sistem tertutup dan terbuka.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 2 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Biologi Sel & Molekuler</h3>
+                <p>Membedah struktur organel sel secara mikroskopis dan mekanisme pewarisan sifat pada tingkat DNA/RNA.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 3 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Struktur Atom & Ikatan Kimia</h3>
+                <p>Penjelasan model atom modern, konfigurasi elektron, serta kekuatan interaksi antar molekul dalam zat.</p>
+            </div>
+        </div>
+        
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 4 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Astronomi & Kosmologi</h3>
+                <p>Mempelajari siklus hidup bintang, hukum Kepler, dan pemahaman dasar mengenai evolusi alam semesta.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="materi_video_ma.html" class="btn-back">← Kembali ke Materi MA</a>
+
+</body>
+</html>

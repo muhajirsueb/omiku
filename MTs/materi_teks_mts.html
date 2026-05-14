@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Teks MTs - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #bbdefb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 60px 20px;
+            color: #1d1d1f; 
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        
+        h1 { 
+            font-size: 36px; font-weight: 800; color: #ffffff; 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+            text-transform: uppercase;
+        }
+
+        .sub-desc { 
+            font-size: 16px; color: #e3f2fd; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+        }
+
+        .mapel-container {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px; 
+            max-width: 1200px; 
+            width: 100%; 
+            margin-bottom: 60px;
+        }
+
+        .card-mapel {
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(15px);
+            border-radius: 30px; 
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .title-mat { color: #0d47a1; } 
+        .title-sai { color: #2e7d32; } 
+        .title-sos { color: #e65100; } 
+
+        h2 { font-size: 24px; margin-bottom: 25px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+
+        .list-materi { list-style: none; }
+        
+        .list-materi li {
+            padding: 16px 20px; 
+            background: #f8f9fa; 
+            margin-bottom: 12px;
+            border-radius: 18px; 
+            cursor: pointer; 
+            transition: 0.3s ease;
+            font-weight: 700; 
+            color: #333;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 14px;
+            border: 1px solid transparent;
+        }
+
+        /* Badge Pelajari */
+        .btn-pelajari {
+            font-size: 11px;
+            background: #ffffff;
+            color: #555;
+            padding: 6px 15px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            border: 1px solid #ddd;
+            transition: 0.3s;
+        }
+
+        /* Hover efek spesifik mapel */
+        .mat-item:hover { background: #0d47a1; color: white; border-color: #0d47a1; }
+        .sai-item:hover { background: #2e7d32; color: white; border-color: #2e7d32; }
+        .sos-item:hover { background: #e65100; color: white; border-color: #e65100; }
+
+        .list-materi li:hover .btn-pelajari {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-color: white;
+        }
+
+        .btn-back {
+            text-decoration: none; 
+            background: #ffffff; 
+            color: #0d47a1;
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            transition: 0.3s; 
+            display: inline-block;
+        }
+
+        .btn-back:hover { 
+            background: #0d47a1; 
+            color: white; 
+            transform: scale(1.05); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Modul Teks OMI MTs</h1>
+        <p class="sub-desc">Materi Bacaan & PPT Berdasarkan Kisi-kisi Nasional</p>
+    </div>
+
+    <div class="mapel-container">
+        <div class="card-mapel">
+            <h2 class="title-mat">📘 Matematika</h2>
+            <ul class="list-materi">
+                <li class="mat-item" onclick="window.location.href='teks_mat_mts.html'">Aljabar & Relasi Fungsi <span class="btn-pelajari">Pelajari</span></li>
+                <li class="mat-item" onclick="window.location.href='teks_mat_mts.html'">Teori Bilangan Lanjut <span class="btn-pelajari">Pelajari</span></li>
+                <li class="mat-item" onclick="window.location.href='teks_mat_mts.html'">Geometri Bangun Ruang <span class="btn-pelajari">Pelajari</span></li>
+                <li class="mat-item" onclick="window.location.href='teks_mat_mts.html'">Kombinatorika & Peluang <span class="btn-pelajari">Pelajari</span></li>
+            </ul>
+        </div>
+
+        <div class="card-mapel">
+            <h2 class="title-sai">📗 Sains (IPA)</h2>
+            <ul class="list-materi">
+                <li class="sai-item" onclick="window.location.href='teks_sains_mts.html'">Gerak & Gaya (Newton) <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sai-item" onclick="window.location.href='teks_sains_mts.html'">Sistem Pencernaan & Ekskresi <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sai-item" onclick="window.location.href='teks_sains_mts.html'">Optik & Cahaya <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sai-item" onclick="window.location.href='teks_sains_mts.html'">Klasifikasi Makhluk Hidup <span class="btn-pelajari">Pelajari</span></li>
+            </ul>
+        </div>
+
+        <div class="card-mapel">
+            <h2 class="title-sos">📙 Sosial (IPS)</h2>
+            <ul class="list-materi">
+                <li class="sos-item" onclick="window.location.href='teks_sosial_mts.html'">Sejarah Peradaban Islam <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sos-item" onclick="window.location.href='teks_sosial_mts.html'">Interaksi Keruangan Dunia <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sos-item" onclick="window.location.href='teks_sosial_mts.html'">Lembaga Sosial & Ekonomi <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sos-item" onclick="window.location.href='teks_sosial_mts.html'">Perubahan Sosial Budaya <span class="btn-pelajari">Pelajari</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="dashboard_mts.html" class="btn-back">← Kembali ke Dashboard</a>
+    </div>
+
+</body>
+</html>

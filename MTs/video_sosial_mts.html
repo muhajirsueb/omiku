@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Sosial MTs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            /* Warna gradasi biru yang segar sesuai tema MTs */
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 50%, #bbdefb 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+            color: #ffffff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sub-desc {
+            color: #ffd600; /* Warna kuning agar menonjol */
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+
+        .card-video {
+            background: #ffffff;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card-video:hover {
+            transform: translateY(-10px);
+        }
+
+        .video-placeholder {
+            background: #212121;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .card-content {
+            padding: 25px;
+            color: #333;
+        }
+
+        .card-content h3 {
+            color: #e65100; /* Warna Oranye khas Sosial/IPS */
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .card-content p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            background: #ffffff;
+            color: #1565c0;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-back:hover {
+            background: #f1f3f5;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .video-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Video Pengayaan: Sosial MTs</h1>
+        <p class="sub-desc">Materi IPS Terpadu & Sejarah Peradaban Islam</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="card-video">
+            <div class="video-placeholder">
+                [ Area Video Iframe YouTube ]
+            </div>
+            <div class="card-content">
+                <h3>Sejarah Peradaban Islam</h3>
+                <p>Mempelajari masa kejayaan Islam, tokoh-tokoh inspiratif, dan kontribusi ilmu pengetahuan terhadap dunia.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-placeholder">
+                [ Area Video Iframe YouTube ]
+            </div>
+            <div class="card-content">
+                <h3>Interaksi Keruangan Dunia</h3>
+                <p>Analisis hubungan antarwilayah di dunia, dampak perubahan iklim, dan kerja sama ekonomi lintas negara.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-placeholder">
+                [ Area Video Iframe YouTube ]
+            </div>
+            <div class="card-content">
+                <h3>Lembaga Sosial & Ekonomi</h3>
+                <p>Memahami peran lembaga dalam mengatur masyarakat dan sistem ekonomi untuk kesejahteraan bersama.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mts.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>

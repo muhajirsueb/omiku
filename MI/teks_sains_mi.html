@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Modul Sains MI - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* Tema Hijau MI sesuai Referensi */
+            --mi-green-dark: #064e3b;
+            --mi-green-light: #059669;
+            --mi-bg-gradient: linear-gradient(135deg, #064e3b 0%, #059669 50%, #facc15 100%);
+            --pdf-red: #e11d48;
+            --text-dark: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: var(--mi-bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* Header Judul */
+        .header-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header-title h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header-title p {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Grid Preview */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .materi-card {
+            background: #ffffff;
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .materi-card:hover {
+            transform: translateY(-12px);
+        }
+
+        /* Thumbnail Area khusus Sains */
+        .thumb-area {
+            height: 160px;
+            background: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .thumb-area i {
+            font-size: 60px;
+            color: var(--pdf-red);
+        }
+
+        .badge-pdf {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: var(--pdf-red);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* Info Area */
+        .info-area {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .info-area h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--mi-green-dark);
+        }
+
+        .info-area p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Tombol Aksi */
+        .btn-read {
+            margin-top: auto;
+            background: #f1f5f9;
+            color: #334155;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-read:hover {
+            background: var(--mi-green-dark);
+            color: white;
+            border-color: var(--mi-green-dark);
+            box-shadow: 0 8px 15px rgba(6, 78, 59, 0.2);
+        }
+
+        /* Tombol Kembali Tengah Bawah */
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--mi-green-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 45px;
+            background: #ffffff;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            background: #f8fafc;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <h1>MODUL SAINS (IPA) MI</h1>
+            <p>Arsip Digital PDF Persiapan OMI Jenjang Madrasah Ibtidaiyah</p>
+        </div>
+
+        <div class="preview-grid">
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Modul Makhluk Hidup</h3>
+                    <p>Materi menarik tentang tumbuhan, hewan, dan organ tubuh manusia yang disusun khusus untuk MI.</p>
+                    <a href="pdf/mi_sains_modul.pdf" target="_blank" class="btn-read">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-flask"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Eksperimen & Soal IPA</h3>
+                    <p>Kumpulan soal latihan mengenai energi, gaya, dan alam semesta dengan ilustrasi yang seru.</p>
+                    <a href="pdf/mi_sains_soal.pdf" target="_blank" class="btn-read">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Kunci & Pembahasan</h3>
+                    <p>Penjelasan ilmiah yang sederhana untuk menjawab rasa ingin tahu siswa terhadap fenomena alam.</p>
+                    <a href="pdf/mi_sains_kunci.pdf" target="_blank" class="btn-read">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <a href="materi_teks_mi.html" class="btn-back">
+                ← Kembali
+            </a>
+        </div>
+
+        <div class="footer-note">
+            &copy; 2026 Kurikulum OMI | Menjelajahi Keajaiban Alam Bersama Madrasah
+        </div>
+    </div>
+
+</body>
+</html>

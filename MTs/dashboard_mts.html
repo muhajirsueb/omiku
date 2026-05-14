@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard MTs - Persiapan OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 40%, #ffffff 100%);
+            background-attachment: fixed;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .header, .menu-wrapper, .btn-footer {
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2), 0px 0px 8px rgba(255,255,255,0.3);
+            margin-bottom: 5px;
+        }
+
+        .sub-header {
+            font-size: 18px;
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .menu-wrapper {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 60px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .btn-menu {
+            background: rgba(245, 245, 247, 0.95); 
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 40px;
+            width: 280px;
+            height: 330px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255,255,255,0.5);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .btn-menu:hover {
+            transform: translateY(-15px) scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 40px 70px rgba(13, 71, 161, 0.3);
+        }
+
+        .icon-circle {
+            width: 100px; height: 100px;
+            background: #e3f2fd;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 50px; margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(13, 71, 161, 0.1);
+        }
+
+        .label {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0d47a1;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 0px rgba(255,255,255,1);
+        }
+
+        .desc {
+            font-size: 15px;
+            color: #455a64;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .btn-home {
+            text-decoration: none;
+            background: #0d47a1;
+            color: #ffffff;
+            padding: 16px 50px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 10px 25px rgba(13, 71, 161, 0.4);
+            transition: 0.3s;
+            border: 2px solid transparent;
+            display: inline-block;
+        }
+
+        .btn-home:hover {
+            background: #ffffff;
+            color: #0d47a1;
+            border: 2px solid #0d47a1;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 950px) {
+            .menu-wrapper { flex-direction: column; align-items: center; }
+            .btn-menu { width: 100%; max-width: 320px; height: auto; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Persiapan OMI - Jenjang MTs</h1>
+        <p class="sub-header">Gerbang Sukses Kompetisi Sains Nasional & Internasional</p>
+    </div>
+
+    <div class="menu-wrapper">
+        <a href="materi_video_mts.html" class="btn-menu">
+            <div class="icon-circle">▶️</div> 
+            <span class="label">Materi Video OMI</span>
+            <span class="desc">Pelajari video materi sesuai kisi-kisi</span>
+        </a>
+
+        <a href="materi_teks_mts.html" class="btn-menu">
+            <div class="icon-circle">📘</div>
+            <span class="label">Materi Teks OMI</span>
+            <span class="desc">Pelajari teks materi sesuai kisi-kisi</span>
+        </a>
+
+        <a href="tryout_menu_mts.html" class="btn-menu">
+            <div class="icon-circle">✍️</div>
+            <span class="label">Try OUT</span>
+            <span class="desc">Latih kemampuan menaklukkan soal-soal OMI</span>
+        </a>
+    </div>
+
+   <div class="btn-footer">
+    <a href="./../OMIKU.html" class="btn-home">← Kembali Pilih Jenjang</a>
+    </div>
+
+</body>
+</html>

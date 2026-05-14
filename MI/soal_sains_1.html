@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sains MI Paket 1 - OMI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { 
+            --primary-deep: #0a3d0e; 
+            --primary-light: #1b5e20; 
+            --accent-gold: #fdd835; 
+            --danger: #be123c;
+            --sosial-theme: #5d4037; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+
+        /* POP-UP AWAL (START SCREEN) */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .start-box i { font-size: 80px; color: var(--sosial-theme); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(253, 216, 53, 0.3); }
+
+        /* APP CONTENT */
+        .app-container { width: 100%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #1e293b; }
+        .options-grid { display: grid; gap: 12px; }
+        .option { padding: 18px 25px; border: 2px solid #f1f5f9; border-radius: 15px; cursor: pointer; transition: 0.2s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        .sidebar { width: 280px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 15px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        .action-bar { padding: 15px 30px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; }
+        
+        /* MODAL & RESULT */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); line-height: 1; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-people-group"></i>
+        <h2>Sudah Siap?</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik. Kerjakan dengan jujur dan teliti.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h3>Simulasi Sains <span style="color: var(--accent-gold);">OMI</span></h3>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 11px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav" style="background:#f1f5f9" onclick="changeQ(-1)">SEBELUMNYA</button>
+        <button class="btn-nav" style="background:#fef9c3; color:#854d0e; border:1px solid #facc15" onclick="toggleDoubt()">RAGU-RAGU</button>
+        <button class="btn-nav" id="btn-step" style="background:#0f172a; color:white; min-width:150px" onclick="handleNextStep()">SELANJUTNYA</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span style="font-size:11px; color:#64748b;">BENAR</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span style="font-size:11px; color:#64748b;">SALAH</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span style="font-size:11px; color:#64748b;">KOSONG</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_sains.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE HALAMAN TRYOUT</button>
+    </div>
+</div>
+<script>
+    let current = 0, timer = 90 * 60, isStarted = false;
+    
+    const bank = [
+        { q: "Allah SWT menciptakan matahari sebagai pelita yang terang dan sumber energi utama bagi kehidupan di Bumi. Tumbuhan hijau memanfaatkan cahaya matahari untuk melakukan sebuah proses kimiawi yang menghasilkan oksigen bagi manusia untuk bernapas. Proses ini disebut...", options: ["Respirasi seluler untuk menghasilkan energi", "Fotosintesis yang terjadi di dalam kloroplas", "Transpirasi atau penguapan air melalui stomata", "Fototropisme atau gerak tumbuhan ke arah cahaya"], correct: 1 },
+        { q: "Dalam Al-Qur'an Surah An-Nahl, Allah menyebutkan tentang lebah yang menghisap berbagai macam sari bunga untuk menghasilkan madu. Lebah merupakan serangga yang mengalami perubahan bentuk tubuh yang sangat berbeda di setiap tahap hidupnya (metamorfosis sempurna). Urutan siklus hidup lebah yang benar setelah telur menetas adalah...", options: ["Larva (ulat), kemudian menjadi Pupa (kepompong)", "Nimfa (hewan muda), kemudian menjadi Imago (dewasa)", "Pupa (kepompong), kemudian menjadi Larva (ulat)", "Langsung menjadi lebah muda tanpa melalui fase diam"], correct: 0 },
+        { q: "Menjaga kesehatan mata adalah salah satu bentuk syukur atas nikmat penglihatan yang Allah berikan. Saat seorang santri masuk ke dalam ruang kelas yang gelap setelah berada di lapangan yang terik, bagian mata yang bekerja secara otomatis mengecil dan membesar untuk mengatur jumlah cahaya yang masuk adalah...", options: ["Kornea yang berfungsi sebagai pelindung mata", "Retina yang berfungsi sebagai layar penangkap bayangan", "Pupil yang lubangnya diatur oleh otot iris", "Lensa mata yang berfungsi mengatur fokus bayangan"], correct: 2 },
+        { q: "Saat melakukan praktik wudu, kita sering melihat air mengalir mengikuti bentuk wadahnya. Air merupakan benda cair yang memiliki sifat unik. Jika seorang santri memindahkan 500 ml air dari dalam gayung ke dalam botol minum, maka hal yang akan terjadi pada air tersebut adalah...", options: ["Bentuk air tetap seperti gayung, dan volumenya tetap 500 ml", "Bentuk air berubah mengikuti botol, namun volumenya tetap 500 ml", "Bentuk air berubah mengikuti botol, dan volumenya bertambah", "Bentuk air tetap, namun volumenya berkurang karena berpindah"], correct: 1 },
+        { q: "Allah SWT menciptakan telinga agar manusia dapat mendengarkan lantunan ayat suci Al-Qur'an. Bunyi dapat sampai ke telinga kita karena getaran benda yang merambat melalui media. Manakah di bawah ini yang membuktikan bahwa bunyi dapat merambat melalui benda gas (udara)?", options: ["Santri dapat mendengar suara azan dari menara masjid", "Bunyi detak jantung yang terdengar melalui stetoskop dokter", "Lumba-lumba yang berkomunikasi di dalam air laut", "Suara ketukan meja yang terdengar saat telinga ditempelkan ke kayu"], correct: 0 },
+        { q: "Tubuh manusia adalah amanah yang harus dijaga kekuatannya. Allah menciptakan sistem rangka agar manusia dapat berdiri tegak dan melakukan gerakan salat. Hubungan antara tulang lengan atas dengan tulang belikat yang memungkinkan lengan kita dapat diputar ke segala arah disebut...", options: ["Sendi Engsel, seperti gerakan pada pintu", "Sendi Pelana, seperti gerakan orang naik kuda", "Sendi Peluru, yang memiliki gerakan paling bebas", "Sendi Putar, seperti gerakan tulang leher"], correct: 2 },
+        { q: "Di dalam ekosistem sawah madrasah, terdapat hubungan saling ketergantungan antar makhluk hidup. Tumbuhan padi bertindak sebagai produsen yang dimakan oleh belalang. Jika populasi katak di sawah tersebut tiba-tiba habis karena diburu manusia, maka dampak langsung yang terjadi adalah...", options: ["Populasi padi akan meningkat drastis karena tidak ada ulat", "Populasi belalang akan meningkat dan merusak tanaman padi", "Populasi ular sawah akan bertambah karena makanan berlimpah", "Seluruh ekosistem sawah akan menjadi lebih subur"], correct: 1 },
+        { q: "Saat seorang santri membantu membersihkan masjid dengan cara menggeser lemari mukena, ia memberikan dorongan yang menyebabkan lemari tersebut berpindah tempat. Dalam sains, tarikan atau dorongan yang diberikan pada suatu benda sehingga benda tersebut bergerak disebut...", options: ["Daya, yaitu kemampuan melakukan usaha", "Energi, yaitu tenaga yang dimiliki benda", "Gaya, yang dapat mengubah gerak atau bentuk benda", "Tekanan, yaitu besarnya beban pada luas bidang"], correct: 2 },
+        { q: "Perubahan wujud benda adalah salah satu tanda kebesaran Allah dalam mengatur materi di alam. Saat kita meletakkan kapur barus di dalam lemari pakaian di asrama pesantren, lama-kelamaan kapur barus tersebut akan habis dan lemari menjadi harum. Proses perubahan wujud dari padat menjadi gas ini disebut...", options: ["Menguap, seperti air yang dipanaskan", "Mencair, seperti es krim yang dibiarkan di suhu ruang", "Menyublim, yang terjadi tanpa melalui fase cair", "Mengkristal, seperti uap air yang menjadi salju"], correct: 2 },
+        { q: "Allah menciptakan matahari, bumi, dan bulan yang beredar pada garis edarnya masing-masing. Peristiwa berputarnya Bumi pada porosnya yang mengakibatkan terjadinya pergantian siang dan malam serta perbedaan waktu salat di berbagai wilayah disebut...", options: ["Revolusi Bumi, yang mengakibatkan perubahan musim", "Rotasi Bumi, yang berlangsung selama kurang lebih 24 jam", "Gerhana Matahari, saat bulan menghalangi cahaya matahari", "Revolusi Bulan, yang menjadi dasar kalender Masehi"], correct: 1 },
+        { q: "Allah SWT menciptakan berbagai jenis hewan dengan cara berkembang biak yang berbeda-beda agar kelestariannya terjaga. Hewan kurban seperti kambing dan sapi berkembang biak dengan cara melahirkan anak (vivipar). Manakah di bawah ini yang merupakan ciri utama dari hewan yang berkembang biak dengan cara vivipar?", options: ["Memiliki daun telinga dan kelenjar susu untuk menyusui anaknya", "Mengerami telurnya di dalam sarang sampai menetas", "Memiliki sisik yang keras dan tidak memiliki daun telinga", "Janinnya tumbuh di dalam telur yang berada di luar tubuh induknya"], correct: 0 },
+        { q: "Bagian tumbuhan yang diciptakan Allah dengan fungsi yang sangat vital adalah akar. Selain berfungsi untuk menyerap air dan zat hara dari dalam tanah sebagai 'makanan' tumbuhan, pada beberapa tumbuhan tertentu seperti singkong, akar juga memiliki fungsi tambahan yaitu...", options: ["Sebagai alat pernapasan tambahan (akar napas)", "Tempat berlangsungnya proses fotosintesis", "Tempat menyimpan cadangan makanan dalam bentuk umbi", "Alat untuk menarik perhatian serangga agar terjadi penyerbukan"], correct: 2 },
+        { q: "Di dapur asrama Madrasah, seorang santri sedang membantu memasak air. Saat air di dalam panci mulai mendidih, terjadi perpindahan panas yang menyebabkan air di bagian bawah yang panas bergerak ke atas, dan air yang lebih dingin bergerak ke bawah secara berputar. Perpindahan panas yang disertai perpindahan zat perantaranya ini disebut...", options: ["Konduksi, seperti panas yang merambat pada sendok logam", "Konveksi, yang umum terjadi pada zat cair dan gas", "Radiasi, seperti panas matahari yang sampai ke Bumi", "Isolasi, yaitu penghambatan aliran panas pada benda"], correct: 1 },
+        { q: "Allah SWT memberikan kemampuan luar biasa kepada hewan untuk melindungi diri dari musuh atau pemangsa. Salah satunya adalah bunglon yang dapat mengubah warna kulitnya sesuai dengan lingkungan tempat ia berada agar tidak terlihat oleh musuh. Kemampuan adaptasi ini disebut...", options: ["Mimikri, untuk mengelabui musuh dengan perubahan warna", "Autotomi, yaitu memutuskan bagian ekor saat terancam", "Ekolokasi, yaitu menggunakan pantulan bunyi untuk melihat", "Hibernasi, yaitu tidur panjang pada musim dingin"], correct: 0 },
+        { q: "Udara yang kita hirup adalah nikmat yang sangat besar. Oksigen masuk ke dalam tubuh manusia melalui sistem pernapasan. Setelah melewati tenggorokan, udara akan masuk ke dalam paru-paru. Di dalam paru-paru, terdapat kantong-kantong udara kecil tempat terjadinya pertukaran antara oksigen dan karbon dioksida yang disebut...", options: ["Bronkus, yaitu percabangan dari tenggorokan", "Alveolus, yang memiliki dinding sangat tipis dan lembap", "Trakea, yang berfungsi sebagai saluran udara utama", "Pleura, yaitu selaput tipis yang membungkus paru-paru"], correct: 1 },
+        { q: "Salah satu sifat cahaya yang membuktikan keagungan Allah adalah cahaya dapat dibiaskan. Fenomena ini sering kita jumpai dalam kehidupan sehari-hari. Contoh peristiwa yang menunjukkan bahwa cahaya dapat dibiaskan adalah...", options: ["Terbentuknya bayangan tubuh kita saat terkena sinar matahari", "Cahaya lampu senter yang terlihat merambat lurus di kegelapan", "Dasar kolam wudu yang terlihat lebih dangkal dari kedalaman aslinya", "Pantulan wajah kita yang terlihat jelas saat menatap cermin datar"], correct: 2 },
+        { q: "Allah menciptakan magnet dengan sifat unik yang dapat menarik benda-benda tertentu. Di laboratorium sains Madrasah, terdapat benda-benda seperti paku besi, jarum baja, penghapus karet, dan penggaris plastik. Jika sebuah magnet didekatkan pada benda-benda tersebut, maka benda yang akan ditarik kuat oleh magnet adalah...", options: ["Penghapus karet dan penggaris plastik (Non-magnetik)", "Paku besi dan jarum baja (Feromagnetik)", "Hanya penggaris plastik saja", "Semua benda tersebut akan menempel pada magnet"], correct: 1 },
+        { q: "Bunga adalah perhiasan tumbuhan yang diciptakan Allah dengan warna-warni yang indah. Bunga juga berfungsi sebagai alat perkembangbiakan generatif. Bagian bunga yang berfungsi sebagai alat kelamin betina yang nantinya akan menghasilkan bakal biji adalah...", options: ["Benang sari, yang menghasilkan serbuk sari", "Putik, yang biasanya terletak di bagian tengah bunga", "Mahkota bunga, yang berfungsi menarik perhatian serangga", "Kelopak bunga, yang melindungi bunga saat masih kuncup"], correct: 1 },
+        { q: "Energi tidak dapat diciptakan atau dimusnahkan oleh manusia, melainkan hanya dapat diubah bentuknya atas izin Allah. Saat seorang santri menyalakan lampu belajar di kamarnya, terjadi perubahan bentuk energi dari...", options: ["Energi kimia menjadi energi cahaya", "Energi listrik menjadi energi cahaya dan panas", "Energi gerak menjadi energi listrik", "Energi panas menjadi energi kimia"], correct: 1 },
+        { q: "Alam semesta diatur oleh Allah dengan hukum-hukum yang sangat rapi. Salah satunya adalah siklus air yang menjaga ketersediaan air bersih di Bumi. Proses di mana air laut, sungai, dan danau menguap ke udara karena terkena panas matahari disebut...", options: ["Kondensasi, yaitu pembentukan awan dari uap air", "Presipitasi, yaitu jatuhnya air hujan ke permukaan Bumi", "Evaporasi, yaitu proses penguapan air secara alami", "Infiltrasi, yaitu penyerapan air ke dalam lapisan tanah"], correct: 2 },
+        { q: "Manusia diciptakan sebagai khalifah di muka bumi yang memiliki tanggung jawab untuk menjaga kelestarian alam. Salah satu upaya yang dapat dilakukan untuk mencegah terjadinya bencana banjir dan tanah longsor di area pegunungan yang gundul adalah dengan melakukan penanaman kembali hutan tersebut. Istilah sains untuk penanaman kembali hutan yang gundul adalah...", options: ["Erosi, yaitu pengikisan tanah oleh air hujan", "Reboisasi, untuk mengembalikan fungsi hutan sebagai penyerap air", "Abrasi, yaitu pengikisan pantai oleh gelombang air laut", "Drainase, yaitu pembuatan saluran pembuangan air di kota"], correct: 1 },
+        { q: "Allah SWT membekali hewan dengan ciri khusus agar dapat bertahan hidup di lingkungannya. Bebek yang sering mencari makan di area berlumpur memiliki bentuk kaki yang berselaput. Fungsi utama dari selaput pada kaki bebek tersebut adalah...", options: ["Memudahkan bebek saat bertengger di dahan pohon yang tinggi", "Membantu bebek agar dapat berjalan di lumpur tanpa terperosok dan memudahkan saat berenang", "Melindungi kaki bebek dari serangan hewan pemangsa di dalam air", "Mempercepat lari bebek saat mengejar mangsa di daratan"], correct: 1 },
+        { q: "Menjaga kebersihan dan kesehatan tubuh adalah bagian dari iman. Paru-paru merupakan organ pernapasan yang sangat penting bagi manusia. Salah satu kebiasaan buruk yang dapat merusak kesehatan paru-paru dan dilarang dalam kesehatan karena mengandung banyak zat kimia berbahaya adalah...", options: ["Berolahraga secara rutin di pagi hari yang cerah", "Menghirup udara segar di area pegunungan", "Merokok atau menghirup asap rokok dari orang lain (perokok pasif)", "Mengonsumsi air putih dalam jumlah yang cukup setiap hari"], correct: 2 },
+        { q: "Cahaya matahari yang kita lihat sehari-hari tampak berwarna putih, namun sebenarnya cahaya tersebut merupakan gabungan dari berbagai warna. Peristiwa alam yang membuktikan bahwa cahaya putih dapat diuraikan menjadi warna merah, jingga, kuning, hijau, biru, nila, dan ungu (Me-Ji-Ku-Hi-Bi-Ni-U) adalah...", options: ["Terjadinya pelangi setelah turun hujan di sore hari", "Bayangan pohon yang memanjang di pagi hari", "Cahaya lampu mobil yang menembus kabut tebal", "Terjadinya gerhana bulan di malam hari"], correct: 0 },
+        { q: "Seiring bertambahnya usia, manusia harus menjaga kekuatan tulangnya sebagai bentuk syukur atas nikmat fisik. Penyakit yang menyebabkan tulang menjadi rapuh dan mudah patah karena kekurangan kalsium, yang umumnya menyerang orang lanjut usia, disebut...", options: ["Rakitis, yaitu kelainan tulang akibat kekurangan vitamin D", "Osteoporosis, atau pengeroposan tulang secara bertahap", "Lordosis, yaitu kelainan tulang belakang yang melengkung ke depan", "Fraktura, yaitu kondisi tulang yang mengalami patah akibat benturan"], correct: 1 },
+        { q: "Dalam rantai makanan di sebuah ekosistem kebun madrasah, terdapat tanaman tomat, ulat, burung kutilang, dan burung elang. Jika burung kutilang banyak ditangkap oleh pemburu liar, maka dampak yang akan langsung dirasakan oleh tanaman tomat adalah...", options: ["Tanaman tomat tumbuh lebih subur karena burung kutilang berkurang", "Tanaman tomat akan rusak karena populasi ulat meningkat pesat", "Burung elang akan memakan tanaman tomat sebagai pengganti kutilang", "Tidak terjadi perubahan apapun pada tanaman tomat"], correct: 1 },
+        { q: "Benda-benda di sekitar kita diciptakan dengan sifat yang berbeda-beda sesuai kegunaannya. Gagang panci masak di dapur biasanya terbuat dari bahan plastik atau kayu. Hal ini bertujuan agar tangan kita tidak merasa panas saat memegang panci yang sedang dipanaskan. Bahan yang tidak dapat menghantarkan panas dengan baik disebut...", options: ["Konduktor, seperti besi dan tembaga", "Isolator, seperti karet, kayu, dan plastik", "Generator, yaitu alat penghasil energi listrik", "Radiator, yaitu alat pembuang panas pada mesin"], correct: 1 },
+        { q: "Allah SWT menciptakan tata surya dengan keteraturan yang sangat teliti. Planet yang kita tempati, Bumi, berada pada urutan ketiga dari Matahari. Planet yang dikenal sebagai planet terbesar dalam tata surya dan memiliki julukan 'Planet Raksasa Gas' adalah...", options: ["Saturnus, yang memiliki cincin paling indah", "Neptunus, planet yang paling jauh dari matahari", "Yupiter, planet terbesar yang massanya lebih dari dua kali seluruh planet lain", "Mars, planet yang terlihat berwarna kemerahan dari bumi"], correct: 2 },
+        { q: "Siklus air adalah bukti kebesaran Allah dalam menjamin ketersediaan air di bumi. Setelah air menguap ke atmosfer, uap air tersebut akan mendingin dan berubah kembali menjadi titik-titik air yang membentuk awan. Proses perubahan uap air (gas) menjadi titik-titik air (cair) ini disebut...", options: ["Evaporasi, yaitu proses penguapan air permukaan", "Kondensasi, atau pengembunan uap air di atmosfer", "Presipitasi, yaitu proses jatuhnya hujan ke bumi", "Transpirasi, yaitu penguapan air dari jaringan tumbuhan"], correct: 1 },
+        { q: "Tumbuhan hijau adalah makhluk hidup yang sangat bermanfaat bagi manusia karena menghasilkan oksigen. Di dalam daun terdapat zat warna hijau yang berfungsi untuk menyerap energi cahaya matahari agar proses pembuatan makanan dapat berlangsung. Zat warna hijau ini disebut...", options: ["Stomata, yaitu lubang kecil untuk pernapasan tumbuhan", "Klorofil, yang memberikan warna hijau pada daun", "Lentisel, yaitu lubang pernapasan pada batang kayu", "Floem, yaitu pembuluh pengangkut hasil fotosintesis"], correct: 1 },
+        { q: "Tubuh yang demam adalah sinyal bahwa sistem imun kita sedang bekerja melawan kuman. Untuk mengetahui kondisi kesehatan dengan akurat, kita membutuhkan alat ukur suhu yang objektif. Alat yang diciptakan khusus untuk mengukur derajat panas atau dinginnya suatu benda atau tubuh manusia disebut...", options: ["Barometer, yang digunakan untuk mengukur tekanan udara", "Termometer, yang biasanya berisi cairan raksa atau alkohol", "Mikroskop, untuk melihat benda-benda berukuran sangat kecil", "Teleskop, untuk mengamati benda-benda langit yang jauh"], correct: 1 },
+        { q: "Allah SWT menciptakan gaya gravitasi sehingga segala sesuatu di permukaan Bumi tidak melayang ke luar angkasa. Salah satu fenomena sehari-hari yang membuktikan adanya gaya gravitasi Bumi adalah...", options: ["Magnet yang dapat menarik paku besi dari jarak tertentu", "Buah mangga yang sudah matang jatuh dari pohon ke arah tanah", "Kompas yang selalu menunjuk ke arah kutub utara dan selatan", "Permukaan ban sepeda yang dibuat beralur agar tidak licin"], correct: 1 },
+        { q: "Hewan memiliki berbagai cara unik yang Allah berikan untuk melindungi diri dari ancaman pemangsa. Seekor cicak yang merasa terancam oleh kucing akan memutuskan ekornya untuk mengelabui perhatian musuh sementara ia melarikan diri. Kemampuan cicak ini disebut...", options: ["Mimikri, seperti perubahan warna kulit pada bunglon", "Autotomi, yaitu melepaskan anggota tubuh untuk bertahan hidup", "Ekolokasi, yaitu penggunaan gelombang suara untuk navigasi", "Kamuflase, yaitu menyamakan warna tubuh dengan lingkungan"], correct: 1 },
+        { q: "Energi listrik adalah salah satu penemuan yang sangat membantu manusia dalam beribadah dan belajar di malam hari. Energi listrik dapat dihasilkan dari berbagai sumber. Alat yang mengubah energi kimia menjadi energi listrik dan biasanya digunakan pada jam dinding atau senter adalah...", options: ["Generator, yang mengubah energi gerak menjadi listrik", "Baterai, yang menyimpan energi kimia dalam wadah portabel", "Panel surya, yang menangkap energi dari cahaya matahari", "Turbin, yang digerakkan oleh aliran air atau angin"], correct: 1 },
+        { q: "Darah di dalam tubuh kita mengalir tanpa henti untuk mengedarkan sari makanan dan oksigen ke seluruh sel. Di dalam darah terdapat komponen yang bertugas sebagai 'pasukan keamanan' karena berfungsi untuk melawan bibit penyakit yang masuk ke dalam tubuh. Komponen darah ini disebut...", options: ["Sel darah merah (Eritrosit), yang mengangkut oksigen", "Sel darah putih (Leukosit), yang menjaga sistem kekebalan tubuh", "Keping darah (Trombosit), yang membantu pembekuan darah saat luka", "Plasma darah, yang merupakan bagian cair dari darah"], correct: 1 },
+        { q: "Saat kita berteriak di depan sebuah tebing yang jauh, suara kita akan memantul dan terdengar kembali dengan jelas setelah suara asli selesai diucapkan. Fenomena bunyi pantul yang terdengar lengkap setelah bunyi asli ini disebut...", options: ["Gaung, yaitu bunyi pantul yang mengganggu bunyi asli", "Gema, yang biasanya terjadi di lereng gunung atau gedung kosong", "Desah, yaitu bunyi yang memiliki frekuensi tidak teratur", "Nada, yaitu bunyi yang memiliki frekuensi yang teratur"], correct: 1 },
+        { q: "Tumbuhan diciptakan Allah dengan berbagai macam perlindungan diri agar tidak mudah dimakan oleh hewan atau dirusak manusia. Pohon jati memiliki cara unik untuk bertahan hidup saat musim kemarau yang panjang agar tidak kekurangan air, yaitu dengan cara...", options: ["Mematikan seluruh bagian batangnya hingga akar", "Menggugurkan daunnya (meranggas) untuk mengurangi penguapan", "Memperlebar luas daunnya agar bisa menyerap lebih banyak embun", "Mengubah bentuk daunnya menjadi duri yang tajam"], correct: 1 },
+        { q: "Bumi tidak hanya berputar pada porosnya, tetapi juga bergerak mengelilingi matahari dalam lintasan yang tetap (orbit). Peristiwa revolusi bumi ini, atas izin Allah, mengakibatkan terjadinya fenomena alam yaitu...", options: ["Pergantian siang dan malam di seluruh permukaan bumi", "Terjadinya gerak semu harian matahari dari timur ke barat", "Perubahan musim di belahan bumi utara dan selatan", "Perbedaan waktu antara wilayah barat dan timur Indonesia"], correct: 2 },
+        { q: "Lingkungan adalah titipan bagi generasi mendatang. Kita harus mencegah kerusakan alam seperti pemanasan global. Salah satu tindakan nyata yang dapat dilakukan oleh para santri di madrasah untuk membantu mengurangi pemanasan global adalah...", options: ["Menggunakan kendaraan bermotor meskipun jaraknya dekat", "Melakukan penanaman pohon di lingkungan sekitar madrasah", "Membakar sampah plastik di halaman belakang madrasah", "Menyalakan lampu dan kipas angin sepanjang hari meskipun tidak dipakai"], correct: 1 },
+        { q: "Allah SWT menciptakan tumbuhan dengan sistem pernapasan yang berbeda dari manusia. Jika manusia bernapas dengan paru-paru, tumbuhan melakukan pertukaran udara melalui lubang-lubang kecil yang terdapat di bawah permukaan daun yang disebut...", options: ["Lentisel, yaitu lubang pernapasan yang terdapat pada batang", "Stomata (mulut daun), sebagai tempat keluar masuknya gas", "Rambut akar, yang berfungsi menyerap air dari dalam tanah", "Benang sari, yang merupakan alat kelamin jantan pada bunga"], correct: 1 }
+    ];
+
+    let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        document.documentElement.requestFullscreen?.();
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} / ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        const box = document.getElementById('options-box'); box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+        document.getElementById('btn-step').innerText = current === bank.length - 1 ? "SELESAI" : "SELANJUTNYA";
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            item.className = `nav-item ${doubts[i]?'doubt':(answers[i]!==null?'answered':'')} ${current===i?'active':''}`;
+            item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } }
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function triggerFinish() {
+        const unsolved = answers.filter(a => a === null).length;
+        document.getElementById('modal-msg').innerText = unsolved > 0 ? `Masih ada ${unsolved} soal kosong. Yakin ingin selesai?` : `Yakin ingin mengirim jawaban sekarang?`;
+        document.getElementById('modal-container').style.display = 'flex';
+        document.getElementById('confirm-box').style.display = 'block';
+        document.getElementById('result-box').style.display = 'none';
+    }
+
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+    function finalSubmit() {
+        let correct = 0, wrong = 0, empty = 0;
+        answers.forEach((ans, i) => {
+            if(ans === null) empty++;
+            else if(ans === bank[i].correct) correct++;
+            else wrong++;
+        });
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((correct / bank.length) * 100);
+        document.getElementById('count-correct').innerText = correct;
+        document.getElementById('count-wrong').innerText = wrong;
+        document.getElementById('count-empty').innerText = empty;
+    }
+
+    setInterval(() => {
+        if(isStarted && timer > 0) {
+            timer--; let m = Math.floor(timer/60), s = timer%60;
+            document.getElementById('timer-text').innerText = `${m}:${s<10?'0'+s:s}`;
+        }
+    }, 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul Spesialisasi Biologi MA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-green: #4ade80; /* Warna hijau khas Biologi */
+            --pdf-color: #fb7185;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: radial-gradient(circle at top, #132d21, #0a0e17);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { max-width: 1200px; width: 100%; }
+
+        .header-title { text-align: center; margin-bottom: 50px; }
+        .header-title h1 { font-size: 28px; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+        .header-title p { color: var(--text-muted); font-size: 14px; }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .materi-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .materi-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-head i {
+            font-size: 24px;
+            color: var(--pdf-color);
+        }
+
+        .badge-count {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent-green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .info-area h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .info-area p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .pdf-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-pdf {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-pdf span.label-text {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .btn-pdf span.action-text {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-green);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-pdf:hover {
+            background: var(--text-main);
+            color: var(--bg-dark);
+        }
+        
+        .btn-pdf:hover span.action-text {
+            color: var(--bg-dark);
+        }
+
+        .footer-nav { display: flex; justify-content: center; }
+        .btn-back {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: 0.3s;
+        }
+        .btn-back:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <h1>MODUL BIOLOGI MA</h1>
+            <p>Pilih sub-materi untuk mulai mempelajari modul spesialisasi Biologi</p>
+        </div>
+
+        <div class="preview-grid">
+            
+            <div class="materi-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span class="badge-count">2 Modul</span>
+                </div>
+                <div class="info-area">
+                    <h3>Genetika & Hereditas</h3>
+                    <p>Pembahasan Hukum Mendel, penyimpangan semu, hingga rekayasa genetika modern.</p>
+                    <div class="pdf-links">
+                        <a href="pdf/biologi_genetika_1.pdf" class="btn-pdf">
+                            <span class="label-text">Genetika 1: Pola Hereditas</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                        <a href="pdf/biologi_genetika_2.pdf" class="btn-pdf">
+                            <span class="label-text">Genetika 2: Substansi Genetik</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span class="badge-count">1 Modul</span>
+                </div>
+                <div class="info-area">
+                    <h3>Bioteknologi</h3>
+                    <p>Penerapan mikroorganisme dalam pangan, medis, dan lingkungan secara etis.</p>
+                    <div class="pdf-links">
+                        <a href="pdf/biologi_bioteknologi.pdf" class="btn-pdf">
+                            <span class="label-text">Modul Bioteknologi Terpadu</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span class="badge-count">3 Modul</span>
+                </div>
+                <div class="info-area">
+                    <h3>Anatomi & Fisiologi</h3>
+                    <p>Struktur tubuh makhluk hidup dan mekanisme sistem organ yang kompleks.</p>
+                    <div class="pdf-links">
+                        <a href="pdf/biologi_anatomi_1.pdf" class="btn-pdf">
+                            <span class="label-text">Sistem Sirkulasi & Respirasi</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                        <a href="pdf/biologi_anatomi_2.pdf" class="btn-pdf">
+                            <span class="label-text">Sistem Koordinasi (Saraf)</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                        <a href="pdf/biologi_anatomi_3.pdf" class="btn-pdf">
+                            <span class="label-text">Sistem Pencernaan & Ekskresi</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span class="badge-count">1 Modul</span>
+                </div>
+                <div class="info-area">
+                    <h3>Ekologi Madrasah</h3>
+                    <p>Interaksi makhluk hidup dengan lingkungan dalam perspektif kelestarian alam.</p>
+                    <div class="pdf-links">
+                        <a href="pdf/biologi_ekologi.pdf" class="btn-pdf">
+                            <span class="label-text">Ekologi & Konservasi Alam</span>
+                            <span class="action-text">Pelajari</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-nav">
+            <a href="materi_teks_ma.html" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar Modul
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

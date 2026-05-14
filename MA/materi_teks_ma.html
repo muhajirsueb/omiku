@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Cabang OMI MA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Latar belakang menggunakan warna navy yang lebih soft dan deep */
+            background: radial-gradient(circle at top, #1a2a6c, #21305a, #0a0e17);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 50px 20px;
+            color: #e0e0e0;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        
+        .header h1 { 
+            font-size: 32px; 
+            font-weight: 700; 
+            color: #ffffff; 
+            letter-spacing: 1px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+
+        .header p { 
+            color: #b0bec5; 
+            font-weight: 400; 
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* CARD STYLE: Menggunakan Glassmorphism yang lebih tenang */
+        .card-mapel {
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-mapel:hover { 
+            transform: translateY(-8px); 
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+
+        /* Muted Gradients untuk tiap mata pelajaran */
+        .bg-matematika { border-left: 5px solid #5c6bc0; }
+        .bg-biologi { border-left: 5px solid #66bb6a; }
+        .bg-fisika { border-left: 5px solid #ffa726; }
+        .bg-kimia { border-left: 5px solid #26c6da; }
+        .bg-ekonomi { border-left: 5px solid #ef5350; }
+        .bg-geografi { border-left: 5px solid #9ccc65; }
+
+        .card-icon {
+            font-size: 32px;
+            /* Warna ikon tidak putih pekat agar nyaman di mata */
+            color: #cfd8dc; 
+            transition: 0.3s;
+        }
+
+        .card-mapel:hover .card-icon {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        .card-info h2 {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .card-info p {
+            color: #94a3b8; /* Abu-abu biru yang sangat soft */
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .btn-enter {
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-mapel:hover .btn-enter {
+            background: #ffffff;
+            color: #1a2a6c;
+        }
+
+        .back-btn {
+            margin-top: 60px;
+            background: transparent;
+            color: #94a3b8;
+            padding: 12px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: 0.3s;
+        }
+        .back-btn:hover { 
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+        
+        .back-btn i { margin-right: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Materi Cabang OMI MA</h1>
+        <p>Silakan pilih bidang studi spesialisasi Anda</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="card-mapel bg-matematika" onclick="location.href='teks_matematika_ma.html'">
+            <div class="card-icon"><i class="fa-solid fa-infinity"></i></div>
+            <div class="card-info">
+                <h2>Matematika</h2>
+                <p>Eksplorasi Kalkulus, Aljabar, dan Logika Matematika Terintegrasi.</p>
+            </div>
+            <div class="btn-enter">BUKA MATERI</div>
+        </div>
+
+        <div class="card-mapel bg-biologi" onclick="location.href='teks_biologi_ma.html'">
+            <div class="card-icon"><i class="fa-solid fa-dna"></i></div>
+            <div class="card-info">
+                <h2>Biologi</h2>
+                <p>Pendalaman Genetika, Bioteknologi, dan Ekologi Madrasah.</p>
+            </div>
+            <div class="btn-enter">BUKA MATERI</div>
+        </div>
+
+        <div class="card-mapel bg-fisika" onclick="location.href='teks_fisika_ma.html'">
+            <div class="card-icon"><i class="fa-solid fa-atom"></i></div>
+            <div class="card-info">
+                <h2>Fisika</h2>
+                <p>Pemahaman Mekanika, Termodinamika, hingga Fisika Modern.</p>
+            </div>
+            <div class="btn-enter">BUKA MATERI</div>
+        </div>
+
+        <div class="card-mapel bg-kimia" onclick="location.href='teks_kimia_ma.html'">
+            <div class="card-icon"><i class="fa-solid fa-flask"></i></div>
+            <div class="card-info">
+                <h2>Kimia</h2>
+                <p>Studi Stoikiometri, Larutan, dan Analisis Kimia Karbon.</p>
+            </div>
+            <div class="btn-enter">BUKA MATERI</div>
+        </div>
+
+        <div class="card-mapel bg-ekonomi" onclick="location.href='teks_ekonomi_ma.html'">
+            <div class="card-icon"><i class="fa-solid fa-chart-pie"></i></div>
+            <div class="card-info">
+                <h2>Ekonomi</h2>
+                <p>Analisis Akuntansi dan Prinsip Mikro-Makro Ekonomi Syariah.</p>
+            </div>
+            <div class="btn-enter">BUKA MATERI</div>
+        </div>
+
+        <div class="card-mapel bg-geografi" onclick="location.href='teks_geografi_ma.html'">
+            <div class="card-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="card-info">
+                <h2>Geografi</h2>
+                <p>Kartografi, Penginderaan Jauh, dan Mitigasi Geosfer.</p>
+            </div>
+            <div class="btn-enter">BUKA MATERI</div>
+        </div>
+
+    </div>
+
+    <a href="dashboard_ma.html" class="back-btn"><i class="fa-solid fa-house"></i> Kembali ke Menu</a>
+
+</body>
+</html>

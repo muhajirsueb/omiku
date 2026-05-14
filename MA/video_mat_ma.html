@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Matematika MA - OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Gradasi Biru Gelap khas MA */
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #5c6bc0 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 60px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        
+        h1 { 
+            font-size: 32px; 
+            font-weight: 800; 
+            color: white; 
+            text-transform: uppercase; 
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .sub-desc { 
+            color: #e8eaf6; 
+            font-weight: 700; 
+            font-size: 16px; 
+        }
+
+        .video-container {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px; 
+            max-width: 1100px; 
+            width: 100%; 
+            margin-bottom: 50px;
+        }
+
+        .card-video {
+            background: white; 
+            border-radius: 25px; 
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25); 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-video:hover { 
+            transform: translateY(-10px); 
+        }
+
+        .video-placeholder {
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #111;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #888;
+            font-size: 14px;
+        }
+
+        .info-video { padding: 25px; }
+
+        .info-video h3 { 
+            font-size: 20px; 
+            color: #1a237e; 
+            margin-bottom: 10px; 
+            font-weight: 800; 
+        }
+
+        .info-video p { 
+            font-size: 14px; 
+            color: #444; 
+            line-height: 1.6; 
+            font-weight: 600; 
+        }
+
+        .btn-back {
+            text-decoration: none; 
+            background: white; 
+            color: #1a237e;
+            padding: 18px 45px; 
+            border-radius: 50px; 
+            font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+            transition: 0.3s;
+        }
+
+        .btn-back:hover { 
+            transform: scale(1.05); 
+            background: #1a237e; 
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>VIDEO PENGAYAAN: MATEMATIKA MA</h1>
+        <p class="sub-desc">Materi Olimpiade Tingkat Lanjut & Strategi Penyelesaian</p>
+    </div>
+
+    <div class="video-container">
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 1 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Analisis Polinom & Modulo</h3>
+                <p>Pendalaman teorema sisa, faktorisasi polinomial, dan aplikasi aritmatika modulo pada soal olimpiade.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 2 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Trigonometri Analitik</h3>
+                <p>Strategi membuktikan identitas trigonometri kompleks dan penyelesaian persamaan pada bidang geometri.</p>
+            </div>
+        </div>
+
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 3 (YouTube Iframe) ---</div>
+            <div class="info-video">
+                <h3>Latihan Soal HOTS OMI</h3>
+                <p>Bedah tuntas soal-soal tingkat tinggi (High Order Thinking Skills) dari kompetisi tahun-tahun sebelumnya.</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="materi_video_ma.html" class="btn-back">← Kembali ke Materi MA</a>
+
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Matematika</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #b89600 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+        
+        h1 { 
+            font-size: 32px; 
+            font-weight: 800; 
+            color: #ffffff; 
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px;
+            color: #fdd835; 
+            font-weight: 700;
+        }
+
+        .video-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px; 
+            max-width: 1200px; 
+            width: 100%; 
+            margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: white; 
+            border-radius: 20px; 
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .video-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+        }
+
+        .thumbnail-container {
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .yt-thumbnail {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+
+        .video-card:hover .yt-thumbnail {
+            filter: brightness(0.6);
+            transform: scale(1.05);
+        }
+
+        .play-icon {
+            font-size: 50px;
+            color: white;
+            position: relative;
+            z-index: 2;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+
+        .video-card:hover .play-icon {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        
+        .play-label {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 800;
+            z-index: 2;
+        }
+
+        .video-info { padding: 20px; flex-grow: 1; }
+        .video-info h3 { font-size: 17px; color: #1b5e20; margin-bottom: 8px; font-weight: 800; }
+        .video-info p { font-size: 13px; color: #555; line-height: 1.5; }
+
+        .btn-footer { margin-top: 20px; }
+        .btn-back {
+            text-decoration: none;
+            background: white;
+            color: #1b5e20;
+            padding: 15px 45px;
+            border-radius: 50px;
+            font-weight: 800;
+            transition: 0.3s;
+            border: 2px solid white;
+            display: inline-block;
+        }
+        .btn-back:hover {
+            background: #1b5e20;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Video Pengayaan Matematika</h1>
+        <p class="sub-title">Materi Bilangan Bulat, Cacah, dan Pecahan</p>
+    </div>
+
+    <div class="video-grid">
+        <a href="https://youtu.be/eKEdehtTnRk" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/eKEdehtTnRk/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Bilangan Bulat dan Cacah</h3><p>Konsep dasar dan perbedaan himpunan bilangan bulat dan cacah.</p></div>
+        </a>
+
+        <a href="https://youtu.be/_XVIW0BIVwU" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/_XVIW0BIVwU/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Operasi Hitung Bilangan Bulat</h3><p>Teknik dasar penjumlahan dan pengurangan bilangan bulat.</p></div>
+        </a>
+
+        <a href="https://youtu.be/kvwJ9y9W97A" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/kvwJ9y9W97A/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Perkalian & Pembagian Bulat</h3><p>Aturan tanda positif dan negatif dalam perkalian dan pembagian.</p></div>
+        </a>
+
+        <a href="https://youtu.be/l-Loj3eyvyA" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/l-Loj3eyvyA/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Hitung Positif & Negatif</h3><p>Pendalaman nilai dan perbandingan angka positif serta negatif.</p></div>
+        </a>
+
+        <a href="https://youtu.be/Hd62N_6goEo" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/Hd62N_6goEo/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Contoh Soal Cerita</h3><p>Penerapan logika matematika dalam menyelesaikan kasus kehidupan sehari-hari.</p></div>
+        </a>
+
+        <a href="https://youtu.be/Du_HnNCVXdc" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/Du_HnNCVXdc/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Pecahan Bagian 1</h3><p>Pengenalan dasar bentuk pecahan, pembilang, dan penyebut.</p></div>
+        </a>
+
+        <a href="https://youtu.be/dkeGwSqx68w" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/dkeGwSqx68w/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Pecahan Bagian 2</h3><p>Memahami konsep pecahan senilai dan cara menyederhanakannya.</p></div>
+        </a>
+
+        <a href="https://youtu.be/YSZvm6wYApc" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/YSZvm6wYApc/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Pecahan Bagian 3</h3><p>Cara membandingkan dan mengurutkan berbagai besaran pecahan.</p></div>
+        </a>
+
+        <a href="https://youtu.be/Cg_LKYp6k3A" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/Cg_LKYp6k3A/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Pecahan Bagian 4</h3><p>Mengubah pecahan ke bentuk campuran, desimal, dan persen.</p></div>
+        </a>
+
+        <a href="https://youtu.be/ZNS-Gqc3LmM" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/ZNS-Gqc3LmM/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Pecahan Bagian 5</h3><p>Operasi hitung penjumlahan dan pengurangan pada bilangan pecahan.</p></div>
+        </a>
+
+        <a href="https://youtu.be/5hkPfKii6VI" target="_blank" class="video-card">
+            <div class="thumbnail-container">
+                <img src="https://img.youtube.com/vi/5hkPfKii6VI/maxresdefault.jpg" class="yt-thumbnail">
+                <div class="play-icon">▶</div>
+                <div class="play-label">PUTAR VIDEO</div>
+            </div>
+            <div class="video-info"><h3>Pecahan Bagian 6</h3><p>Operasi hitung perkalian dan pembagian pada pecahan.</p></div>
+        </a>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>

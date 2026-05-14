@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Modul Sosial MA - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* Palette Slate Grey Dewasa khas MA */
+            --ma-dark: #263238;
+            --ma-slate: #37474f;
+            --ma-accent-social: #bf360c; /* Warna Terracotta/Oranye Bata yang dewasa */
+            --text-light: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Background gradasi gelap sesuai referensi visual MA */
+            background: linear-gradient(135deg, var(--ma-slate) 0%, var(--ma-dark) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* Header Judul */
+        .header-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header-title h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .header-title p {
+            color: #cfd8dc;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Grid Preview */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        /* Card Putih Kontras */
+        .materi-card {
+            background: #ffffff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+
+        .materi-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 35px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Area Ikon PDF khusus Sosial - Warna disesuaikan agar tidak nabrak */
+        .thumb-area {
+            height: 170px;
+            background: #fbe9e7; /* Oranye sangat pucat agar selaras */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .thumb-area i {
+            font-size: 65px;
+            color: var(--ma-accent-social); /* Ikon disesuaikan ke warna tema Sosial MA */
+        }
+
+        .badge-pdf {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: var(--ma-accent-social);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* Info Deskripsi */
+        .info-area {
+            padding: 35px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .info-area h3 {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--ma-dark);
+        }
+
+        .info-area p {
+            font-size: 14px;
+            color: #546e7a;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Tombol Pelajari Materi */
+        .btn-read {
+            margin-top: auto;
+            background: var(--ma-dark);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-read:hover {
+            background: var(--ma-accent-social);
+            box-shadow: 0 10px 20px rgba(191, 54, 12, 0.3);
+        }
+
+        /* Navigasi Kembali Tengah Bawah */
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #ffffff;
+            color: var(--ma-dark);
+            transform: scale(1.05);
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            color: #90a4ae;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <h1>MODUL SOSIAL & EKONOMI MA</h1>
+            <p>Materi Strategis Geografi & Ekonomi Syariah Madrasah Aliyah</p>
+        </div>
+
+        <div class="preview-grid">
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Ekonomi & Mikro-Makro</h3>
+                    <p>Analisis mekanisme pasar, kebijakan fiskal, dan teori ekonomi syariah terapan.</p>
+                    <a href="pdf/ma_sosial_ekonomi.pdf" target="_blank" class="btn-read">
+                        <i class="fa-solid fa-book-open"></i> Pelajari Materi
+                    </a>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Geografi & Geosfer</h3>
+                    <p>Pendalaman materi litosfer, hidrosfer, hingga mitigasi bencana lingkungan.</p>
+                    <a href="pdf/ma_sosial_geografi.pdf" target="_blank" class="btn-read">
+                        <i class="fa-solid fa-book-open"></i> Pelajari Materi
+                    </a>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Bank Soal & Jawaban</h3>
+                    <p>Latihan soal analisis sosial dan ekonomi persiapan kompetensi sains madrasah.</p>
+                    <a href="pdf/ma_sosial_soal.pdf" target="_blank" class="btn-read">
+                        <i class="fa-solid fa-book-open"></i> Pelajari Materi
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <a href="materi_teks_ma.html" class="btn-back">
+                <i class="fa-solid fa-chevron-left"></i> Kembali ke Daftar Modul
+            </a>
+        </div>
+
+        <div class="footer-note">
+            &copy; 2026 Kurikulum OMI | Wawasan Sosial & Ekonomi Global Madrasah Aliyah
+        </div>
+    </div>
+
+</body>
+</html>

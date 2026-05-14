@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sains MI Paket 4 - OMI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <style>
+        :root { 
+            --primary-deep: #0a3d0e; 
+            --primary-light: #1b5e20; 
+            --accent-gold: #fdd835; 
+            --danger: #be123c;
+            --sosial-theme: #5d4037; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+
+        /* POP-UP AWAL (START SCREEN) */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .start-box i { font-size: 80px; color: var(--sosial-theme); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(253, 216, 53, 0.3); }
+
+        /* APP CONTENT */
+        .app-container { width: 100%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #1e293b; }
+        .options-grid { display: grid; gap: 12px; }
+        .option { padding: 18px 25px; border: 2px solid #f1f5f9; border-radius: 15px; cursor: pointer; transition: 0.2s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        .sidebar { width: 280px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 15px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        .action-bar { padding: 15px 30px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; }
+        
+        /* MODAL & RESULT */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); line-height: 1; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-people-group"></i>
+        <h2>Sudah Siap?</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik. Kerjakan dengan jujur dan teliti.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h3>Simulasi Sains <span style="color: var(--accent-gold);">OMI</span></h3>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 11px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav" style="background:#f1f5f9" onclick="changeQ(-1)">SEBELUMNYA</button>
+        <button class="btn-nav" style="background:#fef9c3; color:#854d0e; border:1px solid #facc15" onclick="toggleDoubt()">RAGU-RAGU</button>
+        <button class="btn-nav" id="btn-step" style="background:#0f172a; color:white; min-width:150px" onclick="handleNextStep()">SELANJUTNYA</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span style="font-size:11px; color:#64748b;">BENAR</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span style="font-size:11px; color:#64748b;">SALAH</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span style="font-size:11px; color:#64748b;">KOSONG</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_sains.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE HALAMAN TRYOUT</button>
+    </div>
+
+</div>
+
+<script>
+    let current = 0, timer = 90 * 60, isStarted = false;
+    
+    const bank = [
+        { q: "1. Allah SWT menciptakan mekanisme pertahanan tubuh yang luar biasa melalui sel darah putih. Dalam sebuah kasus, seorang santri mengalami luka lecet di lututnya karena terjatuh saat bermain bola. Beberapa hari kemudian, luka tersebut mengeluarkan nanah yang berwarna kekuningan. Secara medis dan sains, keberadaan nanah tersebut sebenarnya menunjukkan bahwa...", options: ["Tubuh kekurangan vitamin C sehingga luka sulit mengering dan menjadi busuk", "Sedang terjadi pertempuran hebat di mana sel darah putih (leukosit) mati setelah memakan kuman di area luka", "Keping darah (trombosit) gagal menjalankan fungsinya untuk membekukan darah di permukaan kulit", "Luka tersebut terkena air wudu yang tidak bersih sehingga sel darah merah berubah menjadi cairan kuning"], correct: 1 },
+        { q: "2. Di dalam ekosistem sawah yang dikelola oleh pesantren, terdapat hubungan rantai makanan yang sangat ketat. Suatu ketika, terjadi ledakan populasi hama tikus yang merusak padi. Para santri menyarankan untuk tidak menggunakan racun kimia, melainkan melepas liarkan beberapa ekor burung hantu (Tyto alba). Penggunaan burung hantu sebagai predator alami untuk mengendalikan hama tikus ini merupakan contoh dari...", options: ["Simbiosis Parasitisme, karena burung hantu merugikan tikus yang sedang mencari makan", "Pengendalian Biologis (Biological Control), yaitu memanfaatkan musuh alami untuk menjaga keseimbangan ekosistem", "Adaptasi Fisiologi, di mana tikus mengubah kebiasaan makannya agar tidak tertangkap oleh burung hantu", "Rekayasa Genetika, yaitu mengubah sifat burung hantu agar lebih agresif terhadap tikus di sawah"], correct: 1 },
+        { q: "3. Allah SWT menciptakan mata dengan lensa yang sangat fleksibel. Saat seorang santri sedang membaca mushaf Al-Qur'an dengan jarak dekat, otot-otot di sekitar lensa matanya berkontraksi sehingga lensa mata menjadi lebih cembung. Namun, jika ia terlalu sering membaca di tempat gelap dalam waktu lama, ia berisiko terkena Miopi. Perubahan bentuk lensa mata menjadi lebih cembung atau memipih sesuai jarak benda ini disebut...", options: ["Refraksi cahaya, yaitu pembelokan cahaya saat masuk ke kornea mata", "Daya Akomodasi mata, yaitu kemampuan lensa untuk memfokuskan bayangan tepat di retina", "Fotoreseptor, yaitu kemampuan sel-sel saraf mata dalam menangkap intensitas warna", "Regenerasi sel mata, yaitu proses perbaikan jaringan mata yang rusak akibat kelelahan"], correct: 1 },
+        { q: "4. Dalam sebuah praktik sains, santri mencoba memasukkan sebuah telur ayam ke dalam segelas air tawar dan telur tersebut tenggelam. Kemudian, ia mencampurkan banyak garam ke dalam air tersebut hingga telur perlahan-lahan terangkat dan melayang di tengah air. Fenomena ini membuktikan hukum Allah tentang fluida (zat cair), yaitu...", options: ["Penambahan garam memperkecil gaya tarik bumi (gravitasi) terhadap telur tersebut", "Penambahan garam meningkatkan massa jenis air sehingga gaya angkat ke atas menjadi lebih besar", "Garam mengandung gas oksigen yang masuk ke dalam pori-berpori telur sehingga telur menjadi ringan", "Telur mengalami penyusutan volume saat terkena air garam sehingga lebih mudah mengapung"], correct: 1 },
+        { q: "5. Matahari adalah sumber energi panas terbesar yang diciptakan Allah untuk bumi. Panas matahari sampai ke kulit kita melalui ruang angkasa yang hampa udara. Selain panas matahari, contoh perpindahan panas secara radiasi yang bisa kita temukan saat kegiatan berkemah di Madrasah adalah...", options: ["Panas yang merambat dari dasar panci ke gagang pegangan saat memasak mi instan", "Udara panas yang bergerak naik ke atas di sekitar area api unggun yang sedang menyala", "Perasaan hangat di telapak tangan saat diletakkan di samping nyala lilin tanpa menyentuhnya", "Air yang bergerak memutar (mendidih) di dalam teko saat dipanaskan di atas kompor lapangan"], correct: 2 },
+        { q: "6. Allah menciptakan sistem pernapasan manusia dengan katup kecil bernama epiglotis di persimpangan antara tenggorokan dan kerongkongan. Saat kita sedang makan sambil berbicara atau tertawa, terkadang kita mengalami 'tersedak'. Secara sains, tersedak terjadi karena...", options: ["Makanan salah masuk ke dalam lambung sebelum dikunyah dengan cukup halus oleh gigi", "Katup epiglotis terlambat menutup sehingga butiran makanan masuk ke dalam saluran pernapasan (trakea)", "Udara dari paru-paru terlalu banyak yang masuk ke dalam sistem pencernaan sehingga perut kembung", "Saraf di kerongkongan mengalami kram akibat suhu makanan yang terlalu panas saat ditelan"], correct: 1 },
+        { q: "7. Di sebuah hutan lindung yang dijaga kelestariannya, terdapat tumbuhan benalu yang hidup menempel pada dahan pohon mangga. Benalu tersebut menyerap air dan mineral langsung dari pembuluh kayu (xilem) pohon mangga, sehingga lama-kelamaan pohon mangga menjadi kurus dan mati. Hubungan antara benalu dan pohon mangga ini merupakan bentuk...", options: ["Simbiosis Komensalisme, karena pohon mangga tidak merasa terganggu dengan adanya benalu", "Simbiosis Mutualisme, karena benalu membantu pohon mangga mendapatkan cahaya matahari", "Simbiosis Parasitisme, karena benalu mendapatkan keuntungan sedangkan pohon mangga dirugikan", "Simbiosis Amensalisme, di mana benalu menghalangi pertumbuhan pohon mangga tanpa menyerap nutrisinya"], correct: 2 },
+        { q: "8. Allah menciptakan pelangi sebagai tanda keindahan alam setelah hujan. Pelangi terbentuk karena cahaya matahari (cahaya putih) melewati titik-titik air hujan di atmosfer. Proses di mana cahaya putih terurai menjadi berbagai warna (merah, jingga, kuning, hijau, biru, nila, ungu) setelah melewati butiran air disebut...", options: ["Refleksi cahaya, yaitu pemantulan cahaya secara sempurna oleh permukaan air hujan", "Dispersi cahaya, yaitu penguraian cahaya polikromatik menjadi cahaya monokromatik", "Interferensi cahaya, yaitu perpaduan dua gelombang cahaya yang koheren di udara", "Difraksi cahaya, yaitu pelenturan cahaya saat melewati celah yang sangat sempit"], correct: 1 },
+        { q: "9. Perhatikan rangkaian listrik yang dipasang di ruang kelas Madrasah. Jika lampu-lampu di kelas disusun sedemikian rupa sehingga jika satu lampu dimatikan, lampu yang lain tetap menyala, maka rangkaian tersebut menggunakan prinsip paralel. Keuntungan utama dari penggunaan rangkaian paralel untuk instalasi listrik di gedung yang besar adalah...", options: ["Membutuhkan jumlah kabel yang lebih sedikit sehingga biaya pemasangan lebih murah", "Hambatan total listrik menjadi lebih besar sehingga penggunaan daya listrik lebih hemat", "Jika salah satu jalur listrik terputus, aliran listrik pada jalur lain tidak akan terganggu", "Tegangan listrik pada setiap lampu akan terbagi-bagi sehingga lampu tidak cepat panas"], correct: 2 },
+        { q: "10. Allah SWT menciptakan bulan sebagai satelit alami bumi yang berotasi dan berevolusi. Waktu yang dibutuhkan bulan untuk berputar pada porosnya ternyata sama dengan waktu yang dibutuhkan bulan untuk mengelilingi bumi. Hal ini mengakibatkan sebuah fenomena unik yang dapat kita amati dari bumi, yaitu...", options: ["Terjadinya gerhana bulan total setiap bulan pada tanggal 15 Hijriah", "Permukaan bulan yang menghadap ke bumi selalu tampak bagian yang sama (itu-itu saja)", "Bentuk bulan selalu tampak bulat sempurna setiap malam bagi penduduk bumi", "Bulan mengeluarkan cahayanya sendiri tanpa bergantung pada pantulan sinar matahari"], correct: 1 },
+        { q: "11. Allah SWT menciptakan sistem koordinasi pada manusia yang melibatkan otak dan saraf. Suatu ketika, seorang santri sedang khusyuk membaca kitab di perpustakaan, lalu tanpa sengaja tangannya menyentuh ujung jarum yang tajam. Secara otomatis dan sangat cepat, ia menarik tangannya sebelum rasa sakit terasa di otaknya. Gerakan refleks yang bertujuan untuk melindungi tubuh dari bahaya ini memiliki jalur saraf yang lebih pendek daripada gerak sadar, yaitu melalui...", options: ["Otak besar (Cerebrum), sebagai pusat kendali seluruh pikiran dan ingatan manusia", "Sumsum tulang belakang (Medulla spinalis), sebagai pusat penghubung gerakan spontan", "Saraf otonom, yang mengatur kerja jantung dan paru-paru secara tidak sadar", "Otak kecil (Cerebellum), yang berfungsi mengatur keseimbangan tubuh saat berjalan"], correct: 1 },
+        { q: "12. Tumbuhan hijau diciptakan Allah sebagai produsen oksigen melalui fotosintesis. Namun, pada malam hari saat tidak ada cahaya matahari, tumbuhan tetap melakukan proses pernapasan (respirasi). Dalam kondisi gelap total tanpa bantuan cahaya, apa yang terjadi pada pertukaran gas yang dilakukan oleh tumbuhan melalui stomatanya?", options: ["Tumbuhan tetap menyerap Karbon Dioksida (CO2) dan mengeluarkan Oksigen (O2)", "Tumbuhan berhenti bernapas sama sekali dan menunggu matahari terbit di pagi hari", "Tumbuhan menyerap Oksigen (O2) dan mengeluarkan Karbon Dioksida (CO2) sebagaimana manusia", "Tumbuhan mengubah Karbon Dioksida (CO2) menjadi uap air untuk menjaga kelembapan daun"], correct: 2 },
+        { q: "13. Di dalam Al-Qur'an disebutkan bahwa Allah menciptakan laut yang tawar dan laut yang asin. Dalam sains, air laut yang asin memiliki massa jenis yang lebih besar dibandingkan air tawar. Jika sebuah kapal berlayar dari air tawar sungai menuju air laut yang asin dengan membawa beban yang sama, maka posisi badan kapal tersebut akan...", options: ["Semakin tenggelam ke bawah karena beban terasa lebih berat di air laut yang asin", "Semakin terangkat ke atas karena gaya apung (Archimedes) di air asin lebih besar", "Tetap berada pada posisi yang sama karena volume kapal tidak berubah sama sekali", "Miring ke salah satu sisi karena perbedaan tekanan udara di atas permukaan laut"], correct: 1 },
+        { q: "14. Allah SWT memberikan kemampuan ekolokasi kepada kelelawar agar dapat mencari rezeki berupa serangga di malam hari yang gelap gulita. Kelelawar mengeluarkan bunyi ultrasonik yang kemudian akan memantul kembali setelah mengenai mangsanya. Jika bunyi tersebut mengenai benda yang permukaannya lunak atau empuk seperti gumpalan kapas, maka yang akan terjadi adalah...", options: ["Bunyi akan memantul jauh lebih kuat sehingga kelelawar mudah menangkapnya", "Bunyi akan diserap (absorpsi) oleh benda lunak tersebut sehingga pantulannya melemah", "Bunyi akan dibiaskan ke segala arah sehingga kelelawar menjadi bingung arahnya", "Bunyi akan berubah frekuensinya menjadi infrasonik yang tidak bisa didengar kelelawar"], correct: 1 },
+        { q: "15. Manusia bernapas dengan menghirup oksigen yang suci dari udara bebas. Saat kita menarik napas (inspirasi) secara dalam, otot diafragma yang membatasi rongga dada dan rongga perut akan berkontraksi menjadi datar. Hal ini mengakibatkan terjadinya perubahan pada rongga dada kita, yaitu...", options: ["Volume rongga dada mengecil sehingga udara terdorong keluar dari paru-paru", "Tekanan udara di dalam paru-paru meningkat sehingga udara sulit masuk ke tubuh", "Volume rongga dada membesar dan tekanan udara di dalam paru-paru menurun sehingga udara masuk", "Paru-paru menyempit karena tertekan oleh otot diafragma yang sedang bekerja keras"], correct: 2 },
+        { q: "16. Salah satu bukti keteraturan ciptaan Allah adalah adanya gaya gesek. Saat seorang santri berjalan menuju masjid, terjadi gaya gesek antara telapak kakinya dengan lantai. Namun, gaya gesek juga bisa bersifat merugikan pada mesin-mesin industri atau kendaraan. Cara yang paling tepat untuk memperkecil gaya gesek yang merugikan pada bagian-bagian mesin yang saling bersentuhan adalah...", options: ["Memberikan alur-alur yang kasar pada permukaan logam mesin tersebut", "Memberikan cairan pelumas atau oli agar permukaan yang bersentuhan menjadi licin", "Mengganti bahan mesin dari logam menjadi kayu yang permukaannya berserat", "Memperbesar gaya tekan mesin agar kedua permukaan menempel lebih rapat"], correct: 1 },
+        { q: "17. Allah menciptakan Bumi yang berputar pada porosnya (rotasi) dari arah Barat ke Timur. Akibat dari putaran ini, penduduk Bumi melihat Matahari seolah-olah bergerak terbit dari Timur dan tenggelam di Barat. Fenomena ini dalam sains disebut sebagai Gerak Semu Harian Matahari. Selain fenomena tersebut, dampak lain dari rotasi Bumi bagi kehidupan manusia adalah...", options: ["Terjadinya perbedaan musim di belahan bumi bagian utara dan bagian selatan", "Perubahan lamanya waktu siang dan malam yang berbeda-beda setiap bulannya", "Terjadinya perbedaan daerah waktu (seperti WIB, WITA, dan WIT di Indonesia)", "Terlihatnya rasi bintang yang berbeda-beda letaknya setiap kali kita berganti bulan"], correct: 2 },
+        { q: "18. Di lingkungan Madrasah, para santri diajarkan untuk memilah sampah menjadi organik dan anorganik. Sampah plastik dan kaca sangat sulit terurai secara alami dan mencemari bumi dalam waktu yang sangat lama. Oleh karena itu, langkah terbaik untuk menjaga amanah bumi adalah dengan melakukan Recycle. Manakah kegiatan di bawah ini yang menunjukkan contoh Recycle yang tepat?", options: ["Menggunakan kembali botol bekas minum untuk membawa air wudu ke asrama", "Membawa tas belanja sendiri dari rumah agar tidak menggunakan kantong plastik baru", "Mengolah sampah kertas yang sudah tidak terpakai menjadi bubur kertas untuk bahan kerajinan baru", "Menimbun seluruh sampah plastik ke dalam tanah agar tidak terlihat berantakan di halaman"], correct: 2 },
+        { q: "19. Sendi peluru adalah salah satu nikmat luar biasa yang Allah berikan pada sistem gerak manusia karena memungkinkan gerakan yang sangat bebas ke segala arah. Tanpa sendi ini, manusia akan kesulitan melakukan gerakan salat dengan sempurna atau berolahraga. Di bagian tubuh manakah kita dapat menemukan letak sendi peluru tersebut?", options: ["Hubungan antara tulang ibu jari dan tulang telapak tangan manusia", "Hubungan antara tulang lengan atas dengan tulang belikat di bagian bahu", "Hubungan antara tulang tengkorak dengan tulang leher bagian atas", "Hubungan antara ruas-ruas tulang belakang yang memungkinkan tubuh membungkuk"], correct: 1 },
+        { q: "20. Cahaya matahari terdiri dari berbagai spektrum warna yang menyatu. Saat cahaya matahari masuk ke atmosfer bumi, ia akan menumbuk molekul-molekul udara dan dihamburkan ke segala arah. Spektrum warna biru memiliki gelombang yang pendek sehingga paling banyak dihamburkan. Fenomena hamburan cahaya (Rayleigh Scattering) inilah yang menjadi alasan mengapa Allah menampakkan...", options: ["Langit berwarna biru cerah pada siang hari yang teramat bersih", "Langit berwarna hitam pekat saat terjadi gerhana matahari total", "Munculnya warna-warni pelangi saat terjadi hujan gerimis di sore hari", "Bayangan benda yang selalu berwarna hitam meskipun bendanya berwarna-warni"], correct: 0 },
+        { q: "21. Bunyi adalah getaran yang merambat dan merupakan salah satu cara kita berkomunikasi serta mendengarkan lantunan ayat suci. Kecepatan rambat bunyi sangat bergantung pada jenis medium atau zat perantara yang dilaluinya. Jika seorang santri melakukan pengamatan, manakah urutan perambatan bunyi dari yang paling cepat ke yang paling lambat berdasarkan kerapatan partikel zatnya?", options: ["Udara (gas), kemudian air (cair), dan terakhir besi (padat)", "Besi (padat), kemudian air (cair), dan terakhir udara (gas)", "Air (cair), kemudian besi (padat), dan terakhir vakum (ruang hampa)", "Bunyi merambat dengan kecepatan yang sama di semua jenis benda atas izin Allah"], correct: 1 },
+        { q: "22. Dalam tubuh manusia, Allah SWT menciptakan hati (hepar) sebagai organ yang memiliki multifungsi demi menjaga kesehatan kita. Selain berfungsi sebagai tempat penawar racun (detoksifikasi) yang masuk ke dalam tubuh, hati juga memiliki peran penting dalam sistem pencernaan manusia, yaitu...", options: ["Menghasilkan asam klorida (HCl) untuk membunuh kuman di dalam lambung", "Menghasilkan cairan empedu yang berfungsi untuk memecah atau mengemulsi lemak", "Menyerap sari-sari makanan untuk diedarkan ke seluruh jaringan otot", "Memproduksi enzim amilase untuk mengubah zat tepung menjadi zat gula"], correct: 1 },
+        { q: "23. Allah SWT memerintahkan manusia untuk tidak berlebih-lebihan, termasuk dalam penggunaan energi. Saat ini, manusia mulai mengembangkan energi alternatif seperti biogas untuk mengganti bahan bakar fosil. Biogas merupakan energi yang sangat ramah lingkungan karena dihasilkan dari proses...", options: ["Pembakaran batubara di dalam ruangan yang tertutup rapat tanpa udara", "Fermentasi atau penguraian bahan organik (seperti kotoran ternak) oleh bakteri anaerob", "Pengumpulan cahaya matahari menggunakan cermin raksasa untuk memanaskan air", "Pemanfaatan kekuatan aliran air sungai yang sangat deras untuk memutar turbin"], correct: 1 },
+        { q: "24. Lensa mata manusia dapat mengalami gangguan jika tidak dirawat dengan benar sebagai bentuk syukur atas nikmat penglihatan. Seseorang yang sudah lanjut usia sering mengalami gangguan 'Mata Tua' atau Presbiopi, di mana ia kesulitan melihat benda jarak dekat maupun jarak jauh. Untuk membantu penglihatannya, orang tersebut membutuhkan kacamata dengan lensa...", options: ["Lensa cekung (negatif) untuk membantu memfokuskan cahaya yang jatuh di depan retina", "Lensa cembung (positif) untuk membantu memfokuskan cahaya yang jatuh di belakang retina", "Lensa rangkap (bifokal) yang terdiri dari bagian cekung dan bagian cembung sekaligus", "Lensa silindris untuk memperbaiki arah cahaya yang tidak teratur pada kornea"], correct: 2 },
+        { q: "25. Allah menciptakan sistem peredaran darah yang sangat tertutup dan efisien. Darah yang mengalir dari paru-paru menuju ke serambi kiri jantung merupakan darah yang sangat penting bagi kehidupan sel-sel tubuh manusia karena banyak mengandung...", options: ["Karbon Dioksida (CO2), yaitu gas sisa metabolisme yang harus segera dibuang", "Oksigen (O2), yang diambil dari proses pernapasan di dalam alveolus", "Zat warna empedu yang memberikan warna merah pada aliran darah manusia", "Karbon Monoksida yang diserap dari polusi udara di lingkungan sekitar"], correct: 1 },
+        { q: "26. Pesawat sederhana diciptakan untuk mempermudah pekerjaan manusia, seperti saat santri menggunakan linggis untuk mencabut paku yang tertancap kuat di kayu meja. Linggis merupakan contoh dari pengungkit (tuas) jenis pertama. Pada tuas jenis pertama ini, posisi yang berada di tengah di antara dua titik lainnya adalah...", options: ["Titik Beban, yaitu tempat benda yang akan dipindahkan atau dicabut berada", "Titik Kuasa, yaitu tempat tangan manusia memberikan gaya atau tarikan", "Titik Tumpu, yaitu tempat tumpuan agar alat dapat bergerak mengungkit", "Titik Gravitasi, yaitu pusat massa dari alat pengungkit tersebut"], correct: 2 },
+        { q: "27. Salah satu fenomena alam yang menunjukkan kekuasaan Allah adalah pasang surut air laut. Air laut di pantai terkadang naik menuju daratan (pasang) dan terkadang surut menjauhi daratan. Fenomena naik turunnya permukaan air laut secara berkala ini terutama disebabkan oleh...", options: ["Adanya angin topan yang bertiup kencang dari tengah samudra menuju pantai", "Gaya gravitasi atau tarik-menarik antara Bumi dengan Bulan dan Matahari", "Pergerakan lempeng tektonik di dasar laut yang menyebabkan air terdorong ke atas", "Aktivitas gunung berapi di bawah laut yang mengeluarkan material panas"], correct: 1 },
+        { q: "28. Tumbuhan memiliki pembuluh angkut yang berfungsi seperti pipa distribusi di dalam rumah. Ada pembuluh yang bertugas mengangkut air dan mineral dari akar menuju daun, dan ada pula yang mengangkut hasil fotosintesis dari daun ke seluruh tubuh tumbuhan. Pembuluh yang berfungsi mengedarkan hasil fotosintesis (makanan) tersebut adalah...", options: ["Xilem (pembuluh kayu), yang berada di bagian dalam batang tumbuhan", "Floem (pembuluh tapis), yang biasanya terletak di bagian luar pembuluh kayu", "Stomata, yang berfungsi sebagai tempat pertukaran gas oksigen", "Kambium, yang berfungsi untuk pertumbuhan diameter batang pohon"], correct: 1 },
+        { q: "29. Allah SWT melapisi Bumi dengan lapisan ozon untuk melindungi makhluk-Nya. Namun, penggunaan alat elektronik seperti AC dan kulkas yang menggunakan gas Chlorofluorocarbon (CFC) dapat merusak lapisan tersebut. Jika lapisan ozon di atmosfer menipis atau berlubang, dampak buruk yang langsung dirasakan oleh manusia adalah...", options: ["Meningkatnya jumlah oksigen di udara sehingga pernapasan menjadi lebih lega", "Meningkatnya risiko penyakit kanker kulit akibat radiasi ultraviolet yang tidak tersaring", "Berkurangnya curah hujan secara drastis sehingga terjadi kemarau abadi", "Menurunnya permukaan air laut karena penguapan yang terjadi terlalu cepat"], correct: 1 },
+        { q: "30. Di dalam tata surya yang tertata rapi, terdapat kelompok benda langit kecil yang terbuat dari debu dan es yang membeku. Benda ini sering disebut 'Bintang Berkor ek' karena ketika mendekati matahari, esnya menguap dan membentuk ekor panjang yang selalu menjauhi matahari. Benda langit yang dimaksud adalah...", options: ["Asteroid, yaitu bongkahan batu besar yang berada di antara Mars dan Yupiter", "Meteorid, yaitu batuan kecil yang melayang-layang di ruang hampa udara", "Komet, yang memiliki lintasan atau orbit yang sangat lonjong (elips)", "Satelit, yaitu benda yang selalu setia mengiringi sebuah planet"], correct: 2 },
+        { q: "31. Allah SWT menciptakan setiap manusia dengan keunikan masing-masing, mulai dari bentuk wajah hingga warna kulit. Sifat-sifat fisik ini diturunkan dari orang tua kepada anaknya melalui unit terkecil pembawa sifat yang ada di dalam inti sel. Unit pembawa sifat yang menentukan apakah seorang anak memiliki rambut ikal atau lurus, serta kulit gelap atau terang ini disebut...", options: ["Kromosom, yaitu benang-benang halus yang membawa informasi genetik", "Gen, yaitu segmen tertentu pada DNA yang menjadi penentu sifat keturunan", "Vakuola, yaitu kantong di dalam sel yang berfungsi menyimpan cadangan makanan", "Sitoplasma, yaitu cairan bening yang mengisi seluruh ruangan di dalam sel"], correct: 1 },
+        { q: "32. Menjaga kelestarian lingkungan adalah perwujudan syukur atas amanah Allah sebagai khalifah di bumi. Salah satu cara untuk mencegah terjadinya bencana banjir dan tanah longsor di daerah perbukitan yang gundul adalah dengan membuat tanah bertingkat-tingkat. Teknik pertanian yang bertujuan menahan laju air dan mencegah pengikisan tanah (erosi) ini disebut...", options: ["Reboisasi, yaitu penanaman kembali hutan-hutan yang telah gundul", "Sengkedan atau Terasering, agar air hujan tidak langsung terjun bebas membawa tanah", "Oksidasi, yaitu proses kimiawi antara tanah dengan oksigen di udara bebas", "Urbanisasi, yaitu perpindahan penduduk dari desa menuju kota besar"], correct: 1 },
+        { q: "33. Di dalam hidung manusia, Allah menciptakan mukus atau lendir serta rambut-rambut halus yang berfungsi sangat vital bagi sistem pernapasan. Selain untuk menyaring debu, fungsi lain dari lendir di dalam hidung saat kita menghirup udara di pagi hari yang sangat dingin di lingkungan pondok pesantren adalah...", options: ["Mengubah gas oksigen menjadi energi secara instan sebelum sampai ke paru-paru", "Menghangatkan dan mengatur kelembapan udara agar sesuai dengan suhu tubuh", "Mematikan seluruh sel darah merah yang sudah tua melalui pembuluh darah hidung", "Mempercepat aliran udara agar santri tidak merasa sesak saat sedang berolahraga"], correct: 1 },
+        { q: "34. Allah mengatur gerak benda-benda langit dengan perhitungan yang sangat teliti (Hisab). Fenomena alam di mana Bumi berada tepat di antara Matahari dan Bulan dalam satu garis lurus, sehingga bayangan Bumi yang gelap (umbra) menutupi permukaan Bulan sepenuhnya, disebut sebagai Gerhana Bulan Total. Pada saat fenomena ini terjadi, umat Islam disunnahkan untuk melaksanakan...", options: ["Salat Istisqa, yaitu salat untuk memohon diturunkan hujan saat kemarau panjang", "Salat Khusuf, yaitu salat gerhana bulan sebagai tanda kekaguman atas kuasa Allah", "Salat Kusuf, yaitu salat yang khusus dilakukan saat terjadi gerhana matahari", "Salat Tahajud, yaitu salat malam yang dilakukan setelah terbangun dari tidur"], correct: 1 },
+        { q: "35. Dalam sebuah ekosistem air tawar di kolam Madrasah, terdapat rantai makanan: Lumut -> Ikan Kecil -> Ikan Lele -> Burung Bangau. Jika karena suatu limbah populasi Ikan Lele berkurang drastis atau punah, maka dampak berantai yang akan terjadi pada populasi organisme lainnya dalam waktu singkat adalah...", options: ["Populasi Ikan Kecil akan meningkat pesat, sementara populasi Burung Bangau akan menurun", "Populasi Lumut akan habis dimakan Ikan Lele yang sedang merasa kelaparan", "Burung Bangau akan berubah menjadi pemakan lumut agar tetap bisa bertahan hidup", "Seluruh ekosistem akan tetap stabil karena Ikan Kecil akan memakan Burung Bangau"], correct: 0 },
+        { q: "36. Allah SWT menciptakan jantung manusia dengan empat ruang yang bekerja sangat sinkron. Bagian jantung yang memiliki dinding otot paling tebal dan kuat karena bertugas memompa darah bersih (kaya oksigen) ke seluruh bagian tubuh, mulai dari ujung kepala hingga ujung kaki, adalah...", options: ["Serambi Kanan (Atrium Kanan), tempat masuknya darah kotor dari seluruh tubuh", "Serambi Kiri (Atrium Kiri), tempat masuknya darah bersih dari paru-paru", "Bilik Kanan (Ventrikel Kanan), yang memompa darah kotor menuju paru-paru", "Bilik Kiri (Ventrikel Kiri), yang memiliki kekuatan pompa paling besar dalam jantung"], correct: 3 },
+        { q: "37. Pelestarian makhluk hidup dapat dilakukan secara in-situ (di dalam habitat asli) atau ex-situ (di luar habitat asli). Jika pemerintah menetapkan sebuah kawasan hutan hutan lindung sebagai tempat tinggal asli bagi Badak Jawa agar tidak diganggu oleh manusia, maka bentuk pelestarian tersebut dinamakan...", options: ["Kebun Binatang, di mana hewan dipelihara di dalam kandang untuk rekreasi", "Taman Safari, tempat hewan dilepas di area terbatas untuk tontonan manusia", "Suaka Margasatwa atau Taman Nasional, sebagai bentuk perlindungan di alam liar", "Kebun Raya, yaitu tempat pelestarian berbagai jenis tumbuhan langka dari luar daerah"], correct: 2 },
+        { q: "38. Cahaya memiliki sifat dapat dibiaskan atau dibelokkan ketika melewati dua medium yang berbeda kerapatannya, seperti dari udara ke air. Contoh peristiwa sehari-hari yang membuktikan adanya pembiasan cahaya dan sering kita lihat saat memancing di sungai adalah...", options: ["Bayangan tubuh kita yang terlihat jelas di permukaan air yang tenang", "Dasar kolam yang airnya jernih terlihat lebih dangkal dari kedalaman yang sebenarnya", "Cahaya senter yang merambat lurus saat digunakan di malam hari yang gelap", "Terbentuknya bayangan hitam di tanah saat kita berdiri di bawah cahaya lampu"], correct: 1 },
+        { q: "39. Allah SWT menciptakan planet-planet dengan karakteristik yang berbeda. Ada sebuah planet yang dikenal sebagai 'Planet Merah' karena permukaannya banyak mengandung debu besi oksida yang berkarat. Planet ini merupakan planet terdekat keempat dari Matahari dan memiliki gunung berapi terbesar di tata surya. Nama planet tersebut adalah...", options: ["Venus, planet yang paling panas karena atmosfernya sangat tebal", "Mars, yang memiliki dua satelit alami bernama Phobos dan Deimos", "Yupiter, planet terbesar yang tersusun dari gas dan memiliki bintik merah raksasa", "Merkurius, planet terkecil yang letaknya paling dekat dengan pusat tata surya"], correct: 1 },
+        { q: "40. Di dalam sistem pernapasan kita, terdapat bagian yang menyerupai sekelompok buah anggur yang terdiri dari kantong-kantong udara yang sangat kecil. Di sinilah tempat terjadinya pertukaran antara gas oksigen yang kita hirup dengan gas karbon dioksida yang akan kita buang. Bagian yang sangat penting bagi kehidupan manusia ini disebut...", options: ["Bronkus, yaitu cabang dari batang tenggorokan yang menuju paru-paru kanan dan kiri", "Bronkiolus, yaitu cabang-cabang yang lebih kecil dari saluran bronkus", "Alveolus, yaitu tempat terjadinya difusi gas antara udara dan pembuluh darah", "Pleura, yaitu selaput tipis yang berfungsi melindungi paru-paru dari gesekan"], correct: 2 }
+    ];
+
+      let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        document.documentElement.requestFullscreen?.();
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} / ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        const box = document.getElementById('options-box'); box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+        document.getElementById('btn-step').innerText = current === bank.length - 1 ? "SELESAI" : "SELANJUTNYA";
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            item.className = `nav-item ${doubts[i]?'doubt':(answers[i]!==null?'answered':'')} ${current===i?'active':''}`;
+            item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } }
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function triggerFinish() { document.getElementById('modal-container').style.display = 'flex'; document.getElementById('modal-msg').innerText = `Kamu telah menjawab ${answers.filter(a=>a!==null).length} soal. Kirim sekarang?`; }
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+    function finalSubmit() {
+        let score = answers.reduce((acc, ans, i) => acc + (ans === bank[i].correct ? 1 : 0), 0);
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((score/bank.length)*100);
+    }
+
+    setInterval(() => { if(isStarted && timer > 0) { timer--; let m=Math.floor(timer/60), s=timer%60; document.getElementById('timer-text').innerText=`${m}:${s<10?'0'+s:s}`; }}, 1000);
+</script>
+</body>
+</html>

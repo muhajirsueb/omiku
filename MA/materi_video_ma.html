@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Materi Video MA - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a0e17;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent-video: #ef4444; /* Warna Merah khas Video/YouTube */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: radial-gradient(circle at top, #1e1b4b, #0a0e17);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { max-width: 1200px; width: 100%; }
+
+        .header-title { text-align: center; margin-bottom: 50px; }
+        .header-title h1 { font-size: 32px; font-weight: 800; letter-spacing: 1px; margin-bottom: 10px; }
+        .header-title p { color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Grid Layout */
+        .grid-mapel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        /* Card Style - Consistent with Text Version */
+        .mapel-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mapel-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Decorative Background Icon */
+        .mapel-card::after {
+            content: '\f03d'; /* FontAwesome Video Icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            bottom: -20px;
+            right: -10px;
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-head i {
+            font-size: 28px;
+            color: var(--accent-video);
+        }
+
+        .card-head h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .card-body p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Action Button */
+        .btn-enter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-enter:hover {
+            background: #fff;
+            color: var(--bg-dark);
+        }
+
+        /* Footer Nav */
+        .footer-nav { display: flex; justify-content: center; margin-top: 20px; }
+        .btn-back {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: 0.3s;
+        }
+        .btn-back:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <h1>MATER VIDEO OLIMPIADE</h1>
+            <p>Eksplorasi Materi Visual Per Mapel Madrasah Aliyah</p>
+        </div>
+
+        <div class="grid-mapel">
+            
+            <div class="mapel-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-calculator"></i>
+                    <h2>Matematika</h2>
+                </div>
+                <div class="card-body">
+                    <p>Video pembahasan Kalkulus, Aljabar, Trigonometri, dan Logika dengan visualisasi interaktif.</p>
+                    <a href="video_matematika_ma.html" class="btn-enter">
+                        Buka Playlist <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mapel-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-atom"></i>
+                    <h2>Fisika</h2>
+                </div>
+                <div class="card-body">
+                    <p>Eksperimen digital dan penjelasan mendalam Mekanika, Termodinamika, hingga Fisika Modern.</p>
+                    <a href="video_fisika_ma.html" class="btn-enter">
+                        Buka Playlist <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mapel-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-dna"></i>
+                    <h2>Biologi</h2>
+                </div>
+                <div class="card-body">
+                    <p>Animasi 3D Genetika, Bioteknologi, dan proses seluler untuk pemahaman visual yang kuat.</p>
+                    <a href="video_biologi_ma.html" class="btn-enter">
+                        Buka Playlist <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mapel-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-flask-vial"></i>
+                    <h2>Kimia</h2>
+                </div>
+                <div class="card-body">
+                    <p>Penjelasan reaksi kimia, stoikiometri, dan kinetika dalam format video HD.</p>
+                    <a href="video_kimia_ma.html" class="btn-enter">
+                        Buka Playlist <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mapel-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h2>Ekonomi</h2>
+                </div>
+                <div class="card-body">
+                    <p>Analisis Mikro-Makro, Akuntansi, dan Ekonomi Syariah dalam perspektif praktis.</p>
+                    <a href="video_ekonomi_ma.html" class="btn-enter">
+                        Buka Playlist <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mapel-card">
+                <div class="card-head">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <h2>Geografi</h2>
+                </div>
+                <div class="card-body">
+                    <p>Visualisasi sistem informasi geografis, geosfer, dan mitigasi bencana alam.</p>
+                    <a href="video_geografi_ma.html" class="btn-enter">
+                        Buka Playlist <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-nav">
+            <a href="dashboard_ma.html" class="btn-back">
+                <i class="fa-solid fa-chevron-left"></i> Kembali ke Dashboard
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

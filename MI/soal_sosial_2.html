@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOSIAL MI - OMI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { 
+            --primary-deep: #0a3d0e; 
+            --primary-light: #1b5e20; 
+            --accent-gold: #fdd835; 
+            --danger: #be123c;
+            --sosial-theme: #5d4037; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+
+        /* POP-UP AWAL (START SCREEN) */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .start-box i { font-size: 80px; color: var(--sosial-theme); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(253, 216, 53, 0.3); }
+
+        /* APP CONTENT */
+        .app-container { width: 100%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #1e293b; }
+        .options-grid { display: grid; gap: 12px; }
+        .option { padding: 18px 25px; border: 2px solid #f1f5f9; border-radius: 15px; cursor: pointer; transition: 0.2s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        .sidebar { width: 280px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 15px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        .action-bar { padding: 15px 30px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; }
+        
+        /* MODAL & RESULT */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); line-height: 1; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-people-group"></i>
+        <h2>Sudah Siap?</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik. Kerjakan dengan jujur dan teliti.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h3>Simulasi Sosial <span style="color: var(--accent-gold);">OMI</span></h3>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 11px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav" style="background:#f1f5f9" onclick="changeQ(-1)">SEBELUMNYA</button>
+        <button class="btn-nav" style="background:#fef9c3; color:#854d0e; border:1px solid #facc15" onclick="toggleDoubt()">RAGU-RAGU</button>
+        <button class="btn-nav" id="btn-step" style="background:#0f172a; color:white; min-width:150px" onclick="handleNextStep()">SELANJUTNYA</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span style="font-size:11px; color:#64748b;">BENAR</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span style="font-size:11px; color:#64748b;">SALAH</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span style="font-size:11px; color:#64748b;">KOSONG</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_sosial.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE HALAMAN TRYOUT</button>
+    </div>
+</div>
+
+<script>
+    let current = 0, timer = 90 * 60, isStarted = false;
+    const bank = [
+    {
+        q: "1. Indonesia merupakan negara yang diberkahi Allah SWT dengan letak geografis di antara dua benua dan dua samudra. Hal ini menyebabkan Indonesia menjadi titik temu berbagai kebudayaan dan agama. Jika kita meninjau sejarah, pengaruh letak geografis ini terhadap penyebaran agama Islam di Nusantara yang dilakukan oleh para pedagang adalah...",
+        options: [
+            "A. Mempersulit masuknya ajaran Islam karena jarak yang sangat jauh dari kota Makkah",
+            "B. Menjadikan pelabuhan-pelabuhan di Indonesia sebagai pusat pertukaran budaya dan dakwah yang damai",
+            "C. Menyebabkan rakyat Indonesia menolak pedagang asing karena perbedaan bahasa",
+            "D. Membuat bangsa Indonesia hanya mengenal perdagangan tanpa peduli pada ajaran agama"
+        ],
+        correct: 1
+    },
+    {
+        q: "2. Dataran rendah di Indonesia umumnya terletak di sepanjang pesisir pantai dan memiliki tanah yang subur karena proses sedimentasi sungai. Di wilayah ini, penduduk cenderung membangun pemukiman yang mengelompok di dekat sumber air atau jalur transportasi. Aktivitas ekonomi yang paling dominan dilakukan oleh masyarakat dataran rendah sebagai bentuk pemanfaatan karunia lahan yang datar adalah...",
+        options: [
+            "A. Pertanian sayuran dataran tinggi dan perkebunan teh yang luas",
+            "B. Industri manufaktur, perkantoran, dan pertanian tanaman pangan seperti padi",
+            "C. Pertambangan belerang dan pemanfaatan energi panas bumi (geotermal)",
+            "D. Penebangan hutan secara besar-besaran untuk diambil kayu cendananya"
+        ],
+        correct: 1
+    },
+    {
+        q: "3. Allah SWT memerintahkan manusia untuk menjaga keseimbangan alam. Di daerah perbukitan, petani sering menghadapi masalah pengikisan tanah (erosi) saat hujan lebat. Untuk mengatasi hal ini, para petani menerapkan teknik terasering. Secara analitis, tujuan utama dari pembuatan terasering atau sengkedan pada lahan miring tersebut adalah...",
+        options: [
+            "A. Memperluas lahan pertanian agar hasil panen meningkat dua kali lipat",
+            "B. Mengurangi kecepatan aliran air permukaan sehingga tanah tidak mudah terbawa arus hujan",
+            "C. Memudahkan sinar matahari masuk ke celah-celah akar tanaman agar cepat berbuah",
+            "D. Menghalangi hama tikus agar tidak bisa naik ke perbukitan yang lebih tinggi"
+        ],
+        correct: 1
+    },
+    {
+        q: "4. Keanekaragaman flora dan fauna di Indonesia dibagi menjadi tiga wilayah oleh Garis Wallace dan Garis Weber. Wilayah Tengah yang meliputi Sulawesi dan Nusa Tenggara disebut sebagai wilayah peralihan karena memiliki hewan endemik (hewan asli yang tidak ditemukan di tempat lain). Sebagai bukti keagungan ciptaan Allah, hewan endemik yang berasal dari wilayah peralihan ini adalah...",
+        options: [
+            "A. Gajah dan Harimau yang memiliki kemiripan dengan hewan di benua Asia",
+            "B. Komodo dan Anoa yang merupakan ciri khas wilayah Indonesia bagian tengah",
+            "C. Burung Cendrawasih dan Kanguru pohon yang mirip dengan fauna benua Australia",
+            "D. Orang utan dan Badak bercula satu yang tersebar di Pulau Jawa dan Kalimantan"
+        ],
+        correct: 1
+    },
+    {
+        q: "5. Sumber daya alam laut Indonesia sangat melimpah, termasuk keberadaan terumbu karang yang menjadi rumah bagi ribuan jenis ikan. Namun, banyak nelayan yang tidak bertanggung jawab menggunakan bom ikan untuk keuntungan sesaat. Ditinjau dari aspek keberlanjutan lingkungan, dampak yang paling merugikan dari penggunaan bom ikan tersebut adalah...",
+        options: [
+            "A. Harga ikan di pasar akan menjadi sangat murah karena jumlah tangkapan banyak",
+            "B. Rusaknya ekosistem terumbu karang yang membutuhkan waktu ratusan tahun untuk tumbuh kembali",
+            "C. Nelayan lain akan merasa iri karena tidak memiliki alat peledak yang sama",
+            "D. Air laut akan berubah menjadi tawar sehingga ikan-ikan laut akan mati seketika"
+        ],
+        correct: 1
+    },
+    {
+        q: "6. Sejarah mencatat bahwa Kesultanan Ternate dan Tidore di Maluku sangat terkenal hingga ke Eropa karena kekayaan rempah-rempahnya. Bangsa Barat berlomba-lomba datang ke sana untuk menguasai perdagangan pala dan cengkih. Sikap yang ditunjukkan oleh para Sultan di Maluku dalam menghadapi upaya monopoli bangsa asing tersebut mencerminkan nilai...",
+        options: [
+            "A. Ketundukan total terhadap kekuatan militer bangsa Barat yang lebih modern",
+            "B. Semangat jihad dan keberanian dalam mempertahankan kedaulatan wilayah dan ekonomi rakyat",
+            "C. Sikap acuh tak acuh karena rempah-rempah dianggap tidak terlalu berharga",
+            "D. Keinginan untuk pindah ke benua Eropa agar bisa hidup lebih makmur"
+        ],
+        correct: 1
+    },
+    {
+        q: "7. Perhatikan peta Indonesia. Pulau Kalimantan memiliki karakteristik fisik yang berbeda dengan Pulau Jawa, salah satunya adalah memiliki banyak sungai besar dan panjang seperti Sungai Kapuas. Bagi masyarakat setempat, keberadaan sungai-sungai besar tersebut dimanfaatkan sebagai sarana transportasi utama dan pusat kegiatan ekonomi, yaitu...",
+        options: [
+            "A. Tempat pembuangan sisa industri agar air sungai cepat mengalir ke laut",
+            "B. Pasar terapung yang menjadi pusat jual beli hasil bumi dan kebutuhan sehari-hari",
+            "C. Lahan untuk membangun gedung perkantoran di tengah aliran sungai",
+            "D. Lokasi untuk menimbun sampah rumah tangga agar tidak memenuhi daratan"
+        ],
+        correct: 1
+    },
+    {
+        q: "8. Koperasi sekolah di Madrasah didirikan untuk membantu memenuhi kebutuhan santri dengan harga yang terjangkau. Koperasi ini dikelola berdasarkan asas kekeluargaan, di mana keuntungan yang diperoleh (Sisa Hasil Utama) akan dibagikan kembali kepada anggota. Peran penting koperasi dalam membangun ekonomi kerakyatan sesuai nilai-nilai luhur bangsa adalah...",
+        options: [
+            "A. Mencari keuntungan sebesar-besaran dari para santri yang membutuhkan",
+            "B. Melatih kemandirian ekonomi dan kerja sama antaranggota untuk kesejahteraan bersama",
+            "C. Memberikan pinjaman uang dengan bunga yang sangat tinggi agar koperasi cepat kaya",
+            "D. Menguasai seluruh perdagangan di lingkungan madrasah agar toko lain bangkrut"
+        ],
+        correct: 1
+    },
+    {
+        q: "9. Indonesia terletak di antara tiga lempeng tektonik besar, yaitu Lempeng Indo-Australia, Lempeng Eurasia, dan Lempeng Pasifik. Kondisi geologis ini menyebabkan Indonesia sering mengalami gempa bumi dan memiliki banyak gunung api aktif. Hikmah di balik fenomena alam yang tampak berbahaya ini bagi kehidupan masyarakat agraris di Indonesia adalah...",
+        options: [
+            "A. Masyarakat menjadi takut dan tidak mau lagi bertani di lereng gunung",
+            "B. Terbentuknya tanah vulkanik yang sangat subur untuk pertanian akibat material letusan gunung",
+            "C. Hilangnya sumber mata air karena terserap ke dalam retakan lempeng bumi",
+            "D. Terjadinya perubahan iklim secara mendadak yang membuat tanaman layu"
+        ],
+        correct: 1
+    },
+    {
+        q: "10. Dalam memanfaatkan sumber daya alam, manusia harus bertindak sebagai manajer (pengelola) yang jujur. Pengambilan hasil tambang secara berlebihan tanpa memperhatikan perbaikan lahan bekas tambang (reklamasi) merupakan tindakan yang melanggar etika lingkungan. Upaya yang paling tepat untuk memperbaiki lahan bekas tambang agar dapat berfungsi kembali adalah...",
+        options: [
+            "A. Menutup lahan tersebut dengan beton agar tidak terlihat berantakan",
+            "B. Melakukan penimbunan kembali dan reboisasi agar ekosistem pulih secara perlahan",
+            "C. Membiarkan lahan tersebut terbuka agar menjadi objek wisata lubang tambang",
+            "D. Menjadikan lahan tersebut sebagai tempat pembuangan sampah akhir (TPA)"
+        ],
+        correct: 1
+    },
+    {
+        q: "11. Pangeran Diponegoro adalah putra mahkota Kesultanan Yogyakarta yang memilih meninggalkan kemewahan istana untuk memimpin rakyat melawan penjajahan Belanda dalam Perang Jawa (1825-1830). Alasan utama beliau melakukan perlawanan bukan hanya karena masalah tanah, melainkan karena Belanda telah mencampuri urusan agama dan adat istiadat keraton. Nilai kepahlawanan yang dapat kita petik dari perjuangan Pangeran Diponegoro adalah...",
+        options: [
+            "A. Keinginan untuk menjadi raja tunggal di seluruh tanah Jawa",
+            "B. Keteguhan prinsip dalam membela kebenaran dan kesucian agama meski harus hidup menderita",
+            "C. Kerja sama yang baik dengan Belanda untuk mendapatkan senjata modern",
+            "D. Strategi untuk melarikan diri ke luar negeri saat posisi terdesak"
+        ],
+        correct: 1
+    },
+    {
+        q: "12. Keragaman suku bangsa di Indonesia merupakan takdir Allah yang tertuang dalam semboyan 'Bhinneka Tunggal Ika'. Di Madrasah, kita sering menemukan teman dari suku yang berbeda, seperti suku Minangkabau yang memiliki garis keturunan dari ibu (Matrilineal). Sikap yang paling tepat dalam menghadapi perbedaan adat istiadat antar suku di lingkungan sekolah adalah...",
+        options: [
+            "A. Menganggap adat suku sendiri sebagai yang paling benar dan paling mulia",
+            "B. Merasa malu berteman dengan orang yang memiliki dialek atau bahasa daerah yang kental",
+            "C. Saling menghormati dan memandang perbedaan sebagai kekayaan budaya bangsa yang harus dijaga",
+            "D. Meminta teman yang berbeda suku untuk meninggalkan adat istiadat mereka sepenuhnya"
+        ],
+        correct: 2
+    },
+    {
+        q: "13. Secara geografis, negara-negara di Asia Tenggara (ASEAN) memiliki kemiripan sebagai negara agraris karena terletak di jalur khatulistiwa. Thailand dikenal sebagai 'Lumbung Padi Asia Tenggara' karena produksi berasnya yang sangat besar dan berkualitas. Salah satu faktor utama yang mendukung majunya sektor pertanian di Thailand sehingga mampu mengekspor beras ke berbagai negara adalah...",
+        options: [
+            "A. Penggunaan tenaga kerja manusia secara besar-besaran tanpa bantuan mesin",
+            "B. Pengelolaan sistem irigasi yang sangat baik dan dukungan teknologi pertanian dari pemerintah",
+            "C. Wilayah Thailand yang seluruhnya terdiri dari pegunungan salju yang subur",
+            "D. Keputusan pemerintah Thailand untuk melarang rakyatnya bekerja di sektor industri"
+        ],
+        correct: 1
+    },
+    {
+        q: "14. Wali Songo menyebarkan agama Islam di Nusantara dengan cara yang sangat bijaksana, yaitu melalui pendekatan budaya (akulturasi). Salah satu contohnya adalah Menara Masjid Kudus yang memiliki bentuk menyerupai candi Hindu. Strategi dakwah yang mengedepankan toleransi dan kedamaian ini bertujuan agar...",
+        options: [
+            "A. Masyarakat tidak sadar bahwa mereka sebenarnya sudah berpindah agama",
+            "B. Ajaran Islam dapat diterima dengan mudah tanpa menimbulkan perpecahan di masyarakat",
+            "C. Budaya asli Indonesia hilang sepenuhnya dan diganti dengan budaya Arab",
+            "D. Masjid tersebut terlihat mewah sehingga menarik minat wisatawan asing"
+        ],
+        correct: 1
+    },
+    {
+        q: "15. Sumpah Pemuda pada 28 Oktober 1928 merupakan ikrar persatuan para pemuda dari berbagai daerah seperti Jong Java, Jong Sumatranen Bond, dan Jong Islamieten Bond. Ikrar ini membuktikan bahwa persatuan adalah kunci kekuatan sebuah bangsa. Dampak paling nyata dari peristiwa Sumpah Pemuda terhadap perjuangan kemerdekaan Indonesia adalah...",
+        options: [
+            "A. Berubahnya perjuangan yang semula bersifat kedaerahan menjadi perjuangan nasional yang bersatu",
+            "B. Belanda langsung memberikan kemerdekaan secara sukarela kepada pemuda Indonesia",
+            "C. Seluruh pemuda Indonesia memutuskan untuk berhenti belajar dan mulai angkat senjata",
+            "D. Terhapusnya seluruh bahasa daerah di Indonesia dan diganti dengan satu bahasa saja"
+        ],
+        correct: 0
+    },
+    {
+        q: "16. Allah SWT melarang umat-Nya melakukan monopoli yang merugikan orang banyak. Pada masa penjajahan, organisasi dagang Belanda (VOC) melakukan monopoli perdagangan rempah-rempah di Maluku. Rakyat dilarang menjual hasil buminya kepada pihak lain selain VOC dengan harga yang sangat murah. Dampak sosial dan ekonomi yang dirasakan rakyat akibat sistem monopoli ini adalah...",
+        options: [
+            "A. Rakyat menjadi lebih kaya karena hasil buminya pasti ada yang membeli",
+            "B. Rakyat mengalami kemiskinan dan penderitaan karena tidak memiliki kebebasan ekonomi",
+            "C. Hubungan antara rakyat dan pedagang asing menjadi semakin erat dan harmonis",
+            "D. Teknologi pertanian di Indonesia berkembang pesat mengikuti cara kerja Belanda"
+        ],
+        correct: 1
+    },
+    {
+        q: "17. Sultan Iskandar Muda membawa Kerajaan Aceh mencapai puncak kejayaannya. Aceh dikenal sebagai 'Serambi Mekkah' karena menjadi pusat pembelajaran agama Islam yang sangat penting di Asia Tenggara. Secara ekonomi, kekuatan Kerajaan Aceh saat itu bertumpu pada penguasaan jalur perdagangan di Selat Malaka. Komoditas unggulan Aceh yang sangat dicari di pasar internasional saat itu adalah...",
+        options: [
+            "A. Emas, perak, dan intan permata yang diambil dari dasar laut",
+            "B. Lada, sutra, dan rempah-rempah yang menjadi kebutuhan utama bangsa Barat",
+            "C. Padi dan jagung untuk mencukupi kebutuhan pangan penduduk Eropa",
+            "D. Bahan bakar minyak bumi yang sudah diolah dengan mesin modern"
+        ],
+        correct: 1
+    },
+    {
+        q: "18. Indonesia memiliki wilayah laut yang sangat luas (Negara Maritim). Sebagai warga negara yang beriman, kita harus menjaga kebersihan laut dari sampah plastik. Selain sebagai sumber pangan (ikan), salah satu peran strategis laut bagi ekonomi Indonesia sebagai jalur perdagangan dunia adalah...",
+        options: [
+            "A. Menjadi pemisah yang permanen agar rakyat antarpulau tidak bisa saling bertemu",
+            "B. Sebagai sarana transportasi laut yang menghubungkan pulau-pulau dan distribusi barang nasional",
+            "C. Tempat membuang limbah cair agar tidak mencemari daratan tempat tinggal manusia",
+            "D. Lokasi untuk membangun perumahan di atas air agar daratan tidak semakin sempit"
+        ],
+        correct: 1
+    },
+    {
+        q: "19. Tokoh pahlawan wanita dari Aceh, Cut Nyak Dhien, dikenal sebagai 'Ratu Jihad' karena keberaniannya memimpin pasukan melawan penjajah Belanda setelah suaminya gugur di medan perang. Semangat pantang menyerah yang beliau tunjukkan membuktikan bahwa dalam mempertahankan kebenaran dan tanah air...",
+        options: [
+            "A. Wanita tidak diperbolehkan ikut serta dalam perjuangan apa pun",
+            "B. Setiap warga negara, baik laki-laki maupun perempuan, memiliki tanggung jawab membela negara",
+            "C. Perjuangan hanya boleh dilakukan oleh mereka yang memiliki jabatan tinggi di istana",
+            "D. Kemenangan hanya bisa diraih jika kita memiliki pasukan yang jumlahnya jutaan"
+        ],
+        correct: 1
+    },
+    {
+        q: "20. Dalam sistem ekonomi nasional, BUMN (Badan Usaha Milik Negara) memiliki peran penting dalam mengelola cabang-cabang produksi yang menguasai hajat hidup orang banyak, seperti listrik (PLN) dan minyak bumi (Pertamina). Tujuan utama negara mengelola sumber daya vital tersebut sesuai amanat konstitusi dan nilai keadilan adalah...",
+        options: [
+            "A. Agar keuntungan perusahaan dapat dinikmati oleh para pengusaha kaya saja",
+            "B. Agar negara dapat menjual sumber daya tersebut dengan harga setinggi-tingginya",
+            "C. Untuk memastikan seluruh rakyat dapat menikmati hasil kekayaan alam secara merata dan terjangkau",
+            "D. Untuk menggaji para pegawai pemerintah agar memiliki gaya hidup yang mewah"
+        ],
+        correct: 2
+    },
+    {
+        q: "21. Dalam kegiatan perdagangan, Islam mengajarkan kita untuk menyempurnakan takaran dan timbangan. Seorang pedagang di pasar tradisional yang mengurangi timbangan demi keuntungan pribadi telah melakukan perbuatan zalim. Secara ekonomi sosial, jika banyak pedagang yang tidak jujur, maka dampak jangka panjang yang akan terjadi pada pasar tersebut adalah...",
+        options: [
+            "A. Keuntungan pedagang akan meningkat drastis setiap harinya",
+            "B. Hilangnya kepercayaan pembeli sehingga pasar menjadi sepi dan ekonomi lesu",
+            "C. Harga barang-barang di pasar tersebut akan menjadi paling murah",
+            "D. Pemerintah akan memberikan bantuan modal tambahan bagi pedagang tersebut"
+        ],
+        correct: 1
+    },
+    {
+        q: "22. Indonesia merupakan negara dengan jumlah penduduk terbesar ke-4 di dunia. Namun, persebaran penduduk di Indonesia masih tidak merata, di mana sebagian besar penduduk terkonsentrasi di Pulau Jawa. Upaya yang dilakukan pemerintah untuk meratakan jumlah penduduk agar pembangunan dapat menyentuh daerah-daerah terpencil di luar Pulau Jawa adalah melalui program...",
+        options: [
+            "A. Urbanisasi, yaitu perpindahan penduduk dari desa ke kota besar",
+            "B. Transmigrasi, yaitu perpindahan penduduk dari pulau yang padat ke pulau yang jarang penduduknya",
+            "C. Imigrasi, yaitu masuknya warga negara asing ke dalam wilayah Indonesia",
+            "D. Emigrasi, yaitu perpindahan penduduk Indonesia ke luar negeri untuk bekerja"
+        ],
+        correct: 1
+    },
+    {
+        q: "23. Keberagaman agama di Indonesia adalah kenyataan yang harus disikapi dengan toleransi (tasamuh). Di Bali, kita bisa melihat bangunan Masjid dan Pura yang letaknya berdekatan, namun masyarakatnya tetap hidup rukun berdampingan. Sikap toleransi antarumat beragama ini merupakan fondasi penting bagi bangsa Indonesia untuk...",
+        options: [
+            "A. Memaksakan satu agama agar dianut oleh seluruh penduduk tanpa terkecuali",
+            "B. Memperkuat persatuan dan kesatuan nasional agar tidak mudah terpecah belah",
+            "C. Menghapuskan seluruh perayaan hari besar keagamaan di Indonesia",
+            "D. Mengubah seluruh tempat ibadah menjadi bangunan yang bentuknya sama"
+        ],
+        correct: 1
+    },
+    {
+        q: "24. Kegiatan produksi adalah kegiatan menciptakan atau menambah nilai guna suatu barang. Seorang pengrajin di Desa Kasongan, Bantul, mengubah tanah liat yang murah menjadi gerabah dan keramik yang bernilai jual tinggi. Tindakan pengrajin tersebut mencerminkan pemanfaatan sumber daya alam yang kreatif dan bertanggung jawab, karena...",
+        options: [
+            "A. Menggunakan bahan kimia berbahaya agar keramik terlihat mengkilap",
+            "B. Mengubah bahan alam yang sederhana menjadi produk yang bermanfaat bagi ekonomi keluarga",
+            "C. Mengambil tanah liat dari lahan milik orang lain tanpa meminta izin",
+            "D. Membuang sisa-sisa tanah liat ke aliran sungai agar sungai menjadi dangkal"
+        ],
+        correct: 1
+    },
+    {
+        q: "25. Salah satu bentuk kerja sama ekonomi ASEAN adalah pembentukan AFTA (ASEAN Free Trade Area). Tujuan dari perdagangan bebas di kawasan Asia Tenggara ini adalah untuk meningkatkan daya saing ekonomi antarnegara anggota. Bagi Indonesia, peluang utama dari adanya kerja sama AFTA ini adalah...",
+        options: [
+            "A. Mempermudah barang-barang dari luar negeri masuk tanpa batas ke pasar lokal",
+            "B. Menjadi kesempatan bagi produk-produk asli Indonesia untuk dijual ke seluruh negara di Asia Tenggara",
+            "C. Melarang negara tetangga menjual produk yang sama dengan produk Indonesia",
+            "D. Menghapuskan penggunaan uang Rupiah dan menggantinya dengan mata uang asing"
+        ],
+        correct: 1
+    },
+    {
+        q: "26. Peta memiliki komponen-komponen penting agar dapat dibaca dengan benar, salah satunya adalah Skala Peta. Jika sebuah peta memiliki skala 1 : 100.000, hal ini berarti setiap 1 cm pada peta mewakili jarak 100.000 cm (1 km) pada jarak sebenarnya di lapangan. Fungsi utama dari adanya skala pada peta tersebut adalah...",
+        options: [
+            "A. Untuk memperindah tampilan peta agar terlihat lebih berwarna",
+            "B. Sebagai alat untuk menghitung perbandingan jarak di peta dengan jarak yang sesungguhnya di bumi",
+            "C. Menunjukkan arah mata angin agar pembaca peta tidak tersesat",
+            "D. Menjelaskan arti dari simbol-simbol warna yang ada pada peta"
+        ],
+        correct: 1
+    },
+    {
+        q: "27. Allah SWT menciptakan sungai sebagai jalur air yang sangat bermanfaat. Di kota Palembang, Sungai Musi dimanfaatkan sebagai sarana transportasi dan pusat perdagangan di atas perahu. Namun, saat ini banyak sungai yang tercemar karena limbah pabrik dan sampah rumah tangga. Cara paling efektif untuk mengembalikan fungsi sungai sebagai sumber kehidupan masyarakat adalah...",
+        options: [
+            "A. Menutup seluruh aliran sungai agar tidak terlihat kumuh",
+            "B. Melarang penduduk menggunakan air sungai untuk keperluan apa pun",
+            "C. Melakukan normalisasi sungai dan menumbuhkan kesadaran warga untuk tidak membuang sampah ke sungai",
+            "D. Memindahkan seluruh aliran sungai ke bawah tanah menggunakan pipa raksasa"
+        ],
+        correct: 2
+    },
+    {
+        q: "28. Pada masa penjajahan Jepang (1942-1945), rakyat Indonesia mengalami penderitaan akibat sistem kerja paksa yang disebut Romusha. Rakyat dipaksa bekerja membangun pangkalan militer dan jalan raya tanpa upah dan makanan yang cukup. Pengalaman pahit ini memberikan pelajaran berharga bagi bangsa Indonesia bahwa...",
+        options: [
+            "A. Penjajahan dalam bentuk apa pun sangat bertentangan dengan kemanusiaan dan harus dihapuskan",
+            "B. Bangsa Indonesia harus bekerja sama dengan penjajah agar tidak disiksa",
+            "C. Membangun infrastruktur negara memang harus dilakukan dengan cara paksaan",
+            "D. Kekuatan militer adalah satu-satunya hal yang paling penting dalam sebuah negara"
+        ],
+        correct: 0
+    },
+    {
+        q: "29. Uang merupakan alat tukar yang sah dalam kegiatan ekonomi. Sebelum mengenal uang, manusia menggunakan sistem Barter, yaitu menukar barang dengan barang. Namun, sistem barter memiliki banyak kelemahan karena sulit menemukan orang yang memiliki barang yang kita butuhkan sekaligus membutuhkan barang yang kita miliki. Syarat utama agar sebuah barang dapat dijadikan sebagai alat tukar (uang) adalah...",
+        options: [
+            "A. Harus memiliki warna yang cerah dan bentuk yang sangat besar",
+            "B. Harus diterima secara umum dan memiliki nilai yang stabil (tidak mudah rusak)",
+            "C. Hanya boleh dibuat dari bahan kertas yang sangat tipis agar mudah dibawa",
+            "D. Hanya boleh dimiliki oleh orang-orang yang kaya dan berkuasa saja"
+        ],
+        correct: 1
+    },
+    {
+        q: "30. Di era modern ini, belanja melalui internet (online shop) menjadi tren baru di kalangan masyarakat. Hal ini memudahkan manusia dalam memenuhi kebutuhan tanpa harus keluar rumah. Namun, sebagai santri yang taat, kita harus tetap menerapkan prinsip ekonomi yang sesuai syariah dalam belanja online, yaitu dengan cara...",
+        options: [
+            "A. Membeli semua barang yang sedang diskon meskipun tidak terlalu dibutuhkan",
+            "B. Memastikan kejujuran deskripsi barang, harga yang adil, dan tidak berlebih-lebihan dalam membeli",
+            "C. Membeli barang bermerk dari luar negeri agar dianggap sebagai orang sukses",
+            "D. Mencari celah untuk mendapatkan barang tanpa harus membayar kepada penjualnya"
+        ],
+        correct: 1
+    },
+    {
+        q: "31. Globalisasi membawa pengaruh besar terhadap gaya hidup masyarakat, termasuk masuknya makanan cepat saji (fast food) dari luar negeri. Sebagai upaya menjaga jati diri bangsa dan menghargai karunia Allah atas kekayaan alam Nusantara, tindakan yang paling tepat untuk dilakukan adalah...",
+        options: [
+            "A. Melarang semua jenis makanan asing masuk ke Indonesia secara paksa",
+            "B. Lebih mencintai dan mengonsumsi makanan tradisional yang sehat dan bergizi dari hasil bumi sendiri",
+            "C. Menganggap makanan tradisional sebagai makanan kelas bawah yang harus ditinggalkan",
+            "D. Mengganti seluruh menu makanan di kantin madrasah dengan menu luar negeri"
+        ],
+        correct: 1
+    },
+    {
+        q: "32. Salah satu masalah sosial yang sering muncul di kota-kota besar adalah kemacetan lalu lintas. Hal ini disebabkan oleh jumlah kendaraan pribadi yang tidak sebanding dengan luas jalan. Solusi yang paling tepat dan mencerminkan sikap peduli terhadap kepentingan umum sesuai nilai kemasyarakatan adalah...",
+        options: [
+            "A. Menghancurkan kendaraan milik orang lain agar jalanan menjadi sepi",
+            "B. Memperbanyak penggunaan transportasi umum dan mengurangi penggunaan kendaraan pribadi",
+            "C. Menutup semua jalan raya agar tidak ada lagi kendaraan yang bisa lewat",
+            "D. Membangun rumah di pinggir jalan raya agar lebih mudah bepergian"
+        ],
+        correct: 1
+    },
+    {
+        q: "33. Pada masa mempertahankan kemerdekaan, Indonesia tidak hanya berjuang melalui senjata (fisik), tetapi juga melalui jalur diplomasi atau perundingan. Perundingan yang dilakukan di atas kapal perang Amerika Serikat dan menghasilkan kesepakatan wilayah kekuasaan Indonesia yang semakin sempit adalah...",
+        options: [
+            "A. Perundingan Linggarjati",
+            "B. Perundingan Renville",
+            "C. Perjanjian Roem-Royen",
+            "D. Konferensi Meja Bundar (KMB)"
+        ],
+        correct: 1
+    },
+    {
+        q: "34. Indonesia memiliki kekayaan budaya berupa tari-tarian daerah yang gerakannya seringkali mengandung makna filosofis dan doa. Tari Saman dari Aceh, misalnya, dilakukan secara berkelompok dengan kekompakan yang tinggi. Nilai sosial yang paling utama tercermin dalam pertunjukan Tari Saman tersebut adalah...",
+        options: [
+            "A. Persaingan untuk menunjukkan siapa penari yang paling lincah",
+            "B. Kerja sama, kekompakan, dan kebersamaan dalam mencapai keharmonisan",
+            "C. Keinginan untuk mendapatkan pujian dari penonton luar negeri",
+            "D. Kesombongan atas kekayaan budaya daerah sendiri"
+        ],
+        correct: 1
+    },
+    {
+        q: "35. Allah SWT menciptakan matahari sebagai energi utama bagi bumi. Di era modern, manusia mulai beralih menggunakan energi alternatif seperti Pembangkit Listrik Tenaga Surya (PLTS). Penggunaan energi alternatif ini sangat penting bagi pembangunan ekonomi yang berkelanjutan karena...",
+        options: [
+            "A. Energi matahari tidak akan habis dan lebih ramah lingkungan dibandingkan bahan bakar fosil",
+            "B. Harga panel surya jauh lebih murah daripada harga sebutir beras",
+            "C. Energi matahari hanya dapat ditemukan di wilayah Indonesia saja",
+            "D. Menggunakan panel surya dapat membuat matahari bersinar lebih terang di malam hari"
+        ],
+        correct: 0
+    },
+    {
+        q: "36. Konferensi Meja Bundar (KMB) yang dilaksanakan di Den Haag, Belanda pada tahun 1949 merupakan tonggak sejarah yang sangat penting bagi bangsa Indonesia. Hasil utama dari perundingan KMB ini bagi kedaulatan negara kita adalah...",
+        options: [
+            "A. Belanda memberikan bantuan uang tunai yang sangat banyak kepada Indonesia",
+            "B. Belanda secara resmi mengakui kedaulatan Indonesia sebagai negara yang merdeka dan mandiri",
+            "C. Indonesia setuju untuk kembali dijajah oleh Belanda selama 50 tahun lagi",
+            "D. Seluruh wilayah Asia Tenggara secara resmi menjadi milik Indonesia"
+        ],
+        correct: 1
+    },
+    {
+        q: "37. Lingkungan sosial yang sehat adalah lingkungan yang bersih dari perundungan (bullying). Di lingkungan madrasah, jika kita melihat ada teman yang diejek karena perbedaan fisiknya, sikap yang mencerminkan akhlak mulia dan kepedulian sosial adalah...",
+        options: [
+            "A. Ikut mengejek agar dianggap setia kawan oleh teman-teman yang lain",
+            "B. Membela teman tersebut dan menasihati pengajak agar saling menghormati sebagai sesama ciptaan Allah",
+            "C. Pura-pura tidak tahu agar tidak ikut terlibat dalam masalah orang lain",
+            "D. Melaporkan teman yang diejek kepada guru agar dia diberi sanksi"
+        ],
+        correct: 1
+    },
+    {
+        q: "38. Perdagangan internasional antaranegara anggota ASEAN seringkali melibatkan pertukaran tenaga ahli. Indonesia mengirimkan tenaga ahli di bidang pertanian ke negara tetangga, sementara Indonesia mendatangkan tenaga ahli di bidang teknologi mesin. Kerja sama ini didasarkan pada prinsip...",
+        options: [
+            "A. Mencari kelemahan negara tetangga agar Indonesia bisa menguasainya",
+            "B. Saling melengkapi kebutuhan dan keunggulan sumber daya yang berbeda (Komplementer)",
+            "C. Memaksa negara tetangga untuk mengikuti cara kerja bangsa Indonesia",
+            "D. Mengurangi jumlah lapangan kerja bagi penduduk asli Indonesia"
+        ],
+        correct: 1
+    },
+    {
+        q: "39. Pahlawan nasional Raden Ajeng Kartini dikenal melalui perjuangannya dalam menuntut hak pendidikan bagi kaum perempuan di Indonesia. Surat-surat yang beliau tulis kepada teman-temannya di Belanda kemudian dikumpulkan dalam sebuah buku yang berjudul...",
+        options: [
+            "A. Habis Gelap Terbitlah Terang",
+            "B. Indonesia Menggugat",
+            "C. Di Bawah Bendera Revolusi",
+            "D. Max Havelaar"
+        ],
+        correct: 0
+    },
+    {
+        q: "40. Kegiatan ekonomi di pasar seringkali mengalami kenaikan harga barang kebutuhan pokok menjelang hari raya Idulfitri. Hal ini terjadi karena jumlah permintaan barang meningkat drastis sementara jumlah barang tetap atau berkurang. Sikap yang paling bijaksana sebagai konsumen agar tidak memperparah kondisi ekonomi tersebut adalah...",
+        options: [
+            "A. Membeli barang sebanyak mungkin (menimbun) agar tidak kehabisan di kemudian hari",
+            "B. Berbelanja secukupnya sesuai kebutuhan dan tidak berlebih-lebihan (israf)",
+            "C. Memaksa pedagang untuk menurunkan harga di bawah harga modal",
+            "D. Berhenti makan dan minum sepenuhnya agar tidak perlu belanja ke pasar"
+        ],
+        correct: 1
+    }
+];
+    let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} DARI ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        const box = document.getElementById('options-box'); box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+        
+        const btnStep = document.getElementById('btn-step');
+        if (current === bank.length - 1) btnStep.innerText = "SELESAI";
+        else btnStep.innerText = "SELANJUTNYA";
+
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            let cls = 'nav-item';
+            if(doubts[i]) cls += ' doubt'; else if(answers[i] !== null) cls += ' answered';
+            if(current === i) cls += ' active';
+            item.className = cls; item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } }
+    
+    function triggerFinish() {
+        const unsolved = answers.filter(a => a === null).length;
+        document.getElementById('modal-msg').innerText = unsolved > 0 ? `Masih ada ${unsolved} soal kosong. Yakin ingin selesai?` : `Yakin ingin mengirim jawaban sekarang?`;
+        document.getElementById('modal-container').style.display = 'flex';
+        document.getElementById('confirm-box').style.display = 'block';
+        document.getElementById('result-box').style.display = 'none';
+    }
+
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+    function finalSubmit() {
+        let correct = 0, wrong = 0, empty = 0;
+        answers.forEach((ans, i) => {
+            if(ans === null) empty++;
+            else if(ans === bank[i].correct) correct++;
+            else wrong++;
+        });
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((correct / bank.length) * 100);
+        document.getElementById('count-correct').innerText = correct;
+        document.getElementById('count-wrong').innerText = wrong;
+        document.getElementById('count-empty').innerText = empty;
+    }
+
+    setInterval(() => {
+        if(isStarted && timer > 0) {
+            timer--; let m = Math.floor(timer/60), s = timer%60;
+            document.getElementById('timer-text').innerText = `${m}:${s<10?'0'+s:s}`;
+        }
+    }, 1000);
+</script>
+</body>
+</html>

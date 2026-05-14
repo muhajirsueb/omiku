@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT OMI - Simulasi Matematika Paket 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --primary-deep: #0a3d0e; --primary-light: #1b5e20; --accent-gold: #fdd835; --danger: #be123c; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 15px; overflow: hidden; }
+
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .start-box i { font-size: 80px; color: var(--primary-light); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer;
+            transition: 0.3s; width: 100%;
+        }
+
+        .app-container { width: 100%; max-width: 1280px; height: 92vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 15px 35px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 45px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.6; margin-bottom: 35px; color: #1e293b; }
+        .options-grid { display: grid; gap: 15px; }
+        .option { padding: 20px 28px; border: 2px solid #f1f5f9; border-radius: 18px; cursor: pointer; transition: 0.3s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        
+        .sidebar { width: 340px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 25px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        
+        .action-bar { padding: 25px 45px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 16px 35px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .btn-prev { background: #f1f5f9; color: #64748b; }
+        .btn-doubt { background: #fef9c3; color: #854d0e; border: 2px solid #facc15; }
+        .btn-next-step { background: #0f172a; color: white; min-width: 200px; justify-content: center; }
+        .btn-finish-style { background: var(--primary-light); color: white; }
+        
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-book-open-reader"></i>
+        <h2>Simulasi Paket 2</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h2>Simulasi Matematika <span style="color: var(--accent-gold);">OMI Paket 2</span></h2>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 12px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 13px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav btn-prev" onclick="changeQ(-1)"><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+        <button class="btn-nav btn-doubt" onclick="toggleDoubt()"><i class="fa-solid fa-flag"></i> Ragu-Ragu</button>
+        <button class="btn-nav btn-next-step" id="btn-step" onclick="handleNextStep()">Selanjutnya <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 60px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:#f1f5f9;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span>Benar</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span>Salah</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span>Kosong</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_matematika.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE MENU</button>
+    </div>
+</div>
+
+<script>
+    // PROTEKSI TOMBOL BACK
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        if (isStarted) {
+            window.history.pushState(null, null, window.location.href);
+            alert("Selesaikan ujian terlebih dahulu!");
+        }
+    };
+
+    let current = 0, timer = 90 * 60, isStarted = false;
+
+    // DATA SOAL PAKET 2
+    const bank = [
+        {
+            q: "Pak Haji memiliki simpanan emas seberat 100 gram. Jika harga emas saat ini adalah Rp1.000.000 per gram dan zakat yang harus dikeluarkan adalah 2,5%, berapakah besar zakat yang harus dibayar Pak Haji?",
+            options: ["Rp2.000.000", "Rp2.250.000", "Rp2.500.000", "Rp3.000.000"],
+            correct: 2
+        },
+        {
+            q: "Satu juz dalam Al-Qur'an rata-rata terdiri dari 20 halaman. Jika Fatimah ingin mengkhatamkan 3 juz dalam 5 hari dengan jumlah halaman yang sama setiap harinya, berapa halaman yang harus dibaca Fatimah per hari?",
+            options: ["10 halaman", "12 halaman", "15 halaman", "20 halaman"],
+            correct: 1
+        },
+        {
+            q: "Lantai sebuah ruang kelas di Madrasah berbentuk persegi panjang dengan ukuran 6 m x 4 m. Lantai tersebut akan dipasang ubin berbentuk persegi berukuran 40 cm x 40 cm. Banyak ubin yang dibutuhkan adalah...",
+            options: ["150 buah", "200 buah", "100 buah", "250 buah"],
+            correct: 0
+        },
+        {
+            q: "Muazin A mengumandangkan azan setiap 12 menit sekali (saat latihan), sedangkan Muazin B setiap 15 menit sekali. Jika mereka mulai bersamaan pada pukul 08.00, pukul berapakah mereka akan mengumandangkan azan bersamaan untuk kedua kalinya?",
+            options: ["08.30", "09.00", "09.30", "10.00"],
+            correct: 1
+        },
+        {
+            q: "Harga seekor sapi untuk kurban adalah Rp21.000.000. Jika sapi tersebut dibeli dengan cara patungan oleh 7 orang secara merata, berapakah uang yang harus dikeluarkan oleh 3 orang dari kelompok tersebut?",
+            options: ["Rp3.000.000", "Rp6.000.000", "Rp9.000.000", "Rp12.000.000"],
+            correct: 2
+        },
+        {
+            q: "Perbandingan uang sedekah Hasan dan Husain adalah 3 : 5. Jika total uang sedekah mereka berdua adalah Rp40.000, berapakah besar uang sedekah Husain?",
+            options: ["Rp15.000", "Rp20.000", "Rp25.000", "Rp30.000"],
+            correct: 2
+        },
+        {
+            q: "Panitia zakat menerima kiriman beras sebanyak 5 karung. Setiap karung beratnya 50 kg. Jika beras tersebut dibagikan kepada mustahik masing-masing 2,5 kg, berapa banyak orang yang menerima beras tersebut?",
+            options: ["80 orang", "100 orang", "120 orang", "150 orang"],
+            correct: 1
+        },
+        {
+            q: "Di teras masjid terdapat 3 lampu hias. Lampu merah menyala tiap 2 detik, kuning tiap 3 detik, dan hijau tiap 4 detik. Berapa kali ketiga lampu menyala bersamaan dalam waktu 30 detik? (Tidak menghitung detik ke-0)",
+            options: ["2 kali", "3 kali", "4 kali", "5 kali"],
+            correct: 0
+        },
+        {
+            q: "Nabi Muhammad SAW lahir sekitar tahun 571 Masehi. Jika sekarang adalah tahun 2024 Masehi, berapa abad jarak waktu tersebut jika 1 abad adalah 100 tahun?",
+            options: ["14,53 abad", "15,53 abad", "13,53 abad", "16,53 abad"],
+            correct: 0
+        },
+        {
+            q: "Sebuah bak wudu berbentuk kubus dengan panjang rusuk bagian dalam 1 meter. Jika bak tersebut hanya terisi setengahnya, berapa liter air yang ada di dalam bak? (1 m³ = 1.000 liter)",
+            options: ["250 liter", "500 liter", "750 liter", "1.000 liter"],
+            correct: 1
+        },
+        {
+            q: "Toko buku 'Barokah' memberikan diskon 15% untuk setiap pembelian Al-Qur'an. Jika harga asli Al-Qur'an adalah Rp80.000, berapakah harga yang harus dibayar pembeli setelah diskon?",
+            options: ["Rp65.000", "Rp68.000", "Rp70.000", "Rp72.000"],
+            correct: 1
+        },
+        {
+            q: "Rata-rata tabungan harian 5 santri adalah Rp4.000. Setelah datang santri ke-6, rata-ratanya naik menjadi Rp4.500. Berapakah tabungan harian santri ke-6 tersebut?",
+            options: ["Rp5.000", "Rp6.000", "Rp7.000", "Rp8.000"],
+            correct: 2
+        },
+        {
+            q: "Umur kakek sekarang adalah 12 kali umur cucunya. Jika 2 tahun yang lalu umur cucunya adalah 4 tahun, berapakah umur kakek sekarang?",
+            options: ["48 tahun", "60 tahun", "72 tahun", "50 tahun"],
+            correct: 2
+        },
+        {
+            q: "Rombongan ziarah berangkat pukul 21.30 dan sampai di tujuan pukul 03.15 keesokan harinya. Berapa lama perjalanan rombongan tersebut?",
+            options: ["5 jam 15 menit", "5 jam 45 menit", "6 jam 15 menit", "6 jam 45 menit"],
+            correct: 1
+        },
+        {
+            q: "Panitia memiliki 42 kaleng biskuit dan 56 botol sirup. Akan dikemas ke dalam parsel dengan jumlah sama banyak tiap macamnya. Berapa jumlah botol sirup dalam setiap parsel?",
+            options: ["14 buah", "4 buah", "3 buah", "7 buah"],
+            correct: 1
+        },
+        {
+            q: "Seseorang menghadap ke arah Timur, lalu ia berputar 90 derajat searah jarum jam. Ke arah manakah ia menghadap sekarang?",
+            options: ["Utara", "Barat", "Selatan", "Timur Laut"],
+            correct: 2
+        },
+        {
+            q: "Hamid menghafal 2 ayat pada hari Senin, 4 ayat pada hari Selasa, 6 ayat pada hari Rabu, dan seterusnya mengikuti pola bilangan genap. Berapa total ayat yang dihafal Hamid selama 10 hari pertama?",
+            options: ["100 ayat", "110 ayat", "120 ayat", "90 ayat"],
+            correct: 1
+        },
+        {
+            q: "Kebun kurma berbentuk persegi panjang dengan keliling 100 meter. Jika lebarnya 20 meter, berapakah luas kebun tersebut?",
+            options: ["400 m²", "500 m²", "600 m²", "800 m²"],
+            correct: 2
+        },
+        {
+            q: "Dalam sebuah masjid terdapat 10 shaf. Shaf pertama berisi 30 orang, shaf kedua 28 orang, shaf ketiga 26 orang, dan seterusnya berkurang 2 orang tiap shaf. Berapa jumlah orang pada shaf terakhir (shaf ke-10)?",
+            options: ["10 orang", "12 orang", "14 orang", "8 orang"],
+            correct: 1
+        },
+        {
+            q: "Zahra memiliki hutang puasa sebanyak 14 hari. Jika ia mulai membayar hutang puasanya pada hari Senin secara berturut-turut (setiap hari), pada hari apakah ia akan menyelesaikannya?",
+            options: ["Minggu", "Senin", "Selasa", "Rabu"],
+            correct: 0
+        },
+        {
+            q: "Hasil panen kebun madrasah adalah 120 kg tomat. Sebanyak 20% diberikan ke warga sekitar, dan 1/4 dari sisanya dijual ke pasar. Berapakah sisa tomat yang ada sekarang?",
+            options: ["72 kg", "75 kg", "80 kg", "90 kg"],
+            correct: 0
+        },
+        {
+            q: "Seseorang berjalan kaki dari rumah ke masjid yang berjarak 1,2 km dengan kecepatan 4 km/jam. Berapa menit waktu yang ia butuhkan untuk sampai di masjid?",
+            options: ["15 menit", "18 menit", "20 menit", "25 menit"],
+            correct: 1
+        },
+        {
+            q: "Sebuah meja bundar di perpustakaan Madrasah memiliki diameter 1,4 meter. Berapakah luas permukaan meja tersebut? (Gunakan π = 22/7)",
+            options: ["1,54 m²", "3,08 m²", "6,16 m²", "0,77 m²"],
+            correct: 0
+        },
+        {
+            q: "Jika tanggal 1 Ramadan jatuh pada hari Jumat, maka tanggal 1 Syawal (tepat setelah 30 hari bulan Ramadan selesai) jatuh pada hari...",
+            options: ["Sabtu", "Minggu", "Senin", "Selasa"],
+            correct: 1
+        },
+        {
+            q: "Koperasi Madrasah membeli 2 lusin buku tulis dengan harga Rp72.000. Jika buku tersebut dijual kembali dengan harga Rp4.000 per buah, berapakah total keuntungan koperasi?",
+            options: ["Rp18.000", "Rp20.000", "Rp24.000", "Rp30.000"],
+            correct: 2
+        }
+    ];
+
+    let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} DARI ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        
+        const box = document.getElementById('options-box'); 
+        box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+
+        const btnStep = document.getElementById('btn-step');
+        if (current === bank.length - 1) {
+            btnStep.innerHTML = `Selesai <i class="fa-solid fa-check-double"></i>`;
+            btnStep.classList.add('btn-finish-style');
+        } else {
+            btnStep.innerHTML = `Selanjutnya <i class="fa-solid fa-arrow-right"></i>`;
+            btnStep.classList.remove('btn-finish-style');
+        }
+
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            let cls = 'nav-item';
+            if(doubts[i]) cls += ' doubt'; else if(answers[i] !== null) cls += ' answered';
+            if(current === i) cls += ' active';
+            item.className = cls; item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } else alert("Pilih jawaban dulu!"); }
+    
+    function triggerFinish() {
+        const unsolved = answers.filter(a => a === null).length;
+        document.getElementById('modal-msg').innerText = unsolved > 0 ? `Masih ada ${unsolved} soal kosong. Yakin selesai?` : `Yakin ingin mengirim jawaban?`;
+        document.getElementById('modal-container').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+    function finalSubmit() {
+        let correct = 0, wrong = 0, empty = 0;
+        answers.forEach((ans, i) => { 
+            if(ans === null) empty++;
+            else if(ans === bank[i].correct) correct++; 
+            else wrong++;
+        });
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((correct / bank.length) * 100);
+        document.getElementById('count-correct').innerText = correct;
+        document.getElementById('count-wrong').innerText = wrong;
+        document.getElementById('count-empty').innerText = empty;
+    }
+
+    setInterval(() => {
+        if(isStarted && timer > 0) {
+            timer--; let m = Math.floor(timer/60), s = timer%60;
+            document.getElementById('timer-text').innerText = `${m}:${s<10?'0'+s:s}`;
+        }
+    }, 1000);
+</script>
+</body>
+</html>

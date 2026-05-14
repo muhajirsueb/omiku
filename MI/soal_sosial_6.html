@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOSIAL MI - OMI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { 
+            --primary-deep: #0a3d0e; 
+            --primary-light: #1b5e20; 
+            --accent-gold: #fdd835; 
+            --danger: #be123c;
+            --sosial-theme: #5d4037; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+
+        /* POP-UP AWAL (START SCREEN) */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .start-box i { font-size: 80px; color: var(--sosial-theme); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(253, 216, 53, 0.3); }
+
+        /* APP CONTENT */
+        .app-container { width: 100%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #1e293b; }
+        .options-grid { display: grid; gap: 12px; }
+        .option { padding: 18px 25px; border: 2px solid #f1f5f9; border-radius: 15px; cursor: pointer; transition: 0.2s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        .sidebar { width: 280px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 15px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        .action-bar { padding: 15px 30px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; }
+        
+        /* MODAL & RESULT */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); line-height: 1; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-people-group"></i>
+        <h2>Sudah Siap?</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik. Kerjakan dengan jujur dan teliti.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h3>Simulasi Sosial <span style="color: var(--accent-gold);">OMI</span></h3>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 11px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav" style="background:#f1f5f9" onclick="changeQ(-1)">SEBELUMNYA</button>
+        <button class="btn-nav" style="background:#fef9c3; color:#854d0e; border:1px solid #facc15" onclick="toggleDoubt()">RAGU-RAGU</button>
+        <button class="btn-nav" id="btn-step" style="background:#0f172a; color:white; min-width:150px" onclick="handleNextStep()">SELANJUTNYA</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span style="font-size:11px; color:#64748b;">BENAR</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span style="font-size:11px; color:#64748b;">SALAH</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span style="font-size:11px; color:#64748b;">KOSONG</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_sosial.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE HALAMAN TRYOUT</button>
+    </div>
+</div>
+
+<script>
+    let current = 0, timer = 90 * 60, isStarted = false;
+    const bank = [
+    {
+        q: "1. Indonesia memiliki tiga zona waktu (WIB, WITA, WIT) yang didasarkan pada garis bujur. Secara ekonomi, perbedaan waktu ini memengaruhi jam operasional pasar modal dan distribusi barang secara nasional. Jika seorang santri di Makassar (WITA) ingin melakukan transaksi ekonomi digital dengan pedagang di Jakarta (WIB) pada pukul 08.00 pagi waktu Jakarta, maka santri tersebut harus bersiap pada pukul...",
+        options: [
+            "A. 07.00 pagi (Satu jam lebih lambat)",
+            "B. 09.00 pagi (Satu jam lebih cepat)",
+            "C. 10.00 pagi (Dua jam lebih cepat)",
+            "D. 08.00 pagi (Waktu yang sama di seluruh Indonesia)"
+        ],
+        correct: 1
+    },
+    {
+        q: "2. Posisi Indonesia yang berada di jalur khatulistiwa menyebabkan wilayahnya memiliki hutan hujan tropis yang sangat luas. Hutan ini berfungsi sebagai penyeimbang iklim dunia. Namun, saat ini banyak hutan dialihfungsikan menjadi perkebunan sawit. Dampak geografis yang paling dikhawatirkan dari hilangnya hutan hujan tropis bagi ekosistem global adalah...",
+        options: [
+            "A. Meningkatnya jumlah produksi oksigen di atmosfer bumi",
+            "B. Terganggunya siklus air dan percepatan pemanasan global akibat emisi karbon yang tinggi",
+            "C. Tanah menjadi semakin subur karena mendapatkan banyak sinar matahari langsung",
+            "D. Populasi hewan liar akan berpindah ke pemukiman warga secara teratur"
+        ],
+        correct: 1
+    },
+    {
+        q: "3. Sejarah mencatat bahwa Kesultanan Samudera Pasai merupakan kerajaan Islam pertama di Indonesia yang menjadi pusat studi agama dan perdagangan internasional. Letaknya yang berada di pintu masuk Selat Malaka menjadikannya sangat strategis. Faktor utama yang membuat kerajaan ini mampu bertahan dari pengaruh luar pada masa itu adalah...",
+        options: [
+            "A. Membangun tembok raksasa di sepanjang garis pantai untuk menghalau kapal asing",
+            "B. Memperkuat jaringan perdagangan yang adil dan berlandaskan hukum Islam (Syariah)",
+            "C. Mengasingkan diri dari pergaulan dengan pedagang-pedagang non-Muslim",
+            "D. Bergantung sepenuhnya pada bantuan militer dari kerajaan-kerajaan di Eropa"
+        ],
+        correct: 1
+    },
+    {
+        q: "4. Interaksi antarruang di ASEAN saat ini didorong oleh pilar ekonomi melalui kesepakatan MEA (Masyarakat Ekonomi ASEAN). Indonesia dengan jumlah penduduk terbesar memiliki pasar konsumsi yang luar biasa. Strategi ekonomi bangsa yang paling tepat agar kita tidak hanya menjadi \"penonton\" di negeri sendiri adalah...",
+        options: [
+            "A. Melarang semua produk dari negara ASEAN masuk ke pasar tradisional kita",
+            "B. Meningkatkan kualitas pendidikan dan daya saing produk lokal agar mampu diekspor ke negara tetangga",
+            "C. Meminta bantuan dana cuma-cuma dari negara-negara tetangga yang lebih maju",
+            "D. Mengubah seluruh mata uang ASEAN menjadi satu mata uang yang sama"
+        ],
+        correct: 1
+    },
+    {
+        q: "5. Allah SWT memberikan kekayaan alam berupa nikel, emas, dan tembaga di tanah Papua dan Sulawesi. Pengelolaan sumber daya alam ini harus memberikan manfaat bagi kesejahteraan rakyat sesuai Pasal 33 UUD 1945. Jika sebuah perusahaan tambang tidak memberikan kontribusi sosial bagi masyarakat sekitar, maka hal tersebut melanggar nilai...",
+        options: [
+            "A. Efisiensi ekonomi, karena keuntungan perusahaan adalah yang paling utama",
+            "B. Keadilan sosial dan tanggung jawab moral sebagai pengelola bumi (Khalifah)",
+            "C. Kemandirian bangsa, karena perusahaan asing bebas melakukan apa saja",
+            "D. Kebebasan pasar, di mana setiap orang boleh mengambil apa pun tanpa syarat"
+        ],
+        correct: 1
+    },
+    {
+        q: "6. Pada masa perjuangan kemerdekaan, muncul organisasi Sarekat Islam (SI) yang awalnya bertujuan membela pedagang pribumi dari persaingan pedagang asing. Strategi SI yang menggabungkan nilai agama dan ekonomi ini membuktikan bahwa...",
+        options: [
+            "A. Agama tidak bisa dipisahkan dari upaya mencapai kemandirian ekonomi dan kedaulatan bangsa",
+            "B. Perjuangan melawan penjajah hanya bisa dilakukan oleh para pedagang yang kaya raya",
+            "C. Organisasi ekonomi tidak perlu memikirkan masalah politik kemerdekaan",
+            "D. Pedagang asing harus diusir dari Indonesia menggunakan kekuatan militer secara langsung"
+        ],
+        correct: 0
+    },
+    {
+        q: "7. Bentang alam Indonesia terdiri dari ribuan pulau yang dipisahkan oleh laut. Sejarah membuktikan bahwa laut bagi nenek moyang kita adalah pemersatu, bukan pemisah. Konsep ini kemudian dituangkan dalam Deklarasi Djuanda. Makna penting dari deklarasi tersebut bagi keutuhan wilayah NKRI adalah...",
+        options: [
+            "A. Menjadikan laut di antara pulau-pulau sebagai wilayah perairan pedalaman Indonesia",
+            "B. Memperbolehkan kapal asing mengambil ikan di laut mana pun tanpa izin",
+            "C. Membagi wilayah Indonesia menjadi negara-negara bagian yang kecil",
+            "D. Menghapuskan seluruh batas wilayah laut antara Indonesia dengan negara tetangga"
+        ],
+        correct: 0
+    },
+    {
+        q: "8. Koperasi merupakan pilar ekonomi yang sangat memperhatikan kesejahteraan anggotanya melalui sistem bagi hasil yang adil. Di tengah gempuran pasar modern, koperasi madrasah tetap bertahan karena memiliki keunggulan sosiologis, yaitu...",
+        options: [
+            "A. Mendapatkan modal tanpa batas dari pemerintah secara rutin",
+            "B. Adanya rasa memiliki dan kerja sama antarwarga madrasah untuk kebutuhan bersama",
+            "C. Harganya selalu jauh lebih murah dibandingkan harga modal barang",
+            "D. Koperasi tidak perlu membayar pajak kepada negara sama sekali"
+        ],
+        correct: 1
+    },
+    {
+        q: "9. Globalisasi menyebabkan terjadinya \"Akulturasi\" budaya, seperti musik religi yang menggunakan alat musik modern. Namun, globalisasi juga membawa risiko \"Westernisasi\". Cara santri menjaga keseimbangan antara kemajuan zaman dan nilai agama adalah...",
+        options: [
+            "A. Menutup diri dari seluruh teknologi informasi yang berasal dari luar negeri",
+            "B. Mengambil ilmu pengetahuan dan teknologi yang bermanfaat tanpa merusak akidah dan akhlak",
+            "C. Meniru gaya hidup luar negeri agar dianggap sebagai orang yang modern",
+            "D. Meminta semua orang asing untuk meninggalkan budaya mereka saat masuk ke Indonesia"
+        ],
+        correct: 1
+    },
+    {
+        q: "10. Dinamika penduduk Indonesia ditandai dengan angka kelahiran yang masih cukup tinggi. Jika pertumbuhan penduduk ini tidak diimbangi dengan ketersediaan lapangan kerja, maka akan muncul masalah \"Pengangguran Terstruktur\". Solusi jangka panjang yang sesuai dengan semangat kerja keras dalam Islam adalah...",
+        options: [
+            "A. Memberikan bantuan sosial berupa uang tunai seumur hidup kepada pengangguran",
+            "B. Mendorong tumbuhnya kewirausahaan (Entrepreneurship) yang kreatif dan mandiri di kalangan pemuda",
+            "C. Membatasi jumlah orang yang boleh menempuh pendidikan tinggi di madrasah",
+            "D. Mewajibkan seluruh penduduk untuk pindah ke luar negeri agar beban negara berkurang"
+        ],
+        correct: 1
+    },
+    {
+        q: "11. Sultan Agung dari Mataram merupakan pemimpin yang sangat memperhatikan ketahanan pangan dengan membangun sistem lumbung padi di jalur-jalur perjuangannya saat menyerang VOC. Pelajaran dari strategi ini adalah bahwa kedaulatan sebuah negara sangat bergantung pada...",
+        options: [
+            "A. Jumlah senjata api yang dibeli dari negara-negara tetangga",
+            "B. Kemampuan bangsa tersebut dalam mencukupi kebutuhan pangannya sendiri (Kemandirian Pangan)",
+            "C. Luasnya wilayah jajahan yang dimiliki di luar pulau Jawa",
+            "D. Kesediaan pemimpin untuk menyerah jika persediaan makanan mulai menipis"
+        ],
+        correct: 1
+    },
+    {
+        q: "12. Peta persebaran sumber daya alam menunjukkan bahwa distribusi kekayaan alam di Indonesia tidak merata. Sebagai contoh, Papua kaya emas, Kalimantan kaya batu bara, dan Jawa kaya hasil pertanian. Berdasarkan prinsip keadilan ekonomi nasional, cara terbaik menyikapi ketidakmerataan ini adalah...",
+        options: [
+            "A. Setiap daerah hanya boleh menggunakan kekayaannya untuk daerahnya sendiri saja",
+            "B. Melakukan pertukaran sumber daya melalui perdagangan antarpulau untuk kemakmuran bersama seluruh rakyat Indonesia",
+            "C. Meminta daerah yang miskin sumber daya untuk berpindah tempat tinggal ke daerah yang kaya",
+            "D. Memberikan hak pengelolaan seluruh kekayaan alam kepada pihak asing agar lebih efisien"
+        ],
+        correct: 1
+    },
+    {
+        q: "13. Di era media sosial, muncul istilah \"Filter Bubble\" di mana seseorang hanya mendapatkan informasi yang ia sukai saja, sehingga ia sulit menerima perbedaan pendapat. Sikap moderasi beragama (Wasathiyah) yang harus diterapkan santri dalam menghadapi perbedaan pandangan di dunia digital adalah...",
+        options: [
+            "A. Memblokir semua orang yang memiliki pendapat berbeda dengan kita",
+            "B. Berdiskusi secara sehat, saling menghargai, dan selalu mengutamakan persatuan bangsa",
+            "C. Ikut memprovokasi orang lain agar membenci kelompok yang berbeda pendapat",
+            "D. Tidak peduli sama sekali terhadap masalah sosial yang terjadi di internet"
+        ],
+        correct: 1
+    },
+    {
+        q: "14. Pahlawan nasional dari Aceh, Teuku Umar, pernah menggunakan strategi berpura-pura bekerja sama dengan Belanda untuk mendapatkan senjata dan informasi sebelum akhirnya kembali menyerang Belanda. Hal ini membuktikan bahwa perjuangan kemerdekaan membutuhkan...",
+        options: [
+            "A. Sikap plin-plan dalam mengambil keputusan penting bagi rakyat",
+            "B. Kecerdasan strategi dan keberanian yang tinggi untuk mengecoh lawan demi tujuan mulia",
+            "C. Kerja sama yang tulus dengan penjajah agar mendapatkan kedudukan tinggi",
+            "D. Keinginan untuk mencari kekayaan pribadi di tengah penderitaan rakyat"
+        ],
+        correct: 1
+    },
+    {
+        q: "15. Inflasi yang tidak terkendali dapat menyebabkan daya beli masyarakat menurun drastis. Salah satu penyebab inflasi adalah jumlah uang yang beredar terlalu banyak sedangkan barang yang tersedia sedikit. Tindakan pemerintah yang paling bijaksana sesuai dengan prinsip keadilan ekonomi adalah...",
+        options: [
+            "A. Mencetak uang sebanyak-banyaknya untuk dibagikan kepada rakyat miskin",
+            "B. Mengendalikan jumlah uang beredar dan menjaga kelancaran distribusi barang kebutuhan pokok",
+            "C. Membiarkan harga-harga naik sendiri sampai masyarakat tidak sanggup membeli",
+            "D. Menaikkan harga barang-barang milik negara setinggi-tingginya untuk menambah modal"
+        ],
+        correct: 1
+    },
+    {
+        q: "16. Salah satu ciri negara maju adalah memiliki tingkat literasi dan kualitas sumber daya manusia (SDM) yang tinggi. Indonesia sedang menuju visi Indonesia Emas 2045. Kontribusi santri dalam mewujudkan visi tersebut melalui jalur pendidikan IPS adalah...",
+        options: [
+            "A. Mempelajari sejarah bangsa hanya untuk sekadar lulus ujian di madrasah",
+            "B. Memahami dinamika dunia dan mempersiapkan diri menjadi generasi yang profesional serta berakhlak mulia",
+            "C. Menunggu sampai tahun 2045 tiba tanpa melakukan persiapan apa pun",
+            "D. Meniru semua sistem pendidikan dari negara maju tanpa mempedulikan budaya asli"
+        ],
+        correct: 1
+    },
+    {
+        q: "17. Perhatikan peta ASEAN. Singapura merupakan satu-satunya negara maju di kawasan ini namun tidak memiliki sumber daya alam yang luas. Keunggulan Singapura terletak pada posisinya sebagai \"Hub\" (pusat) perdagangan dan jasa internasional. Pelajaran ekonomi bagi Indonesia dari keberhasilan Singapura adalah...",
+        options: [
+            "A. Kita tidak perlu menjaga kekayaan alam karena perdagangan lebih menguntungkan",
+            "B. Pentingnya mengelola lokasi strategis dan meningkatkan kualitas pelayanan jasa serta SDM yang unggul",
+            "C. Indonesia harus membeli seluruh wilayah Singapura agar menjadi negara maju",
+            "D. Negara tanpa sumber daya alam tidak mungkin bisa bekerja sama dengan Indonesia"
+        ],
+        correct: 1
+    },
+    {
+        q: "18. Perlawanan rakyat Indonesia terhadap penjajah di berbagai daerah seringkali gagal karena senjata yang tidak seimbang. Namun, setelah peristiwa Sumpah Pemuda, perjuangan berubah menjadi organisasi politik. Perubahan taktik ini menunjukkan bahwa para pejuang menyadari bahwa...",
+        options: [
+            "A. Senjata fisik tidak lagi berguna dalam perjuangan kemerdekaan",
+            "B. Persatuan nasional dan kekuatan pemikiran jauh lebih efektif dalam melawan penjajahan modern",
+            "C. Belanda akan memberikan kemerdekaan jika kita membuat banyak organisasi",
+            "D. Hanya kaum terpelajar saja yang boleh ikut berjuang melawan penjajah"
+        ],
+        correct: 1
+    },
+    {
+        q: "19. Penggunaan energi alternatif seperti biogas yang berasal dari kotoran ternak di pedesaan merupakan penerapan ekonomi kreatif berbasis lingkungan. Tindakan ini mencerminkan sikap seorang muslim yang peduli terhadap kelestarian bumi karena...",
+        options: [
+            "A. Mengurangi ketergantungan pada energi fosil yang mahal dan polutif serta memanfaatkan limbah menjadi manfaat",
+            "B. Biogas dapat menghasilkan uang yang jauh lebih banyak daripada hasil pertanian",
+            "C. Membuat peternak tidak perlu lagi membersihkan kandang hewan ternaknya",
+            "D. Dapat menunjukkan kepada dunia bahwa Indonesia adalah negara paling kreatif"
+        ],
+        correct: 0
+    },
+    {
+        q: "20. Pancasila merupakan ideologi terbuka yang mampu menyerap nilai-nilai kemajuan tanpa meninggalkan kepribadian bangsa. Sebagai santri, cara kita mengamalkan Sila Pertama \"Ketuhanan Yang Maha Esa\" dalam kehidupan berbangsa dan bernegara adalah...",
+        options: [
+            "A. Memaksakan keyakinan kita kepada orang lain yang berbeda agama",
+            "B. Menjadikan nilai-nilai agama sebagai landasan dalam berperilaku jujur, adil, dan menghormati sesama manusia",
+            "C. Tidak mau bergaul dengan orang yang tidak seagama dalam urusan duniawi",
+            "D. Menganggap bahwa urusan negara tidak ada hubungannya dengan ajaran agama"
+        ],
+        correct: 1
+    },
+    {
+        q: "21. Allah SWT berfirman dalam Al-Qur'an bahwa \"Kekayaan jangan hanya beredar di antara orang-orang kaya saja\". Dalam konsep ekonomi IPS, hal ini berkaitan dengan pemerataan pendapatan. Upaya pemerintah dalam mendistribusikan kekayaan negara agar dapat dirasakan oleh masyarakat di pelosok desa melalui pembangunan jembatan dan jalan raya merupakan bentuk dari...",
+        options: [
+            "A. Monopoli ekonomi oleh pemerintah pusat",
+            "B. Redistribusi pendapatan untuk keadilan sosial",
+            "C. Persaingan usaha tidak sehat antarwilayah",
+            "D. Pemborosan anggaran negara untuk fasilitas umum"
+        ],
+        correct: 1
+    },
+    {
+        q: "22. Perjuangan kemerdekaan Indonesia tidak lepas dari peran diplomasi di luar negeri. Salah satu keberhasilan besar adalah saat Mesir menjadi negara pertama yang mengakui kemerdekaan Indonesia. Secara sosiologis-historis, dukungan ini muncul karena adanya ikatan kuat, yaitu...",
+        options: [
+            "A. Persamaan kepentingan militer untuk menguasai jalur laut",
+            "B. Ikatan persaudaraan sesama muslim (Ukhuwah Islamiyah) dan nasib sebagai bangsa terjajah",
+            "C. Perjanjian rahasia untuk membagi hasil rempah-rempah Indonesia",
+            "D. Keinginan Mesir untuk menjadikan Indonesia sebagai bagian dari wilayahnya"
+        ],
+        correct: 1
+    },
+    {
+        q: "23. Globalisasi membawa tren \"Fast Fashion\" atau pakaian murah yang berganti model dengan cepat. Hal ini memicu perilaku konsumtif dan menghasilkan limbah tekstil yang mencemari bumi. Sebagai santri yang menerapkan prinsip Qana'ah (merasa cukup), tindakan yang paling bijak dalam menyikapi tren ini adalah...",
+        options: [
+            "A. Selalu membeli pakaian terbaru agar dianggap sebagai santri yang modern",
+            "B. Membeli pakaian sesuai kebutuhan dan memilih bahan yang awet serta ramah lingkungan",
+            "C. Mengharamkan penggunaan pakaian yang diproduksi oleh mesin modern",
+            "D. Meminta orang tua untuk mengganti seluruh isi lemari setiap bulan"
+        ],
+        correct: 1
+    },
+    {
+        q: "24. Dalam geografi sosiologis, kita mengenal \"Interaksi Desa-Kota\". Desa menyediakan bahan pangan, sedangkan kota menyediakan barang industri. Namun, jika pemuda desa semuanya pergi ke kota (urbanisasi) karena gengsi, maka dampak yang paling membahayakan bagi ketahanan pangan bangsa adalah...",
+        options: [
+            "A. Melimpahnya hasil pertanian karena tidak ada yang memakannya di desa",
+            "B. Terbengkalainya lahan pertanian di desa karena kekurangan tenaga kerja produktif",
+            "C. Meningkatnya harga barang-barang industri di perkotaan secara mendadak",
+            "D. Desa akan menjadi kota baru yang penuh dengan gedung pencakar langit"
+        ],
+        correct: 1
+    },
+    {
+        q: "25. Salah satu pahlawan diplomasi Indonesia yang dikenal sangat sederhana dan cerdas adalah Haji Agus Salim. Beliau mampu menguasai banyak bahasa asing dan dijuluki \"The Grand Old Man\". Keteladanan beliau mengajarkan kepada kita bahwa diplomasi untuk membela negara harus didasari oleh...",
+        options: [
+            "A. Kekayaan harta yang melimpah untuk menyuap musuh",
+            "B. Kecerdasan intelektual, integritas moral, and keberanian dalam kebenaran",
+            "C. Kesediaan untuk mengikuti semua keinginan negara penjajah",
+            "D. Strategi untuk selalu menghindar dari setiap perundingan yang sulit"
+        ],
+        correct: 1
+    },
+    {
+        q: "26. Perhatikan fenomena \"Pasar Digital\" atau E-commerce. Hal ini memungkinkan santri di pelosok daerah menjual produk kerajinan madrasahnya ke seluruh dunia. Namun, Islam menekankan pentingnya Khiyar (hak pilih) dan kejujuran barang. Dampak positif dari digitalisasi ekonomi bagi UMKM di Indonesia adalah...",
+        options: [
+            "A. Menghilangkan kebutuhan untuk bersikap jujur karena pembeli tidak melihat langsung",
+            "B. Memperluas jangkauan pasar tanpa terbatas jarak geografis dengan biaya yang lebih murah",
+            "C. Memperluas jangkauan pasar tanpa terbatas jarak geografis dengan biaya yang lebih murah",
+            "D. Mengharuskan semua pedagang untuk pindah tempat tinggal ke pusat kota"
+        ],
+        correct: 1
+    },
+    {
+        q: "27. Keberagaman flora dan fauna di Indonesia adalah bukti keagungan Allah yang harus dijaga dari kepunahan. Salah satu ancaman terbesar adalah perdagangan hewan langka secara ilegal. Tindakan yang mencerminkan rasa syukur sebagai warga negara yang beriman adalah...",
+        options: [
+            "A. Memelihara hewan langka di rumah sebagai koleksi pribadi yang mahal",
+            "B. Melaporkan perdagangan hewan ilegal dan mendukung pelestarian alam (Konservasi)",
+            "C. Membiarkan saja karena merasa hewan tidak ada hubungannya dengan manusia",
+            "D. Memburu hewan di hutan untuk dijadikan sebagai bahan makanan tambahan"
+        ],
+        correct: 1
+    },
+    {
+        q: "28. Pada masa Orde Baru, Indonesia pernah mencapai swasembada pangan (padi). Namun, seiring berjalannya waktu, Indonesia kembali melakukan impor beras. Analisis yang tepat untuk mengembalikan kedaulatan pangan sesuai dengan potensi geografi Indonesia adalah...",
+        options: [
+            "A. Bergantung pada bantuan bibit dan teknologi dari negara maju selamanya",
+            "B. Memberdayakan petani lokal dengan teknologi tepat guna dan menjaga lahan pertanian dari alih fungsi",
+            "C. Mengganti semua lahan pertanian dengan lahan industri yang lebih menguntungkan",
+            "D. Mewajibkan seluruh rakyat Indonesia untuk berhenti mengonsumsi nasi"
+        ],
+        correct: 1
+    },
+    {
+        q: "29. Kerja sama internasional di kawasan Asia Tenggara tidak hanya di bidang ekonomi, tetapi juga sosial-budaya melalui ASEAN Socio-Cultural Community. Salah satu tujuannya adalah penanggulangan kabut asap lintas batas. Hal ini menunjukkan bahwa masalah lingkungan...",
+        options: [
+            "A. Hanya menjadi tanggung jawab negara yang menjadi sumber asap saja",
+            "B. Merupakan tanggung jawab bersama karena alam tidak mengenal batas-batas politik negara",
+            "C. Harus diselesaikan dengan cara peperangan antarnegara tetangga",
+            "D. Tidak perlu diurus karena akan hilang dengan sendirinya saat musim hujan"
+        ],
+        correct: 1
+    },
+    {
+        q: "30. Sejarah mencatat perjuangan Dr. Sahardjo dalam mengubah istilah \"Penjara\" menjadi \"Lembaga Pemasyarakatan\". Hal ini didasari nilai bahwa manusia yang bersalah harus dibina agar kembali menjadi baik, bukan sekadar dihukum. Nilai ini sangat sejalan dengan konsep Islam tentang...",
+        options: [
+            "A. Qisas atau pembalasan yang setimpal tanpa ampun",
+            "B. Taubat dan rehabilitasi untuk memperbaiki diri menjadi insan kamil",
+            "C. Pemberian hukuman seumur hidup agar orang tersebut jera",
+            "D. Pengasingan orang yang bersalah ke luar wilayah negara"
+        ],
+        correct: 1
+    },
+    {
+        q: "31. Keragaman budaya di Indonesia seringkali memunculkan tradisi yang unik, seperti \"Sekaten\" di Yogyakarta untuk memperingati Maulid Nabi. Tradisi ini menggabungkan dakwah Islam dengan seni gamelan. Hal ini membuktikan bahwa...",
+        options: [
+            "A. Islam dapat berkembang dengan baik melalui pendekatan budaya yang harmonis",
+            "B. Budaya asli harus dimusnahkan agar agama Islam terlihat murni",
+            "C. Gamelan merupakan alat musik wajib yang harus ada di setiap masjid",
+            "D. Tradisi hanya boleh dilakukan oleh kalangan bangsawan istana saja"
+        ],
+        correct: 0
+    },
+    {
+        q: "32. Di era globalisasi, mobilitas penduduk antarnegara semakin tinggi. Banyak warga negara asing yang bekerja di Indonesia, begitu juga sebaliknya. Tantangan bagi santri agar tetap memiliki semangat \"Hubbul Wathan\" (Cinta Tanah Air) di tengah dunia yang tanpa batas adalah...",
+        options: [
+            "A. Membenci semua orang asing yang datang ke wilayah Indonesia",
+            "B. Memiliki kompetensi global namun tetap memegang teguh identitas dan nilai-nilai luhur bangsa",
+            "C. Menutup diri dan tidak mau mempelajari bahasa atau budaya asing sama sekali",
+            "D. Berpindah kewarganegaraan ke negara yang lebih makmur secara ekonomi"
+        ],
+        correct: 1
+    },
+    {
+        q: "33. Peta politik dunia menunjukkan perubahan batas negara akibat konflik. Indonesia melalui politik \"Bebas Aktif\" selalu mengupayakan perdamaian di Palestina. Peran Indonesia ini merupakan implementasi dari nilai...",
+        options: [
+            "A. Kemanusiaan yang adil dan beradab serta solidaritas sesama muslim",
+            "B. Keinginan untuk diakui sebagai pemimpin tertinggi di dunia Islam",
+            "C. Kepentingan ekonomi agar Indonesia mendapatkan minyak murah dari Palestina",
+            "D. Upaya untuk mencampuri urusan dalam negeri negara lain demi ketenaran"
+        ],
+        correct: 0
+    },
+    {
+        q: "34. Koperasi Syariah atau BMT seringkali memberikan pembiayaan tanpa jaminan yang berat bagi pedagang kecil. Prinsip ini didasarkan pada kepercayaan (Amanah). Jika seorang pedagang sengaja tidak membayar angsuran padahal ia mampu, maka ia telah merusak...",
+        options: [
+            "A. Sistem keuntungan perusahaan perbankan internasional",
+            "B. Kepercayaan dan keberlangsungan ekonomi umat yang berbasis tolong-menolong",
+            "C. Hak pemerintah dalam mengambil pajak dari koperasi tersebut",
+            "D. Hubungan diplomatik antara pedagang dengan pengusaha besar"
+        ],
+        correct: 1
+    },
+    {
+        q: "35. Salah satu pahlawan dari Papua yang sangat setia kepada NKRI dan namanya diabadikan di mata uang sepuluh ribu rupiah adalah Frans Kaisiepo. Beliau mempopulerkan nama \"IRIAN\" yang merupakan singkatan dari \"Ikut Republik Indonesia Anti Nederland\". Semangat beliau membuktikan bahwa...",
+        options: [
+            "A. Rakyat Papua ingin merdeka sebagai negara sendiri yang terpisah",
+            "B. Persatuan Indonesia mencakup seluruh wilayah dari Sabang sampai Merauke tanpa membedakan suku dan warna kulit",
+            "C. Perjuangan kemerdekaan hanya dilakukan oleh penduduk di Pulau Jawa saja",
+            "D. Nama sebuah wilayah tidak memiliki arti penting dalam sejarah perjuangan"
+        ],
+        correct: 1
+    },
+    {
+        q: "36. Dalam geografi fisik, kita mengenal fenomena \"Erosi\" atau pengikisan tanah. Di daerah pantai, erosi disebut Abrasi. Penanaman hutan bakau (Mangrove) adalah solusi alami untuk mencegah abrasi. Manfaat ekonomi sosiologis dari hutan bakau bagi masyarakat pesisir selain mencegah abrasi adalah...",
+        options: [
+            "A. Sebagai tempat membuang sampah agar tidak terlihat oleh wisatawan",
+            "B. Menjadi tempat berkembang biak ikan dan objek wisata alam yang meningkatkan pendapatan warga",
+            "C. Menghalangi nelayan agar tidak bisa pergi ke laut saat cuaca buruk",
+            "D. Membuat air laut menjadi tawar sehingga bisa langsung diminum warga"
+        ],
+        correct: 1
+    },
+    {
+        q: "37. Organisasi kesehatan dunia (WHO) menyatakan bahwa kesehatan lingkungan sangat memengaruhi kualitas hidup manusia. Dalam Islam, menjaga kebersihan adalah ibadah. Contoh tindakan santri dalam skala IPS yang berdampak pada kesehatan ekonomi masyarakat adalah...",
+        options: [
+            "A. Mengonsumsi makanan instan setiap hari agar hemat waktu dan uang",
+            "B. Melakukan kerja bakti membersihkan saluran air untuk mencegah banjir dan wabah penyakit",
+            "C. Membuang sampah medis ke tempat sampah umum agar cepat diangkut petugas",
+            "D. Membangun pabrik di tengah pemukiman warga agar warga mudah bekerja"
+        ],
+        correct: 1
+    },
+    {
+        q: "38. Perundingan Konferensi Meja Bundar (KMB) merupakan titik balik di mana Belanda akhirnya mengakui kedaulatan Indonesia. Meskipun hasilnya pahit karena Indonesia harus menanggung utang, para pemimpin kita tetap menerimanya demi berhentinya pertumpahan darah. Sikap ini menunjukkan kepemimpinan yang...",
+        options: [
+            "A. Lemah karena takut menghadapi peperangan yang lebih lama",
+            "B. Bijaksana dan mengutamakan keselamatan rakyat serta kedaulatan bangsa jangka panjang",
+            "C. Tidak peduli pada kondisi ekonomi masa depan yang dibebani utang",
+            "D. Lebih memilih harta kekayaan daripada kemerdekaan wilayah"
+        ],
+        correct: 1
+    },
+    {
+        q: "39. Bonus Demografi adalah kondisi di mana usia produktif lebih banyak dari usia non-produktif. Jika santri saat ini tidak memiliki etos kerja \"Jihad Ekonomi\", maka bonus demografi akan menjadi bencana. Jihad ekonomi bagi seorang santri MI saat ini artinya...",
+        options: [
+            "A. Ikut berperang menggunakan senjata di medan laga melawan negara lain",
+            "B. Belajar dengan tekun, disiplin, dan jujur untuk menjadi ahli di bidangnya masing-masing demi kemajuan umat",
+            "C. Meminta-minta sumbangan untuk membangun madrasah yang mewah",
+            "D. Memaksa orang lain untuk membeli produk-produk buatan santri"
+        ],
+        correct: 1
+    },
+    {
+        q: "40. Akhir dari seluruh pembelajaran IPS adalah membentuk warga negara yang baik (Good Citizenship). Seorang santri yang baik adalah yang mampu menyeimbangkan kewajibannya kepada Allah (Hablumminallah) dan kewajibannya kepada sesama manusia serta negara (Hablumminannas). Penutup yang paling tepat untuk mencerminkan sikap ini adalah...",
+        options: [
+            "A. Menganggap diri paling benar dan orang lain salah",
+            "B. Menjadi pribadi yang bermanfaat bagi lingkungan, taat hukum, dan selalu menjaga kedamaian bangsa",
+            "C. Berhenti belajar jika sudah merasa pintar dalam ilmu agama",
+            "D. Fokus pada kepentingan diri sendiri tanpa peduli pada nasib bangsa Indonesia"
+        ],
+        correct: 1
+    }
+]
+    let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} DARI ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        const box = document.getElementById('options-box'); box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+        
+        const btnStep = document.getElementById('btn-step');
+        if (current === bank.length - 1) btnStep.innerText = "SELESAI";
+        else btnStep.innerText = "SELANJUTNYA";
+
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            let cls = 'nav-item';
+            if(doubts[i]) cls += ' doubt'; else if(answers[i] !== null) cls += ' answered';
+            if(current === i) cls += ' active';
+            item.className = cls; item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } }
+    
+    function triggerFinish() {
+        const unsolved = answers.filter(a => a === null).length;
+        document.getElementById('modal-msg').innerText = unsolved > 0 ? `Masih ada ${unsolved} soal kosong. Yakin ingin selesai?` : `Yakin ingin mengirim jawaban sekarang?`;
+        document.getElementById('modal-container').style.display = 'flex';
+        document.getElementById('confirm-box').style.display = 'block';
+        document.getElementById('result-box').style.display = 'none';
+    }
+
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+
+    function finalSubmit() {
+        let correct = 0, wrong = 0, empty = 0;
+        answers.forEach((ans, i) => {
+            if(ans === null) empty++;
+            else if(ans === bank[i].correct) correct++;
+            else wrong++;
+        });
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((correct / bank.length) * 100);
+        document.getElementById('count-correct').innerText = correct;
+        document.getElementById('count-wrong').innerText = wrong;
+        document.getElementById('count-empty').innerText = empty;
+    }
+
+    setInterval(() => {
+        if(isStarted && timer > 0) {
+            timer--; let m = Math.floor(timer/60), s = timer%60;
+            document.getElementById('timer-text').innerText = `${m}:${s<10?'0'+s:s}`;
+        }
+    }, 1000);
+</script>
+</body>
+</html>

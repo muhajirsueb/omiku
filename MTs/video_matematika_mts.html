@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Matematika MTs - OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 50%, #bbdefb 100%);
+            background-attachment: fixed; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 60px 20px;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 32px; font-weight: 800; color: white; text-transform: uppercase; margin-bottom: 10px; }
+        .sub-desc { color: #e3f2fd; font-weight: 700; font-size: 16px; }
+        .video-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+        .card-video {
+            background: white; border-radius: 25px; overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2); transition: 0.3s;
+        }
+        .card-video:hover { transform: translateY(-10px); }
+        .video-placeholder {
+            width: 100%; aspect-ratio: 16/9; background: #222;
+            display: flex; align-items: center; justify-content: center; color: white;
+        }
+        .info-video { padding: 25px; }
+        .info-video h3 { font-size: 20px; color: #0d47a1; margin-bottom: 10px; font-weight: 800; }
+        .info-video p { font-size: 14px; color: #555; line-height: 1.6; font-weight: 600; }
+        .btn-back {
+            text-decoration: none; background: white; color: #0d47a1;
+            padding: 18px 40px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+        .btn-back:hover { transform: scale(1.05); background: #0d47a1; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>VIDEO PENGAYAAN: MATEMATIKA MTs</h1>
+        <p class="sub-desc">Pilih video penjelasan yang paling mudah dipahami</p>
+    </div>
+    <div class="video-container">
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 1 ---</div>
+            <div class="info-video">
+                <h3>Konsep Dasar Aljabar</h3>
+                <p>Memahami variabel, konstanta, dan penyelesaian persamaan linear tingkat MTs.</p>
+            </div>
+        </div>
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 2 ---</div>
+            <div class="info-video">
+                <h3>Trik Teori Bilangan</h3>
+                <p>Cara cepat menyelesaikan soal KPK, FPB, dan sisa bagi pada olimpiade.</p>
+            </div>
+        </div>
+        <div class="card-video">
+            <div class="video-placeholder">--- Area Video 3 ---</div>
+            <div class="info-video">
+                <h3>Latihan Soal OMI</h3>
+                <p>Pembahasan soal asli olimpiade tahun sebelumnya khusus bab Matematika.</p>
+            </div>
+        </div>
+    </div>
+    <a href="materi_video_mts.html" class="btn-back">← Kembali ke Materi</a>
+</body>
+</html>

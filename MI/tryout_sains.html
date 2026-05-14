@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try Out Sains - OMI MI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #c6a700 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 60px 20px;
+            position: relative;
+        }
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.2); z-index: -1;
+        }
+        .header { text-align: center; margin-bottom: 50px; }
+        h1 { font-size: 36px; font-weight: 800; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-bottom: 10px; }
+        .sub-desc { font-size: 18px; color: #fdd835; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+        .tryout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1100px; width: 100%; margin-bottom: 60px; }
+        .card-to {
+            background: rgba(255, 255, 255, 0.95); border-radius: 25px; padding: 30px;
+            display: flex; align-items: center; gap: 20px; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .card-to:hover { transform: translateY(-10px); background: #ffffff; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border-color: #fdd835; }
+        .icon-box {
+            width: 70px; height: 70px; background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-radius: 18px; display: flex; justify-content: center; align-items: center;
+            font-size: 30px; color: #fdd835; box-shadow: 0 8px 15px rgba(27, 94, 32, 0.3);
+        }
+        .info-box { flex-grow: 1; }
+        .to-title { font-size: 22px; font-weight: 800; color: #2e7d32; margin-bottom: 4px; }
+        .to-status { font-size: 13px; font-weight: 700; color: #666; background: #f0f0f0; padding: 4px 12px; border-radius: 50px; display: inline-block; }
+        .btn-footer { width: 100%; text-align: center; }
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 45px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Simulasi Sains (IPA)</h1>
+        <p class="sub-desc">Uji pemahaman fenomena alam dan logika sainsmu</p>
+    </div>
+
+    <div class="tryout-grid">
+        <div class="card-to" onclick="location.href='soal_sains_1.html'">
+            <div class="icon-box"><i class="fa-solid fa-microscope"></i></div>
+            <div class="info-box"><div class="to-title">TRY OUT 1</div><div class="to-status">Level: Dasar</div></div>
+        </div>
+
+        <div class="card-to" onclick="location.href='soal_sains_2.html'">
+            <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
+            <div class="info-box"><div class="to-title">TRY OUT 2</div><div class="to-status">Level: Menengah</div></div>
+        </div>
+
+        <div class="card-to" onclick="location.href='soal_sains_3.html'">
+            <div class="icon-box"><i class="fa-solid fa-leaf"></i></div>
+            <div class="info-box"><div class="to-title">TRY OUT 3</div><div class="to-status">Level: Menengah</div></div>
+        </div>
+
+        <div class="card-to" onclick="location.href='soal_sains_4.html'">
+            <div class="icon-box"><i class="fa-solid fa-earth-asia"></i></div>
+            <div class="info-box"><div class="to-title">TRY OUT 4</div><div class="to-status">Level: Mahir</div></div>
+        </div>
+
+        <div class="card-to" onclick="location.href='soal_sains_5.html'">
+            <div class="icon-box"><i class="fa-solid fa-bolt"></i></div>
+            <div class="info-box"><div class="to-title">TRY OUT 5</div><div class="to-status">Level: HOTS</div></div>
+        </div>
+
+        <div class="card-to" onclick="location.href='soal_sains_6.html'">
+            <div class="icon-box"><i class="fa-solid fa-dna"></i></div>
+            <div class="info-box"><div class="to-title">TRY OUT 6</div><div class="to-status">Level: Finalis</div></div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="tryout_menu.html" class="btn-back">← Kembali ke Menu Mapel</a>
+    </div>
+</body>
+</html>

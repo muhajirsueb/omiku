@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sains MI Paket 6 - OMI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+     <style>
+        :root { 
+            --primary-deep: #0a3d0e; 
+            --primary-light: #1b5e20; 
+            --accent-gold: #fdd835; 
+            --danger: #be123c;
+            --sosial-theme: #5d4037; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background: var(--primary-deep); height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+
+        /* POP-UP AWAL (START SCREEN) */
+        #start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, var(--primary-deep) 0%, #1b5e20 100%);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+        }
+        .start-box {
+            background: white; padding: 50px; border-radius: 30px; text-align: center;
+            max-width: 500px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .start-box i { font-size: 80px; color: var(--sosial-theme); margin-bottom: 20px; }
+        .start-box h2 { color: var(--primary-deep); font-size: 28px; margin-bottom: 15px; }
+        .start-box p { color: #64748b; font-weight: 500; line-height: 1.6; margin-bottom: 30px; }
+        .btn-start {
+            background: var(--accent-gold); color: var(--primary-deep);
+            padding: 18px 40px; border-radius: 15px; border: none;
+            font-size: 20px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%;
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(253, 216, 53, 0.3); }
+
+        /* APP CONTENT */
+        .app-container { width: 100%; max-width: 1400px; height: 95vh; background: white; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 60px rgba(0,0,0,0.6); }
+        .header { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 70%, #fdd835 200%); color: white; padding: 10px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 5px solid var(--accent-gold); }
+        .timer { background: var(--accent-gold); color: var(--primary-deep); padding: 10px 25px; border-radius: 15px; font-weight: 900; font-size: 24px; display: flex; align-items: center; gap: 10px; }
+        .main-content { flex: 1; display: flex; overflow: hidden; }
+        .question-area { flex: 1; padding: 40px; overflow-y: auto; background: #ffffff; }
+        #question-text { font-size: 24px; font-weight: 700; line-height: 1.5; margin-bottom: 30px; color: #1e293b; }
+        .options-grid { display: grid; gap: 12px; }
+        .option { padding: 18px 25px; border: 2px solid #f1f5f9; border-radius: 15px; cursor: pointer; transition: 0.2s; font-weight: 600; display: flex; align-items: center; gap: 15px; background: #f8fafc; }
+        .option.selected { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+        .sidebar { width: 280px; background: #f8fafc; border-left: 1px solid #e2e8f0; padding: 15px; display: flex; flex-direction: column; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 15px 0; }
+        .nav-item { aspect-ratio: 1/1; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 800; cursor: pointer; background: white; }
+        .nav-item.active { border: 3px solid var(--primary-light); color: var(--primary-light); }
+        .nav-item.answered { background: #22c55e; color: white; border: none; }
+        .nav-item.doubt { background: #facc15; color: #854d0e; border: none; }
+        .action-bar { padding: 15px 30px; background: white; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; }
+        .btn-nav { padding: 12px 25px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer; }
+        
+        /* MODAL & RESULT */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .modal-box { background: white; padding: 40px; border-radius: 25px; max-width: 550px; width: 95%; text-align: center; }
+        .analysis-card { background: #f8fafc; border-radius: 15px; padding: 20px; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border: 1px solid #e2e8f0; }
+        .stat-val { font-size: 20px; font-weight: 800; display: block; }
+        .score-display { font-size: 80px; font-weight: 900; color: var(--primary-deep); line-height: 1; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div id="start-overlay">
+    <div class="start-box">
+        <i class="fa-solid fa-people-group"></i>
+        <h2>Sudah Siap?</h2>
+        <p>Berdoalah sebelum mengerjakan agar diberikan kemudahan dan hasil yang terbaik. Kerjakan dengan jujur dan teliti.</p>
+        <button class="btn-start" onclick="startExam()">MULAI MENGERJAKAN</button>
+    </div>
+</div>
+
+<div class="app-container">
+    <div class="header">
+        <h3>Simulasi Sains <span style="color: var(--accent-gold);">OMI</span></h3>
+        <div class="timer" id="timer-box"><i class="fa-solid fa-clock"></i> <span id="timer-text">90:00</span></div>
+    </div>
+
+    <div class="main-content">
+        <div class="question-area">
+            <p id="progress-indicator" style="font-weight: 800; color: var(--primary-light); text-transform: uppercase; font-size: 11px; margin-bottom: 10px;"></p>
+            <div id="question-text">Memuat Soal...</div>
+            <div class="options-grid" id="options-box"></div>
+        </div>
+
+        <div class="sidebar">
+            <h4 style="font-size: 11px; color: #94a3b8; text-transform: uppercase;">Peta Navigasi</h4>
+            <div class="nav-grid" id="nav-grid"></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn-nav" style="background:#f1f5f9" onclick="changeQ(-1)">SEBELUMNYA</button>
+        <button class="btn-nav" style="background:#fef9c3; color:#854d0e; border:1px solid #facc15" onclick="toggleDoubt()">RAGU-RAGU</button>
+        <button class="btn-nav" id="btn-step" style="background:#0f172a; color:white; min-width:150px" onclick="handleNextStep()">SELANJUTNYA</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-container">
+    <div class="modal-box" id="confirm-box">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 50px; color: var(--danger); margin-bottom: 20px;"></i>
+        <h2>Apakah Anda Yakin?</h2>
+        <p id="modal-msg" style="margin: 15px 0; color: #64748b; font-weight: 600;"></p>
+        <div style="display: flex; gap: 12px; margin-top: 30px;">
+            <button onclick="closeModal()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer;">BATAL</button>
+            <button onclick="finalSubmit()" style="flex:1; padding:15px; border-radius:12px; border:none; font-weight:800; cursor:pointer; background:var(--danger); color:white;">YA, SELESAI</button>
+        </div>
+    </div>
+
+    <div class="modal-box" id="result-box" style="display: none;">
+        <i class="fa-solid fa-trophy" style="font-size: 50px; color: var(--accent-gold); margin-bottom: 15px;"></i>
+        <h2 style="color: var(--primary-light);">HASIL UJIAN</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="analysis-card">
+            <div class="stat-item"><span class="stat-val" id="count-correct" style="color: #22c55e;">0</span><span style="font-size:11px; color:#64748b;">BENAR</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-wrong" style="color: #ef4444;">0</span><span style="font-size:11px; color:#64748b;">SALAH</span></div>
+            <div class="stat-item"><span class="stat-val" id="count-empty" style="color: #94a3b8;">0</span><span style="font-size:11px; color:#64748b;">KOSONG</span></div>
+        </div>
+        <button onclick="window.location.href='tryout_sains.html'" style="width:100%; padding:18px; border-radius:15px; border:none; background:var(--primary-light); color:white; font-weight:800; cursor:pointer;">KEMBALI KE HALAMAN TRYOUT</button>
+    </div>
+</div>
+
+<script>
+    let current = 0, timer = 90 * 60, isStarted = false;
+    const bank = [
+        { q: "1. Allah SWT menciptakan tubuh manusia dengan sistem metabolisme yang kompleks. Ketika seseorang melakukan aktivitas fisik yang sangat berat di bawah terik matahari, detak jantungnya meningkat secara signifikan dan frekuensi pernapasan menjadi lebih cepat. Secara analitis, hubungan antara meningkatnya detak jantung dengan frekuensi pernapasan ini bertujuan untuk...", options: ["Mempercepat pengeluaran energi cadangan dalam bentuk keringat agar tubuh tidak berat", "Menyeimbangkan tekanan udara di dalam paru-paru dengan tekanan udara di luar tubuh", "Mempercepat suplai oksigen ke otot dan mempercepat pembuangan karbon dioksida sisa pembakaran", "Mengurangi beban kerja ginjal dalam menyaring darah yang suhunya sedang meningkat"], correct: 2 },
+        { q: "2. Dalam sebuah eksperimen, seorang santri mengamati bahwa tanaman yang diletakkan di dalam kotak tertutup dengan lubang kecil di sisi kanan, lama-kelamaan batangnya akan tumbuh membengkok ke arah lubang tersebut. Fenomena ini disebut fototropisme. Secara fisiologis, hal ini terjadi karena hormon pertumbuhan (auksin) pada sisi batang yang tidak terkena cahaya akan...", options: ["Mengalami kerusakan sehingga pertumbuhan batang di sisi gelap terhenti total", "Bekerja lebih aktif sehingga sel-sel di sisi gelap tumbuh lebih cepat dan mendorong batang membengkok ke cahaya", "Berubah menjadi zat warna klorofil untuk membantu proses fotosintesis di tempat gelap", "Menguap keluar melalui lubang kotak sehingga batang tertarik oleh gaya gravitasi"], correct: 1 },
+        { q: "3. Allah menciptakan sifat cahaya yang dapat diuraikan (dispersi) dan dibiaskan. Pada fenomena terbentuknya pelangi, selain terjadi pembiasan dan penguraian cahaya oleh tetesan air hujan, juga terjadi proses pemantulan cahaya di dalam tetesan air tersebut. Urutan proses fisik yang tepat hingga mata kita melihat pelangi di langit adalah...", options: ["Pemantulan -> Penguraian -> Penyerapan cahaya oleh awan hitam", "Pembiasan -> Penguraian (Dispersi) -> Pemantulan Internal -> Pembiasan kembali", "Penyerapan -> Pembiasan -> Perambatan cahaya searah jarum jam", "Pemantulan -> Pembelokan -> Penggabungan berbagai warna menjadi cahaya putih"], correct: 1 },
+        { q: "4. Seorang santri sedang mempelajari hukum Pascal tentang tekanan zat cair. Ia melihat sebuah mesin hidrolik di bengkel yang dapat mengangkat mobil berat hanya dengan tekanan kecil pada piston yang kecil. Jika luas penampang piston kecil adalah 10 cm² dan piston besar 100 cm², maka gaya yang dihasilkan pada piston besar akan menjadi...", options: ["Sama besar dengan gaya yang diberikan pada piston kecil karena air tidak bisa dikompresi", "Sepuluh kali lebih besar dari gaya pada piston kecil, sesuai perbandingan luas penampangnya", "Sepuluh kali lebih kecil karena tekanan akan hilang saat merambat di dalam cairan", "Tidak menentu, tergantung pada jenis cairan yang digunakan di dalam mesin tersebut"], correct: 1 },
+        { q: "5. Di ekosistem hutan mangrove, terdapat bakteri pengurai yang hidup di dalam lumpur yang sangat miskin oksigen (anaerob). Bakteri ini berperan penting dalam siklus nitrogen. Jika keberadaan bakteri pengurai ini terganggu oleh limbah kimia, maka dampak yang paling merusak bagi keseimbangan ekosistem mangrove tersebut adalah...", options: ["Jumlah oksigen di udara pantai akan meningkat sangat drastis dan membahayakan burung", "Tumbuhan mangrove akan kekurangan nutrisi (zat hara) karena sampah organik tidak hancur menjadi mineral", "Kepiting bakau akan tumbuh lebih besar karena tidak ada bakteri yang mengganggunya", "Air laut akan menjadi tawar karena tidak ada proses penguraian garam oleh bakteri"], correct: 1 },
+        { q: "6. Allah SWT menciptakan telinga manusia yang hanya mampu mendengar bunyi dalam rentang 20 Hz hingga 20.000 Hz. Namun, teknologi kedokteran modern memanfaatkan bunyi dengan frekuensi di atas 20.000 Hz (ultrasonik) untuk melihat kondisi bayi di dalam rahim ibu (USG). Alasan utama penggunaan gelombang ultrasonik dalam USG, bukan sinar-X (Rontgen), adalah...", options: ["Gelombang ultrasonik memiliki biaya yang lebih murah dibandingkan energi nuklir pada sinar-X", "Gelombang ultrasonik lebih aman bagi janin karena tidak menggunakan radiasi ionisasi yang dapat merusak sel", "Bunyi ultrasonik dapat menghasilkan suara bayi yang sedang menangis di dalam kandungan", "Sinar-X tidak dapat menembus air ketuban yang melindungi janin di dalam rahim"], correct: 1 },
+        { q: "7. Perhatikan data planet berikut: (1) Memiliki cincin yang sangat indah, (2) Merupakan planet terbesar, (3) Terdiri dari gas hidrogen dan helium, (4) Memiliki banyak satelit alami. Karakteristik yang merujuk pada planet Yupiter sebagai 'Raja Para Planet' ciptaan Allah adalah...", options: ["(1) dan (3)", "(2) dan (4)", "(1) dan (2)", "(3) dan (4)"], correct: 1 },
+        { q: "8. Dalam sistem pencernaan, lemak adalah zat yang sulit larut dalam air. Allah menciptakan mekanisme khusus di mana lemak harus diemulsikan terlebih dahulu sebelum dihancurkan oleh enzim lipase. Proses emulsi lemak ini dilakukan oleh cairan empedu di dalam usus dua belas jari. Jika saluran empedu seseorang tersumbat, maka gangguan kesehatan yang akan muncul adalah...", options: ["Tubuh akan kelebihan energi karena lemak tidak dapat dibakar sama sekali", "Terjadi gangguan penyerapan vitamin yang larut dalam lemak (A, D, E, K) dan feses tampak berminyak", "Lambung akan memproduksi lebih banyak asam untuk menghancurkan lemak tersebut", "Kadar gula darah akan meningkat drastis karena lemak berubah menjadi glukosa"], correct: 1 },
+        { q: "9. Perubahan iklim global menyebabkan suhu rata-rata bumi meningkat. Hal ini mengakibatkan es di kutub mencair dan permukaan air laut naik. Secara sains, meningkatnya suhu bumi ini disebabkan oleh gas-gas seperti Karbon Dioksida (CO2) yang memerangkap panas matahari di atmosfer. Fenomena ini merupakan bentuk peringatan agar manusia tidak merusak alam, yang secara ilmiah disebut...", options: ["Efek Rumah Kaca (Greenhouse Effect)", "Penipisan Lapisan Ozon (Ozone Depletion)", "Hujan Asam (Acid Rain)", "Erupsi Magma (Volcanism)"], correct: 0 },
+        { q: "10. Allah menciptakan magnet bumi yang kutub-kutubnya terletak di dekat kutub geografis bumi. Seorang santri yang sedang melakukan penjelajahan di hutan menggunakan kompas untuk menentukan arah kiblat. Jarum kompas selalu menunjuk ke arah Utara-Selatan, namun posisi jarum tidak tepat sejajar dengan kutub geografis, melainkan membentuk sudut kecil. Sudut penyimpangan ini disebut...", options: ["Sudut Inklinasi, yaitu sudut antara jarum kompas dengan garis mendatar (horizontal)", "Sudut Deklinasi, yaitu sudut antara kutub utara magnet dengan kutub utara geografis", "Sudut Refraksi, yaitu sudut pembelokan jarum akibat tarikan gravitasi bumi", "Sudut Deviasi, yaitu sudut yang terbentuk saat cahaya melewati prisma kaca"], correct: 1 },
+        { q: "11. Pada sistem peredaran darah manusia, terdapat katup (valvula) yang memisahkan ruang-ruang jantung. Katup ini berfungsi memastikan agar darah mengalir ke satu arah dan tidak bercampur. Jika katup yang memisahkan serambi kiri dan bilik kiri mengalami kebocoran, dampak langsung yang dirasakan oleh tubuh adalah...", options: ["Darah kotor dari bilik kanan akan masuk ke dalam paru-paru secara tidak terkendali", "Darah yang sudah kaya oksigen akan kembali lagi ke serambi kiri sehingga suplai oksigen ke tubuh berkurang", "Tekanan darah di seluruh pembuluh nadi akan meningkat sangat tajam dan berbahaya", "Tubuh akan memproduksi lebih banyak sel darah putih untuk menambal kebocoran tersebut"], correct: 1 },
+        { q: "12. Tumbuhan xerofit seperti kaktus diciptakan Allah untuk hidup di lingkungan yang sangat gersang. Kaktus memiliki daun yang berbentuk duri, batang yang berdaging tebal untuk menyimpan air, dan akar yang sangat panjang. Modifikasi daun menjadi duri tersebut merupakan bentuk adaptasi untuk...", options: ["Menghasilkan makanan lebih banyak melalui proses fotosintesis di ujung duri", "Memperkecil penguapan air (transpirasi) agar cadangan air di batang tetap terjaga", "Menarik perhatian serangga agar membantu proses penyerbukan bunga kaktus", "Memudahkan kaktus dalam menyerap embun di malam hari melalui ujung duri yang tajam"], correct: 1 },
+        { q: "13. Energi listrik merupakan nikmat yang harus digunakan secara bijak. Di asrama, santri sering menggunakan setrika listrik. Perubahan energi yang terjadi pada setrika listrik adalah dari energi listrik menjadi energi panas melalui elemen pemanas. Elemen pemanas tersebut biasanya terbuat dari bahan nikrom yang memiliki sifat...", options: ["Konduktor yang sangat baik sehingga aliran listrik lancar tanpa hambatan", "Hambatan listrik (resistansi) yang tinggi sehingga menghasilkan panas saat dialiri listrik", "Isolator yang kuat agar santri tidak tersengat listrik saat memegang setrika", "Magnetik yang tinggi agar setrika menempel kuat pada pakaian yang sedang disetrika"], correct: 1 },
+        { q: "14. Perhatikan fenomena pemantulan bunyi berikut: (1) Mengukur kedalaman laut dengan sonar, (2) Mendeteksi kerusakan logam pada mesin, (3) Pemeriksaan janin dengan USG, (4) Terjadinya gaung di dalam gedung bioskop. Pemantulan bunyi yang bersifat merugikan dan harus diatasi dengan pemasangan alat peredam suara adalah nomor...", options: ["(1)", "(2)", "(3)", "(4)"], correct: 3 },
+        { q: "15. Allah SWT mengatur pergerakan Bulan sehingga manusia dapat menentukan penanggalan Hijriah. Bulan melakukan tiga gerakan sekaligus: rotasi pada porosnya, revolusi mengelilingi Bumi, dan bersama Bumi mengelilingi Matahari. Akibat dari revolusi Bulan terhadap Bumi yang paling sering kita amati setiap bulannya adalah...", options: ["Terjadinya perubahan musim dari musim kemarau ke musim penghujan", "Terjadinya perubahan fase-fase bulan (bulan sabit, purnama, bulan mati)", "Terjadinya perbedaan waktu siang dan malam yang sangat mencolok di kutub", "Terlihatnya rasi bintang yang berbeda-beda setiap malam di langit utara"], correct: 1 },
+        { q: "16. Di laboratorium madrasah, dilakukan pengujian terhadap empat jenis larutan menggunakan kertas lakmus. Larutan yang bersifat asam akan mengubah lakmus biru menjadi merah, sedangkan larutan basa akan mengubah lakmus merah menjadi biru. Jika sebuah larutan tidak mengubah warna kedua kertas lakmus, maka larutan tersebut bersifat...", options: ["Asam kuat, seperti cairan asam lambung di dalam tubuh kita", "Basa lemah, seperti sabun yang digunakan untuk mandi", "Netral, seperti air murni yang suci dan mensucikan", "Korosif, yang dapat merusak benda-benda logam di sekitarnya"], correct: 2 },
+        { q: "17. Gaya Lorentz adalah gaya yang timbul akibat interaksi antara medan magnet dan arus listrik. Prinsip gaya ini dimanfaatkan manusia untuk menciptakan alat-alat yang sangat membantu kehidupan asrama, contohnya adalah...", options: ["Dispenser, yang mengubah energi listrik menjadi energi panas untuk membuat kopi", "Kipas angin dan mesin cuci, yang mengubah energi listrik menjadi energi gerak (motor listrik)", "Lampu LED, yang mengubah energi listrik menjadi energi cahaya yang terang", "Kompor induksi, yang menggunakan medan magnet untuk memanaskan panci"], correct: 1 },
+        { q: "18. Allah menciptakan paru-paru kanan dengan tiga gelambir (lobus) dan paru-paru kiri dengan dua gelambir. Hal ini bertujuan untuk memberikan ruang bagi jantung yang posisinya agak condong ke kiri. Jika seseorang sering merokok atau menghirup polusi udara yang parah, kantong-kantong udara (alveolus) akan mengalami kerusakan dan pecah-pecah. Penyakit kerusakan alveolus ini disebut...", options: ["Asma, yaitu penyempitan saluran pernapasan akibat alergi", "TBC, yaitu infeksi paru-paru oleh bakteri Mycobacterium tuberculosis", "Emfisema, yaitu hilangnya elastisitas alveolus sehingga sesak napas kronis", "Influenza, yaitu infeksi saluran pernapasan bagian atas oleh virus"], correct: 2 },
+        { q: "19. Pada sebuah percobaan pesawat sederhana, seorang santri mencoba mengangkat beban seberat 600 N menggunakan sistem katrol majemuk yang memiliki 4 tali penyangga. Berapakah gaya (kuasa) minimum yang harus diberikan santri tersebut agar beban dapat terangkat?", options: ["600 N, karena jumlah tali tidak berpengaruh pada gaya tarik", "300 N, karena katrol hanya membagi beban menjadi dua bagian", "150 N, karena gaya beban dibagi oleh jumlah tali penyangga (600 / 4)", "2400 N, karena menggunakan banyak katrol justru menambah beban tarikan"], correct: 2 },
+        { q: "20. Keberadaan atmosfer sangat krusial bagi kehidupan. Salah satu lapisan atmosfer yang disebut Termosfer (Ionosfer) memiliki kemampuan untuk memantulkan gelombang radio. Hal ini memungkinkan manusia untuk melakukan komunikasi jarak jauh melalui radio dan televisi. Tanpa lapisan yang diciptakan Allah ini, maka...", options: ["Sinyal radio akan terus merambat ke luar angkasa dan tidak kembali ke bumi", "Suhu bumi akan menjadi sangat dingin karena panas matahari tidak terpantul", "Pesawat terbang tidak akan bisa terbang karena udara terlalu tipis", "Meteor akan jatuh ke pemukiman penduduk tanpa terbakar lebih dahulu"], correct: 0 },
+        { q: "21. Allah SWT menciptakan makhluk hidup dengan kemampuan regenerasi yang berbeda-beda. Dalam sebuah pengamatan di laboratorium, seorang santri memotong bagian tubuh cacing Planaria menjadi tiga bagian: kepala, badan, dan ekor. Setelah beberapa hari, tiap potongan tersebut tumbuh menjadi individu baru yang utuh. Cara perkembangbiakan vegetatif alami ini disebut...", options: ["Pertunasan, seperti yang terjadi pada hewan spons di lautan", "Fragmentasi, yaitu pembentukan individu baru dari potongan tubuh induknya", "Partenogenesis, yaitu perkembangan telur menjadi individu tanpa pembuahan", "Membelah diri, yaitu pembelahan sel inti menjadi dua bagian yang sama"], correct: 1 },
+        { q: "22. Dalam hukum genetika (Mendel), terdapat sifat dominan yang menutupi sifat resesif. Jika tanaman bunga mawar merah dominan (MM) disilangkan dengan bunga mawar putih resesif (mm), maka seluruh keturunan pertamanya (F1) akan memiliki fenotipe bunga berwarna merah dengan genotipe...", options: ["MM (Homozigot Dominan)", "mm (Homozigot Resesif)", "Mm (Heterozigot)", "Mp (Intermediet)"], correct: 2 },
+        { q: "23. Allah SWT menciptakan darah manusia dengan komponen-komponen yang memiliki fungsi spesifik. Di dalam plasma darah, terdapat protein khusus bernama fibrinogen. Saat kita terluka, fibrinogen akan berubah menjadi benang-benang fibrin atas bantuan enzim trombin dan kalsium. Fungsi utama dari pembentukan benang fibrin ini adalah...", options: ["Membunuh bakteri yang mencoba masuk melalui lubang luka", "Menutup luka dengan cara menjaring keping darah agar darah berhenti mengalir", "Memberikan rasa nyeri agar kita lebih berhati-hati saat beraktivitas", "Mengangkut sari-sari makanan menuju area kulit yang sedang rusak"], correct: 1 },
+        { q: "24. Perhatikan pemanfaatan energi alternatif berikut. Masyarakat di sekitar pesantren mulai memanfaatkan panel surya (photovoltaic) untuk menghasilkan listrik. Cara kerja panel surya yang diciptakan manusia ini terinspirasi dari kebesaran Allah pada tumbuhan, yaitu proses...", options: ["Respirasi, di mana energi kimia diubah menjadi energi gerak", "Fotosintesis, di mana energi cahaya matahari diubah menjadi energi kimia", "Transpirasi, di mana air diuapkan untuk menarik nutrisi ke atas", "Kapilaritas, di mana cairan mengalir melalui pembuluh-pembuluh kecil"], correct: 1 },
+        { q: "25. Bunyi pantul yang terdengar setelah bunyi asli selesai diucapkan disebut gema. Jika seorang santri berteriak di depan sebuah tebing yang jaraknya 170 meter, dan kecepatan bunyi di udara adalah 340 m/s, maka santri tersebut akan mendengar gema suaranya setelah...", options: ["0,5 detik", "1 detik", "2 detik", "4 detik"], correct: 1 },
+        { q: "26. Allah SWT menciptakan lensa mata yang dapat mencembung dan memipih. Namun, seiring bertambahnya usia, elastisitas lensa mata berkurang sehingga sulit melihat benda dekat maupun jauh (Presbiopi). Kelainan ini dapat dibantu dengan kacamata berlensa ganda (bifokal). Lensa bagian bawah pada kacamata tersebut berfungsi untuk...", options: ["Melihat benda jarak jauh (lensa cekung)", "Melihat benda jarak dekat atau membaca (lensa cembung)", "Menghalau sinar ultraviolet agar mata tidak perih", "Mengoreksi bayangan yang pecah akibat kelainan kornea"], correct: 1 },
+        { q: "27. Salah satu bentuk adaptasi tingkah laku adalah autotomi yang dilakukan oleh cicak saat merasa terancam oleh kucing di langit-langit asrama. Cicak memutuskan ekornya yang masih bisa bergerak-gerak untuk mengelabui musuh. Setelah ekornya putus, ekor tersebut dapat tumbuh kembali karena sel-sel cicak melakukan proses...", options: ["Hibernasi, yaitu tidur panjang untuk menghemat energi", "Mitosis, yaitu pembelahan sel untuk pertumbuhan dan perbaikan jaringan", "Meiosis, yaitu pembelahan sel khusus untuk menghasilkan sel kelamin", "Mutasi, yaitu perubahan sifat secara tiba-tiba akibat pengaruh lingkungan"], correct: 1 },
+        { q: "28. Planet Venus sering disebut sebagai 'Bintang Fajar' atau 'Bintang Kejora' karena tampak sangat terang di langit subuh sebelum matahari terbit. Meskipun Merkurius letaknya lebih dekat ke Matahari, Venus adalah planet yang paling panas di tata surya kita. Hal ini disebabkan oleh...", options: ["Venus memiliki banyak gunung berapi yang selalu meletus setiap saat", "Atmosfer Venus sangat tebal dan kaya karbon dioksida sehingga terjadi efek rumah kaca yang ekstrem", "Jarak Venus ke Matahari selalu berubah-ubah setiap menit", "Venus tidak memiliki satelit yang dapat mendinginkan suhu permukaannya"], correct: 1 },
+        { q: "29. Di dalam Al-Qur'an disebutkan bahwa Allah menciptakan besi yang memiliki kekuatan hebat. Dalam sains, besi dapat diubah menjadi magnet dengan beberapa cara. Jika sebuah paku besi dililiti kawat berarus listrik (kumparan) yang dihubungkan ke baterai, paku tersebut akan menjadi magnet. Cara pembuatan magnet ini disebut...", options: ["Induksi, yaitu mendekatkan magnet asli ke paku besi", "Gosokan, yaitu menggosok magnet ke satu arah pada paku besi", "Elektromagnetik, yaitu memanfaatkan aliran arus listrik untuk menciptakan medan magnet", "Konduksi, yaitu menyentuhkan paku besi langsung ke kutub magnet"], correct: 2 },
+        { q: "30. Ginjal adalah organ penyaring darah yang sangat luar biasa. Di dalam ginjal terdapat jutaan unit fungsional terkecil yang disebut nefron. Proses penyerapan kembali zat-zat yang masih berguna bagi tubuh (seperti glukosa dan asam amino) dari urine primer terjadi di bagian...", options: ["Glomerulus, melalui proses filtrasi atau penyaringan", "Tubulus Kontortus Proksimal, melalui proses reabsorpsi", "Tubulus Kontortus Distal, melalui proses augmentasi", "Kantong kemih, sebagai tempat penyimpanan urine sementara"], correct: 1 },
+        { q: "31. Cahaya dapat mengalami peristiwa interferensi atau perpaduan dua gelombang cahaya. Contoh fenomena ini dalam kehidupan santri adalah terlihatnya warna-warni pelangi pada lapisan tipis gelembung sabun saat sedang mencuci pakaian. Warna-warni tersebut muncul bukan karena dispersi seperti pelangi, melainkan karena...", options: ["Cahaya matahari yang diserap oleh kandungan kimia di dalam sabun", "Perpaduan gelombang cahaya yang dipantulkan oleh permukaan atas dan bawah lapisan sabun", "Sabun yang mengubah frekuensi cahaya menjadi lebih rendah", "Gelembung sabun yang berfungsi sebagai lensa cembung raksasa"], correct: 1 },
+        { q: "32. Allah SWT menciptakan hubungan antara tumbuhan dan hewan dalam siklus Karbon. Tumbuhan membutuhkan CO2 untuk fotosintesis dan menghasilkan O2. Sebaliknya, hewan membutuhkan O2 untuk respirasi dan menghasilkan CO2. Jika jumlah hutan di dunia terus berkurang (deforestasi), maka dampak yang paling dirasakan pada komposisi udara adalah...", options: ["Kadar oksigen akan meningkat karena hewan juga ikut berkurang", "Kadar karbon dioksida akan meningkat drastis, memicu pemanasan global", "Udara akan menjadi lebih lembap karena uap air tertahan di atmosfer", "Gas nitrogen akan berubah menjadi oksigen secara alami melalui bantuan kilat"], correct: 1 },
+        { q: "33. Pada sistem pesawat sederhana, sekrup atau baut sebenarnya merupakan aplikasi dari prinsip...", options: ["Pengungkit jenis ketiga, karena gaya berada di tengah", "Bidang miring yang dililitkan mengitari sebuah silinder", "Katrol tetap yang tidak bisa berpindah tempat", "Roda berporos yang memiliki jari-jari sangat besar"], correct: 1 },
+        { q: "34. Di dalam telinga dalam, terdapat struktur yang menyerupai rumah siput (koklea) dan saluran setengah lingkaran (semisirkularis). Saluran setengah lingkaran ini memiliki fungsi yang unik bagi manusia saat berdiri atau berjalan, yaitu...", options: ["Menerjemahkan getaran bunyi menjadi bahasa yang dimengerti otak", "Alat keseimbangan tubuh yang mendeteksi posisi kepala", "Menghubungkan telinga dengan rongga hidung agar tekanan udara stabil", "Memperkeras suara yang masuk agar terdengar lebih nyaring"], correct: 1 },
+        { q: "35. Salah satu bukti kehebatan penciptaan adalah adanya hukum Kekekalan Energi. Energi tidak dapat diciptakan atau dimusnahkan, hanya dapat berubah bentuk. Saat seorang santri memukul beduk masjid, perubahan energi yang terjadi adalah...", options: ["Energi potensial menjadi energi kimia", "Energi mekanik (gerak) menjadi energi bunyi", "Energi panas menjadi energi kinetik", "Energi listrik menjadi energi magnetik"], correct: 1 },
+        { q: "36. Bioteknologi konvensional telah digunakan manusia selama ribuan tahun dengan bantuan mikroorganisme. Dalam pembuatan tempe yang sering menjadi lauk di pesantren, jamur Rhizopus oryzae berperan dalam proses...", options: ["Mengubah gula menjadi alkohol dan gas karbon dioksida", "Menguraikan protein kedelai menjadi asam amino yang lebih mudah dicerna", "Menghasilkan racun untuk mengusir bakteri pembusuk pada kedelai", "Menghilangkan lemak jenuh yang ada di dalam biji kedelai"], correct: 1 },
+        { q: "37. Peristiwa pasang surut air laut sangat dipengaruhi oleh gravitasi Bulan. Namun, ada saat di mana pasang air laut mencapai puncak tertinggi yang disebut pasang purnama. Hal ini terjadi ketika posisi Bumi, Bulan, dan Matahari berada pada posisi...", options: ["Membentuk sudut siku-siku 90 derajat", "Membentuk garis lurus (Konjungsi atau Oposisi)", "Membentuk sudut 45 derajat di ruang angkasa", "Bulan berada di posisi terjauh dari Bumi (Apogee)"], correct: 1 },
+        { q: "38. Allah SWT menciptakan rangka kepala (tengkorak) untuk melindungi otak yang sangat lunak. Hubungan antar tulang tengkorak ini tidak dapat digerakkan sama sekali karena dihubungkan oleh jaringan ikat yang kuat. Sendi yang tidak memungkinkan adanya gerakan ini disebut...", options: ["Amfiartrosis (Sendi Kaku)", "Diartrosis (Sendi Gerak)", "Sinartrosis (Sendi Mati)", "Sendi Geser"], correct: 2 },
+        { q: "39. Salah satu sifat zat adalah kapilaritas, yaitu naiknya zat cair melalui celah-celah sempit. Manfaat kapilaritas dalam kehidupan sehari-hari adalah...", options: ["Air yang memancur dari selang yang ditekuk ujungnya", "Naiknya minyak tanah pada sumbu kompor atau naiknya air pada pembuluh kayu tumbuhan", "Air laut yang menguap karena terik matahari pada siang hari", "Es yang mengapung di permukaan air tawar"], correct: 1 },
+        { q: "40. Pemanasan global menyebabkan suhu di bumi tidak stabil. Untuk mengurangi dampak ini, kita diajarkan untuk melakukan gerakan menanam seribu pohon. Secara sains, penanaman pohon efektif mengurangi panas bumi karena...", options: ["Pohon menghasilkan bayangan yang menutupi seluruh permukaan tanah", "Pohon menyerap gas karbon dioksida yang merupakan gas utama penyebab efek rumah kaca", "Akar pohon mendinginkan suhu inti bumi melalui penyerapan air yang dalam", "Daun pohon memantulkan kembali seluruh sinar matahari ke luar angkasa"], correct: 1 }
+
+    ];
+
+    let answers = Array(bank.length).fill(null), doubts = Array(bank.length).fill(false);
+
+    function startExam() {
+        document.documentElement.requestFullscreen?.();
+        document.getElementById('start-overlay').style.display = 'none';
+        isStarted = true;
+        render();
+    }
+
+    function render() {
+        if(!isStarted) return;
+        document.getElementById('progress-indicator').innerText = `SOAL ${current + 1} / ${bank.length}`;
+        document.getElementById('question-text').innerText = bank[current].q;
+        const box = document.getElementById('options-box'); box.innerHTML = '';
+        bank[current].options.forEach((opt, i) => {
+            const d = document.createElement('div');
+            d.className = `option ${answers[current] === i ? 'selected' : ''}`;
+            d.innerHTML = `<b>${String.fromCharCode(65+i)}.</b> ${opt}`;
+            d.onclick = () => { answers[current] = i; render(); };
+            box.appendChild(d);
+        });
+        document.getElementById('btn-step').innerText = current === bank.length - 1 ? "SELESAI" : "SELANJUTNYA";
+        updateNav();
+    }
+
+    function updateNav() {
+        const grid = document.getElementById('nav-grid'); grid.innerHTML = '';
+        bank.forEach((_, i) => {
+            const item = document.createElement('div');
+            item.className = `nav-item ${doubts[i]?'doubt':(answers[i]!==null?'answered':'')} ${current===i?'active':''}`;
+            item.innerText = i + 1;
+            item.onclick = () => { current = i; render(); };
+            grid.appendChild(item);
+        });
+    }
+
+    function changeQ(s) { current = Math.max(0, Math.min(bank.length - 1, current + s)); render(); }
+    function toggleDoubt() { if(answers[current] !== null) { doubts[current] = !doubts[current]; render(); } }
+    function handleNextStep() { if (current === bank.length - 1) triggerFinish(); else changeQ(1); }
+    function triggerFinish() { document.getElementById('modal-container').style.display = 'flex'; document.getElementById('modal-msg').innerText = `Kamu telah menjawab ${answers.filter(a=>a!==null).length} soal. Kirim sekarang?`; }
+    function closeModal() { document.getElementById('modal-container').style.display = 'none'; }
+    function finalSubmit() {
+        let score = answers.reduce((acc, ans, i) => acc + (ans === bank[i].correct ? 1 : 0), 0);
+        document.getElementById('confirm-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('final-score').innerText = Math.round((score/bank.length)*100);
+    }
+
+    setInterval(() => { if(isStarted && timer > 0) { timer--; let m=Math.floor(timer/60), s=timer%60; document.getElementById('timer-text').innerText=`${m}:${s<10?'0'+s:s}`; }}, 1000);
+</script>
+</body>
+</html>

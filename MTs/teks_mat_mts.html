@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Modul MTs - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* Tema Biru MTs sesuai Gambar */
+            --mts-blue-dark: #2c3e92;
+            --mts-blue-light: #4a6cf7;
+            --mts-bg-gradient: linear-gradient(135deg, #2c3e92 0%, #4a6cf7 100%);
+            --pdf-red: #e11d48;
+            --text-dark: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Gradasi Biru sesuai referensi gambar */
+            background: var(--mts-bg-gradient);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* Header Judul */
+        .header-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header-title h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .header-title p {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Grid Preview */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        /* Card Putih Bersih sesuai gaya gambar */
+        .materi-card {
+            background: #ffffff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: none;
+        }
+
+        .materi-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Thumbnail Area */
+        .thumb-area {
+            height: 160px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .thumb-area i {
+            font-size: 60px;
+            color: var(--pdf-red);
+        }
+
+        .badge-pdf {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--pdf-red);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* Info Area */
+        .info-area {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .info-area h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--mts-blue-dark);
+        }
+
+        .info-area p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Tombol Aksi */
+        .btn-read {
+            margin-top: auto;
+            background: #f8fafc;
+            color: #334155;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-read:hover {
+            background: var(--mts-blue-dark);
+            color: white;
+            border-color: var(--mts-blue-dark);
+        }
+
+        /* Tombol Kembali di Tengah Bawah sesuai Gambar */
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--mts-blue-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 40px;
+            background: #ffffff;
+            border-radius: 50px;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-back:hover {
+            transform: scale(1.05);
+            background: #f1f5f9;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-title">
+            <h1>Materi & Modul MTs</h1>
+            <p>Persiapan OMI Jenjang Madrasah Tsanawiyah</p>
+        </div>
+
+        <div class="preview-grid">
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Ringkasan Teori</h3>
+                    <p>Materi inti yang disusun khusus untuk memudahkan pemahaman konsep dasar.</p>
+                    <a href="pdf/modul_teori_mts.pdf" target="_blank" class="btn-read">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Bank Soal Latihan</h3>
+                    <p>Kumpulan soal latihan untuk memperkuat kesiapan menghadapi kompetisi.</p>
+                    <a href="pdf/soal_latihan_mts.pdf" target="_blank" class="btn-read">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+
+            <div class="materi-card">
+                <div class="thumb-area">
+                    <span class="badge-pdf">PDF</span>
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div class="info-area">
+                    <h3>Kunci Jawaban</h3>
+                    <p>Penjelasan detail langkah demi langkah untuk setiap soal latihan.</p>
+                    <a href="pdf/pembahasan_mts.pdf" target="_blank" class="btn-read">
+                        Pelajari Materi
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <a href="materi_teks_mts.html" class="btn-back">
+                ← Kembali
+            </a>
+        </div>
+
+        <div class="footer-note">
+            &copy; 2026 Kurikulum OMI | Persiapan Menuju Prestasi Madrasah
+        </div>
+    </div>
+
+</body>
+</html>

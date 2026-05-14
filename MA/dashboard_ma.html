@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard MA - Persiapan OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-ma: #1e293b; /* Slate 800 */
+            --accent-ma: #38bdf8;  /* Sky 400 */
+            --glass-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Latar belakang Premium Deep Navy dengan gradasi radial */
+            background: radial-gradient(circle at top left, #1e293b, #0f172a);
+            background-attachment: fixed;
+            padding: 40px 20px;
+            color: #ffffff;
+        }
+
+        /* Elemen dekoratif abstrak untuk kesan menarik */
+        body::after {
+            content: "";
+            position: fixed; top: -10%; right: -10%; width: 400px; height: 400px;
+            background: rgba(56, 189, 248, 0.1);
+            filter: blur(80px); border-radius: 50%; z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 60px; }
+
+        h1 {
+            font-size: 46px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(to bottom, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .sub-header {
+            font-size: 16px;
+            color: var(--accent-ma);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .menu-wrapper {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .btn-menu {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            width: 280px;
+            height: 340px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .btn-menu:hover {
+            transform: translateY(-15px) scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 30px 60px rgba(56, 189, 248, 0.2);
+            border: 2px solid var(--accent-ma);
+        }
+
+        .icon-circle {
+            width: 90px; height: 90px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 45px; margin-bottom: 30px;
+            transition: 0.3s;
+        }
+
+        .btn-menu:hover .icon-circle {
+            background: #e0f2fe;
+            transform: rotate(-5deg);
+        }
+
+        .label {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .btn-home {
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            background: #ffffff;
+            color: #0f172a;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 900px) { .menu-wrapper { flex-direction: column; } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Persiapan OMI</h1>
+        <p class="sub-header">Jenjang Madrasah Aliyah</p>
+    </div>
+
+    <div class="menu-wrapper">
+        <a href="materi_video_ma.html" class="btn-menu">
+            <div class="icon-circle">▶️</div> 
+            <span class="label">Materi Video</span>
+            <span class="desc">Eksplorasi konsep OMI melalui kurasi video pembelajaran interaktif.</span>
+        </a>
+
+        <a href="materi_teks_ma.html" class="btn-menu">
+            <div class="icon-circle">📘</div>
+            <span class="label">Modul Teks</span>
+            <span class="desc">Pelajari rangkuman materi mendalam sesuai kisi-kisi terbaru.</span>
+        </a>
+
+        <a href="tryout_ma.html" class="btn-menu">
+             <div class="icon-circle">✍️</div>
+            <span class="label">Simulasi TRY OUT</span>
+            <span class="desc">Uji ketajaman analisis Anda dengan soal-soal standar olimpiade.</span>
+        </a>
+    </div>
+
+   <div class="btn-footer">
+        <a href="./../OMIKU.html" class="btn-home">← Pilih Jenjang Lain</a>
+    </div>
+
+</body>
+</html>
