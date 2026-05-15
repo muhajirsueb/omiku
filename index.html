@@ -14,8 +14,8 @@
         }
 
         body {
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,35 +39,49 @@
         .container {
             text-align: center;
             animation: fadeIn 1.2s ease-out;
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
             z-index: 2;
+            width: 100%;
+            max-width: 1000px;
         }
 
-        /* Update Teks: Menggunakan Outline Putih agar Jelas */
+        /* Styling Logo Baru */
+        .logo-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .logo-omi {
+            width: 100%;
+            max-width: 320px; /* Ukuran logo agar tulisan kecil terbaca */
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-omi:hover {
+            transform: scale(1.05);
+        }
+
         h1 {
-            font-size: 46px;
+            font-size: 36px;
             font-weight: 800;
             letter-spacing: -1px;
             margin-bottom: 10px;
-            color: #1b5e20; /* Warna Hijau Tua agar kontras dengan outline */
-            
-            /* Efek Outline Putih (Text Stroke) */
+            color: #1b5e20;
             text-shadow: 
                 -2px -2px 0 #fff,  
                  2px -2px 0 #fff,
                 -2px  2px 0 #fff,
                  2px  2px 0 #fff,
-                 0px 4px 10px rgba(0,0,0,0.2); 
+                 0px 4px 10px rgba(0,0,0,0.15); 
         }
 
         p {
-            font-size: 22px;
+            font-size: 20px;
             color: #1d1d1f;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
             font-weight: 600;
-            
-            /* Outline Putih tipis untuk sub-teks */
             text-shadow: 
                 -1px -1px 0 #fff,  
                  1px -1px 0 #fff,
@@ -77,36 +91,37 @@
 
         .jenjang-wrapper {
             display: flex;
-            gap: 40px;
+            gap: 30px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-jenjang {
             border: none;
-            border-radius: 32px;
-            height: 180px;
-            width: 250px;
+            border-radius: 24px;
+            height: 160px;
+            width: 220px;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-decoration: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         .btn-jenjang:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
-        /* Warna Tombol Per Jenjang */
+        /* Warna Tombol Jenjang */
         .btn-mi { background-color: #a5d6a7; color: #1b5e20; }
         .btn-mts { background-color: #90caf9; color: #0d47a1; }
-        .btn-ma { background-color: #e0e0e0; color: #424242; }
+        .btn-ma { background-color: #ffd54f; color: #5d4037; } /* Kuning Emas MA */
 
         .label {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: 800;
             letter-spacing: 2px;
         }
@@ -117,32 +132,37 @@
         }
 
         @media (max-width: 800px) {
-            body { overflow-y: auto; height: auto; padding: 60px 0; }
-            .jenjang-wrapper { flex-direction: column; align-items: center; gap: 30px;}
-            h1 { font-size: 32px; }
-            .btn-jenjang { width: 85%; height: 140px; }
+            body { overflow-y: auto; height: auto; padding: 40px 0; }
+            .jenjang-wrapper { flex-direction: column; align-items: center; gap: 20px;}
+            h1 { font-size: 28px; }
+            .btn-jenjang { width: 90%; height: 120px; }
+            .logo-omi { max-width: 240px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Selamat Datang, Calon Juara OMI</h1>
-        <p>Silakan pilih jenjang pendidikan Anda untuk memulai persiapan.</p>
+        <div class="logo-wrapper">
+            <img src="logo-omi.png" alt="Logo OMIKU" class="logo-omi">
+        </div>
 
-       <div class="jenjang-wrapper">
-    <a href="MI/dashboard_mi.html" class="btn-jenjang btn-mi">
-        <span class="label">MI</span>
-    </a>
-    
-    <a href="MTs/dashboard_mts.html" class="btn-jenjang btn-mts">
-        <span class="label">MTs</span>
-    </a>
-    
-    <a href="MA/dashboard_ma.html" class="btn-jenjang btn-ma">
-        <span class="label">MA</span>
-    </a>
-</div>
+        <h1>Selamat Datang, Calon Juara</h1>
+        <p>Pilih jenjang untuk memulai simulasi persiapan.</p>
+
+        <div class="jenjang-wrapper">
+            <a href="MI/dashboard_mi.html" class="btn-jenjang btn-mi">
+                <span class="label">MI</span>
+            </a>
+            
+            <a href="MTs/dashboard_mts.html" class="btn-jenjang btn-mts">
+                <span class="label">MTs</span>
+            </a>
+            
+            <a href="MA/dashboard_ma.html" class="btn-jenjang btn-ma">
+                <span class="label">MA</span>
+            </a>
+        </div>
     </div>
 
 </body>
