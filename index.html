@@ -34,37 +34,28 @@
             z-index: 1;
         }
 
-        .container {
-            text-align: center;
-            animation: fadeIn 1.2s ease-out;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1000px;
-        }
-
-        /* --- STYLING LOGO DENGAN STROKE PUTIH --- */
-        .text-logo-wrapper {
-            margin-bottom: 40px;
-            display: inline-block;
+        /* --- LOGO DI KIRI ATAS --- */
+        .header-logo {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            z-index: 10;
+            text-align: left;
         }
 
         .logo-main-text {
             font-family: 'Quicksand', sans-serif;
-            font-size: 80px;
+            font-size: 40px; /* Ukuran diperkecil agar standar logo */
             font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -2px;
+            line-height: 1;
             display: flex;
-            justify-content: center;
-            /* Efek Stroke Putih Tebal */
+            gap: 2px;
+            /* Stroke putih agar terlihat jelas di background hijau */
             text-shadow: 
-                -3px -3px 0 #fff,  
-                 3px -3px 0 #fff,
-                -3px  3px 0 #fff,
-                 3px  3px 0 #fff,
-                 0px 5px 15px rgba(0,0,0,0.15);
+                -2px -2px 0 #fff,  
+                 2px -2px 0 #fff,
+                -2px  2px 0 #fff,
+                 2px  2px 0 #fff;
         }
 
         .letter-o { color: #2e7d32; }
@@ -74,25 +65,38 @@
         .letter-u { color: #fbc02d; }
 
         .logo-sub-text {
-            font-size: 16px;
+            font-size: 11px;
             color: #333;
-            letter-spacing: 0.5px;
-            margin-top: 10px;
+            letter-spacing: 0.3px;
+            margin-top: 5px;
             font-weight: 700;
-            /* Stroke Putih Tipis agar terbaca di background gelap/terang */
+            text-transform: uppercase;
+            /* Stroke putih tipis */
             text-shadow: 
-                -1.5px -1.5px 0 #fff,  
-                 1.5px -1.5px 0 #fff,
-                -1.5px  1.5px 0 #fff,
-                 1.5px  1.5px 0 #fff;
+                -1px -1px 0 #fff,  
+                 1px -1px 0 #fff,
+                -1px  1px 0 #fff,
+                 1px  1px 0 #fff;
+        }
+
+        /* --- KONTEN TENGAH --- */
+        .container {
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 60px; /* Memberi ruang agar tidak tabrakan dengan logo */
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
             margin-bottom: 10px;
             color: #1b5e20;
-            text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
+            text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff;
         }
 
         p.subtitle {
@@ -144,30 +148,36 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Penyesuaian untuk HP */
         @media (max-width: 800px) {
-            body { overflow-y: auto; height: auto; padding: 40px 0; }
-            .jenjang-wrapper { flex-direction: column; align-items: center; gap: 20px;}
-            h1 { font-size: 26px; }
-            .btn-jenjang { width: 90%; height: 120px; }
-            .logo-main-text { font-size: 60px; }
-            .logo-sub-text { font-size: 13px; }
+            .header-logo {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .container { margin-top: 0; }
+            .logo-main-text { justify-content: center; font-size: 36px; }
+            .jenjang-wrapper { flex-direction: column; align-items: center; }
+            .btn-jenjang { width: 90%; height: 110px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="text-logo-wrapper">
-            <div class="logo-main-text">
-                <span class="letter-o">O</span>
-                <span class="letter-m">M</span>
-                <span class="letter-i">I</span>
-                <span class="letter-k">K</span>
-                <span class="letter-u">U</span>
-            </div>
-            <div class="logo-sub-text">Dedicated to the Nation from Muhajir Sueb</div>
+    <header class="header-logo">
+        <div class="logo-main-text">
+            <span class="letter-o">O</span>
+            <span class="letter-m">M</span>
+            <span class="letter-i">I</span>
+            <span class="letter-k">K</span>
+            <span class="letter-u">U</span>
         </div>
+        <div class="logo-sub-text">Dedicated to the Nation from Muhajir Sueb</div>
+    </header>
 
+    <div class="container">
         <h1>Selamat Datang, Calon Juara</h1>
         <p class="subtitle">Pilih jenjang untuk memulai simulasi persiapan.</p>
 
