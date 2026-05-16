@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pusat Persiapan OMI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Quicksand:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -44,21 +44,27 @@
             max-width: 1000px;
         }
 
-        /* --- STYLING LOGO TEKS BARU --- */
+        /* --- STYLING LOGO DENGAN STROKE PUTIH --- */
         .text-logo-wrapper {
             margin-bottom: 40px;
             display: inline-block;
         }
 
         .logo-main-text {
-            font-family: 'Quicksand', sans-serif; /* Font lebih bulat mirip logo asli */
+            font-family: 'Quicksand', sans-serif;
             font-size: 80px;
             font-weight: 700;
-            line-height: 1;
+            line-height: 1.1;
             letter-spacing: -2px;
             display: flex;
             justify-content: center;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            /* Efek Stroke Putih Tebal */
+            text-shadow: 
+                -3px -3px 0 #fff,  
+                 3px -3px 0 #fff,
+                -3px  3px 0 #fff,
+                 3px  3px 0 #fff,
+                 0px 5px 15px rgba(0,0,0,0.15);
         }
 
         .letter-o { color: #2e7d32; }
@@ -69,12 +75,17 @@
 
         .logo-sub-text {
             font-size: 16px;
-            color: #555;
+            color: #333;
             letter-spacing: 0.5px;
-            margin-top: 8px;
-            font-weight: 400;
+            margin-top: 10px;
+            font-weight: 700;
+            /* Stroke Putih Tipis agar terbaca di background gelap/terang */
+            text-shadow: 
+                -1.5px -1.5px 0 #fff,  
+                 1.5px -1.5px 0 #fff,
+                -1.5px  1.5px 0 #fff,
+                 1.5px  1.5px 0 #fff;
         }
-        /* --- END LOGO TEKS --- */
 
         h1 {
             font-size: 32px;
@@ -139,7 +150,7 @@
             h1 { font-size: 26px; }
             .btn-jenjang { width: 90%; height: 120px; }
             .logo-main-text { font-size: 60px; }
-            .logo-sub-text { font-size: 12px; }
+            .logo-sub-text { font-size: 13px; }
         }
     </style>
 </head>
