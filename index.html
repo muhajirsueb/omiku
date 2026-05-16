@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pusat Persiapan OMI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Quicksand:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,12 +20,10 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            /* Gradasi Tiga Warna: Hijau - Putih - Kuning */
             background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 25%, #ffffff 50%, #fff9c4 85%, #fbc02d 100%);
             background-attachment: fixed;
         }
 
-        /* Aksen Pattern Floral Lembut */
         body::before {
             content: "";
             position: absolute;
@@ -46,47 +44,52 @@
             max-width: 1000px;
         }
 
-        /* Styling Logo Baru */
-        .logo-wrapper {
-            margin-bottom: 30px;
+        /* --- STYLING LOGO TEKS BARU --- */
+        .text-logo-wrapper {
+            margin-bottom: 40px;
+            display: inline-block;
         }
 
-        .logo-omi {
-            width: 100%;
-            max-width: 320px; /* Ukuran logo agar tulisan kecil terbaca */
-            height: auto;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
-            transition: transform 0.3s ease;
+        .logo-main-text {
+            font-family: 'Quicksand', sans-serif; /* Font lebih bulat mirip logo asli */
+            font-size: 80px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -2px;
+            display: flex;
+            justify-content: center;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
         }
 
-        .logo-omi:hover {
-            transform: scale(1.05);
+        .letter-o { color: #2e7d32; }
+        .letter-m { color: #1565c0; }
+        .letter-i { color: #64b5f6; }
+        .letter-k { color: #fbc02d; }
+        .letter-u { color: #fbc02d; }
+
+        .logo-sub-text {
+            font-size: 16px;
+            color: #555;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+            font-weight: 400;
         }
+        /* --- END LOGO TEKS --- */
 
         h1 {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 800;
-            letter-spacing: -1px;
             margin-bottom: 10px;
             color: #1b5e20;
-            text-shadow: 
-                -2px -2px 0 #fff,  
-                 2px -2px 0 #fff,
-                -2px  2px 0 #fff,
-                 2px  2px 0 #fff,
-                 0px 4px 10px rgba(0,0,0,0.15); 
+            text-shadow: 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
         }
 
-        p {
-            font-size: 20px;
+        p.subtitle {
+            font-size: 18px;
             color: #1d1d1f;
             margin-bottom: 50px;
             font-weight: 600;
-            text-shadow: 
-                -1px -1px 0 #fff,  
-                 1px -1px 0 #fff,
-                -1px  1px 0 #fff,
-                 1px  1px 0 #fff;
+            text-shadow: 1px 1px 0 #fff;
         }
 
         .jenjang-wrapper {
@@ -115,10 +118,9 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
-        /* Warna Tombol Jenjang */
         .btn-mi { background-color: #a5d6a7; color: #1b5e20; }
         .btn-mts { background-color: #90caf9; color: #0d47a1; }
-        .btn-ma { background-color: #ffd54f; color: #5d4037; } /* Kuning Emas MA */
+        .btn-ma { background-color: #ffd54f; color: #5d4037; }
 
         .label {
             font-size: 42px;
@@ -134,21 +136,29 @@
         @media (max-width: 800px) {
             body { overflow-y: auto; height: auto; padding: 40px 0; }
             .jenjang-wrapper { flex-direction: column; align-items: center; gap: 20px;}
-            h1 { font-size: 28px; }
+            h1 { font-size: 26px; }
             .btn-jenjang { width: 90%; height: 120px; }
-            .logo-omi { max-width: 240px; }
+            .logo-main-text { font-size: 60px; }
+            .logo-sub-text { font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="logo-wrapper">
-            <img src="logo-omiku.png" alt="Logo OMIKU" class="logo-omi">
+        <div class="text-logo-wrapper">
+            <div class="logo-main-text">
+                <span class="letter-o">O</span>
+                <span class="letter-m">M</span>
+                <span class="letter-i">I</span>
+                <span class="letter-k">K</span>
+                <span class="letter-u">U</span>
+            </div>
+            <div class="logo-sub-text">Dedicated to the Nation from Muhajir Sueb</div>
         </div>
 
         <h1>Selamat Datang, Calon Juara</h1>
-        <p>Pilih jenjang untuk memulai simulasi persiapan.</p>
+        <p class="subtitle">Pilih jenjang untuk memulai simulasi persiapan.</p>
 
         <div class="jenjang-wrapper">
             <a href="MI/dashboard_mi.html" class="btn-jenjang btn-mi">
