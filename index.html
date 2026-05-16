@@ -30,7 +30,7 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM4ZThlOGIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDIwaDIwdjIwSDIWMjB6TTAgMjBoMjB2MjBIMFYyMHoyMCAwaDIwdjIwaC0yMFYweiIvPjwvZz48L2c+PC9zdmc+');
             background-repeat: repeat;
-            opacity: 0.4;
+            opacity: 0.3;
             z-index: 1;
         }
 
@@ -50,31 +50,29 @@
             line-height: 1;
             display: flex;
             gap: 1px;
-            /* Stroke Tipis 1px & Soft Glow */
+            /* Shadow/Stroke Putih Tipis agar kontras di background hijau */
             text-shadow: 
-                0 0 1px #fff, 
-                -1px -1px 0 #fff,  
-                 1px -1px 0 #fff,
-                -1px  1px 0 #fff,
-                 1px  1px 0 #fff;
+                0.5px 0.5px 0 #fff, 
+                -0.5px -0.5px 0 #fff,  
+                0.5px -0.5px 0 #fff,
+                -0.5px 0.5px 0 #fff;
         }
 
-        /* Warna huruf disesuaikan agar lebih 'solid' */
-        .letter-o { color: #ffffff; } /* Huruf O dibuat putih agar kontras di hijau */
-        .letter-m { color: #1e88e5; }
-        .letter-i { color: #90caf9; }
-        .letter-k { color: #ffca28; }
-        .letter-u { color: #ffca28; }
+        /* Kode Warna Sesuai Logo HD */
+        .letter-o { color: #2e7d32; } /* Hijau dikembalikan */
+        .letter-m { color: #1565c0; } /* Biru Tua */
+        .letter-i { color: #64b5f6; } /* Biru Muda */
+        .letter-k { color: #fbc02d; } /* Kuning */
+        .letter-u { color: #fbc02d; } /* Kuning */
 
         .logo-sub-text {
             font-size: 10px;
-            color: #ffffff; /* Teks putih polos agar lebih menyatu */
-            letter-spacing: 0.8px;
-            margin-top: 4px;
+            color: #ffffff; 
+            letter-spacing: 0.5px;
+            margin-top: 5px;
             font-weight: 600;
             text-transform: uppercase;
-            /* Stroke sangat tipis agar tidak terlihat kasar */
-            text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.3);
+            text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.5);
         }
 
         /* --- KONTEN TENGAH --- */
@@ -86,7 +84,7 @@
             z-index: 2;
             width: 100%;
             max-width: 1000px;
-            margin-top: 50px;
+            margin-top: 40px;
         }
 
         h1 {
@@ -94,6 +92,7 @@
             font-weight: 800;
             margin-bottom: 10px;
             color: #1b5e20;
+            text-shadow: 1px 1px 0 #fff;
         }
 
         p.subtitle {
@@ -101,6 +100,7 @@
             color: #1d1d1f;
             margin-bottom: 50px;
             font-weight: 600;
+            text-shadow: 1px 1px 0 #fff;
         }
 
         .jenjang-wrapper {
@@ -121,7 +121,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
         .btn-jenjang:hover {
