@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan: Ekosistem & Lingkungan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Warna Dasar Sains: Hijau Hutan Peat ke Emerald */
+            background: linear-gradient(135deg, #0a3d0e 0%, #2e7d32 50%, #81c784 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #c8e6c9; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Materi: Ekosistem & Lingkungan</h1>
+        <p class="sub-title">Pelajari interaksi makhluk hidup dan keselarasan alam sekitarnya</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/ThxJOMUCYds" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Ekosistem</h3>
+                <p>Memahami pengertian ekosistem serta bagaimana hubungan timbal balik antara makhluk hidup dan lingkungannya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/o3wOlOjYdWg" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Ekosistem 2</h3>
+                <p>Pembahasan lanjutan mengenai jaring-jaring kehidupan dan pola interaksi dalam ekosistem.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/D8y1FZXNRfo" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Komponen Ekosistem</h3>
+                <p>Mengenal lebih dalam tentang unsur biotik (makhluk hidup) dan abiotik (benda mati) pembentuk sistem ekologi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/whs1gpvl2FY" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Keseimbangan Ekosistem</h3>
+                <p>Pelajari pentingnya menjaga harmoni lingkungan agar rantai makanan dan kehidupan tidak terputus.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/I5Le4vH0OaI" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Mengenal Lingkungan Sekitar Kita</h3>
+                <p>Eksplorasi kondisi alam sekitar dan pentingnya kepekaan terhadap kelestarian ekologi lokal.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/WDKeWKcqz7c" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pengaruh Aktivitas Manusia terhadap Lingkungan</h3>
+                <p>Melihat dampak dari tindakan manusia terhadap ekosistem global dan kelestarian alam bebas.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/AWVXT3d9NeQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pencemaran Lingkungan</h3>
+                <p>Ulasan mengenai polusi air, udara, dan tanah serta dampaknya bagi kesehatan ekosistem.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/LwBNtOThDW0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Perubahan Alam</h3>
+                <p>Mempelajari berbagai faktor alamiah maupun buatan yang memicu pergeseran kondisi geografis bumi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/Ibv6duDhWeU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Rantai Makanan</h3>
+                <p>Proses perpindahan energi melalui jalur peristiwa makan dan dimakan antar makhluk hidup secara berurutan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/dbbIObXDDww" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam</h3>
+                <p>Mengenal ragam bentuk permukaan bumi seperti pegunungan, dataran rendah, sungai, dan lautan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/7FK5xlXLi7w" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Latihan Soal Ekosistem</h3>
+                <p>Pembahasan ragam jenis soal bab ekosistem untuk mempertajam pemahaman materi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/fZTP4Ee1hhg" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kumpulan Soal</h3>
+                <p>Kompilasi variasi soal pilihan sains (IPA) sebagai bahan evaluasi belajar mandiri.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_menu_utama.html" class="btn-back">← Kembali ke Menu</a>
+    </div>
+
+</body>
+</html>

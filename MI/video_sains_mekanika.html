@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan: Mekanika, Gaya & Gerak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Warna Dasar Sains: Hijau Hutan Peat ke Emerald */
+            background: linear-gradient(135deg, #0a3d0e 0%, #2e7d32 50%, #81c784 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #c8e6c9; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Materi: Mekanika, Gaya & Gerak</h1>
+        <p class="sub-title">Pelajari hukum fisika, tarikan benda, dan dinamika gerak semesta</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/epR7fu-wKRQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Gaya</h3>
+                <p>Mempelajari definisi dasar gaya, satuan perkaliannya, serta bagaimana tarikan dan dorongan mempengaruhi benda.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/-whzxEfRcmQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Gaya Memengaruhi Gerak Benda</h3>
+                <p>Eksperimen dan studi kasus interaktif tentang pengaruh variasi gaya terhadap kecepatan dan bentuk suatu objek.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/RKQ4LDHV6KM" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Hukum Newton</h3>
+                <p>Pembahasan mendalam mengenai Hukum I, II, dan III Newton tentang kelembaman, aksi-reaksi, dan percepatan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/ru-BjHWINec" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Mekanika</h3>
+                <p>Pengantar cabang ilmu fisika yang berfokus mempelajari gerakan suatu materi beserta penyebab fisiknya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/t-CWVvXqVok" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Macam-macam Gerak Benda</h3>
+                <p>Mengenal variasi pola gerakan objek mulai dari gerak lurus, menggelinding, memantul, hingga melingkar.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/DgImEqjjF_Y" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pembahasan Materi OSN</h3>
+                <p>Bedah materi tingkat lanjut olimpiade sains bidang dinamika teknik untuk persiapan kompetisi nasional.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/vzZU0es2CB8" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Gerak</h3>
+                <p>Memahami konsep jarak, perpindahan kedudukan, serta perbedaan mendasar GLB dengan GLBB.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/QdP9vp6pJMc" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Gaya Gesek</h3>
+                <p>Mengulas gesekan statis dan kinetis serta fungsi menguntungkan maupun merugikannya di kehidupan sehari-hari.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/bcLnAeYPynw" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Alat Gerak Manusia</h3>
+                <p>Kombinasi kerja organ muskuloskeletal aktif berupa otot dan alat pasif rangka tulang pembentuk mobilitas tubuh.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/7ucGTgwHSgk" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Sifat-sifat Gaya</h3>
+                <p>Rangkuman komprehensif mengenai sifat fisis gaya beserta contoh penerapannya di lingkungan nyata.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/9ov998PNme4" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kuis Gaya</h3>
+                <p>Uji pemahaman spontan seputar teori gaya melalui latihan soal evaluasi visual interaktif.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/HBohRPeNQ4w" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kumpulan Soal</h3>
+                <p>Penyelesaian latihan ragam jenis soal evaluasi akhir bab Gaya dan Gerak untuk kesiapan ujian sekolah.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_menu_utama.html" class="btn-back">← Kembali ke Menu</a>
+    </div>
+
+</body>
+</html>

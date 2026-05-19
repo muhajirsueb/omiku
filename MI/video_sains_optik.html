@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan: Wujud Benda & Optik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Warna Dasar Sains: Hijau Hutan Peat ke Emerald */
+            background: linear-gradient(135deg, #0a3d0e 0%, #2e7d32 50%, #81c784 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #c8e6c9; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Materi: Wujud Benda & Optik</h1>
+        <p class="sub-title">Pelajari sifat karakteristik materi, rambatan cahaya, dan alat optik</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/LNKMtlCuOvU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Wujud dan Sifat Benda</h3>
+                <p>Memahami karakteristik mendasar serta susunan partikel pada benda padat, cair, dan gas.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/zx3kv9aGmhY" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Alat Optik</h3>
+                <p>Mengenal fungsi dan cara kerja alat bantu penglihatan manusia mulai dari lup hingga mikroskop.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/Y6HZ5rO-Dw8" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Wujud dan Sifat Benda (Lanjutan)</h3>
+                <p>Pendalaman materi mengenai volume, bentuk tetap, dan kemampuan mengalir zat di lingkungan sekitar.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/VqfnGIhlJos" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Alat Optik (Lanjutan)</h3>
+                <p>Pembahasan lebih spesifik mengenai pembentukan bayangan pada lensa cembung dan cekung.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/tEiTBJaGwPU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Sifat Cahaya</h3>
+                <p>Eksperimen membuktikan sifat cahaya: merambat lurus, dapat dipantulkan, dibiaskan, dan menembus benda bening.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/YcYQDEh7I2w" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Perubahan Wujud Benda</h3>
+                <p>Memahami fenomena mencair, membeku, menguap, mengembun, menyublim, dan mengkristal akibat pengaruh kalor.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/oSAsyab-0qY" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi dan Sifatnya</h3>
+                <p>Pengenalan dasar zat tunggal (unsur & senyawa) serta pengelompokan campuran homogen dan heterogen.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/2gX_Se-oMr8" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kuis Evaluasi</h3>
+                <p>Asah otak mandiri mengenai materi wujud zat dan optika melalui latihan interaktif singkat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/bi7uJhaBjOE" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kumpulan Soal</h3>
+                <p>Rangkuman variasi bank soal latihan IPA bertemakan sifat bahan dan cahaya untuk persiapan ujian.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/PHFMHWuqVEE" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pembahasan Soal</h3>
+                <p>Analisis logika sains dan kunci jawaban lengkap untuk penyelesaian soal-soal pilihan bertema optik.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/D_oyqxsYhWk" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Wujud Benda dan Magnet</h3>
+                <p>Mempelajari hubungan kerapatan materi serta sifat kemagnetan benda (feromagnetik, paramagnetik, diamagnetik).</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/ERy4pKLXDF4" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Soal OSN Gelombang</h3>
+                <p>Bedah trik cepat menyelesaikan soal tipe Olimpiade Sains Nasional (OSN) untuk sub-materi getaran dan gelombang.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Menu</a>
+    </div>
+
+</body>
+</html>
