@@ -9,6 +9,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         
         body {
+            /* TEMA KEMENAG: Hijau Deep ke Kuning Emas */
             background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #c6a700 100%);
             background-attachment: fixed; 
             min-height: 100vh;
@@ -46,45 +47,21 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             border: 1px solid rgba(255,255,255,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .video-card:hover { transform: translateY(-15px); box-shadow: 0 35px 70px rgba(0,0,0,0.5); }
 
-        /* Banner pengganti iframe hitam agar card terlihat edukatif & interaktif */
-        .video-banner {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: linear-gradient(45deg, #1b5e20, #0a3d0e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fdd835;
-            font-size: 48px;
-            font-weight: 800;
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
         }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
 
-        .video-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .video-info { padding: 25px; }
         .video-info h3 { 
-            font-size: 19px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            text-shadow: 0.5px 0.5px 0 #fff;
         }
-        .video-info p { font-size: 14px; color: #4b4b4d; line-height: 1.5; font-weight: 500; margin-bottom: 20px; }
-
-        /* Tombol Tonton Langsung ke YouTube */
-        .btn-watch {
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            background: #1b5e20;
-            color: #ffffff;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-        .btn-watch:hover { background: #c6a700; color: #0a3d0e; }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
 
         .btn-back {
             text-decoration: none; background: #ffffff; color: #1b5e20;
@@ -106,134 +83,122 @@
 
     <div class="video-grid">
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/5F_T_wLbyqE" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Kerajaan Hindu: Kutai & Tarumanegara</h3>
-                    <p>Mempelajari sejarah berdirinya kerajaan Hindu tertua di Indonesia, analisis penemuan batu tulis Yupa, dan corak kehidupan sosialnya.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=SshWskvO4gM" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Kerajaan Hindu-Buddha di Nusantara</h3>
+                <p>Mempelajari sejarah berdirinya kerajaan tertua di Indonesia, mulai dari Kutai, Tarumanegara, hingga masa keemasan Majapahit.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/G6M89NFrfP8" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Kerajaan Maritim Sriwijaya</h3>
-                    <p>Analisis kejayaan Buddha di nusantara, peta jalur perdagangan laut internasional, serta peran penting Raja Balaputradewa.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=Cj9zO-I9-qE" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Kejayaan Kerajaan Maritim Sriwijaya</h3>
+                <p>Analisis pusat peradaban dan pendidikan Buddha terbesar di Asia Tenggara serta kendali atas jalur jalur perdagangan laut internasional.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/S2p2YAtb1eQ" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Kerajaan Majapahit & Gajah Mada</h3>
-                    <p>Mengulas masa emas kepemimpinan Raja Hayam Wuruk, strategi militer Mahapatih Gajah Mada, serta isi dan makna Sumpah Palapa.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=Z0XFv9B663A" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Sejarah Candi Borobudur & Prambanan</h3>
+                <p>Mengulas latar belakang pembangunan relief candi sebagai bukti nyata peninggalan arsitektur megah masa Dinasti Syailendra dan Sanjaya.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/rK3VwE_E-Zk" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Kerajaan Islam di Pulau Jawa & Sumatera</h3>
-                    <p>Materi transisi kekuasaan ke Kesultanan Samudera Pasai dan Demak, kontribusi besar Wali Songo, serta bukti peninggalan fisiknya.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=O-M2iTzM83M" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Masuknya Islam & Kerajaan Demak</h3>
+                <p>Materi transisi kekuasaan, teori masuknya Islam ke nusantara, strategi dakwah Wali Songo, serta peninggalan Masjid Agung Demak.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/G2Pco8Kcoj8" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Perjuangan Sultan Baabullah & Hasanuddin</h3>
-                    <p>Kisah gigih pahlawan daerah dalam menentang monopoli perdagangan rempah oleh bangsa Portugis dan kongsi dagang VOC.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=u_FWh7b8Iug" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Perlawanan Pahlawan Daerah</h3>
+                <p>Kisah kegigihan Sultan Baabullah, Sultan Hasanuddin (Ayam Jantan dari Timur), dan Pattimura menentang monopoli perdagangan barat.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/S9VzTsc6M38" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Perang Diponegoro & Perlawanan Abad 19</h3>
-                    <p>Analisis taktik gerilya Pangeran Diponegoro, latar belakang pecahnya perang Jawa, serta dampaknya terhadap kas kolonial Belanda.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=vYtE0Z08U8U" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Pangeran Diponegoro & Perang Jawa</h3>
+                <p>Analisis taktik gerilya rakyat Jawa pada tahun 1825-1830, penyebab pecahnya konflik, serta dampaknya bagi kas kolonial Belanda.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/0B9H8MymHic" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Latihan Soal Olimpiade Sejarah Nasional</h3>
-                    <p>Kumpulan pembahasan bank soal bermuatan penalaran tinggi (HOTS) terkait kronologi sejarah dan analisis tokoh nasional.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=pxdXdjilIek" target="_blank" class="btn-watch">Tonton Latihan Soal</a>
+                <h3>Budi Utomo & Sumpah Pemuda</h3>
+                <p>Pergeseran perjuangan dari sifat kedaerahan menuju persatuan nasional yang dipelopori oleh organisasi pemuda kaum terpelajar.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/bQf8-bK2zRk" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Masa Pendudukan Jepang di Indonesia</h3>
-                    <p>Mempelajari sistem kerja paksa Romusha, organisasi semimiliter bentukan Jepang, hingga pembentukan BPUPKI dan PPKI.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=A9f2D89Xk9w" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Jepang di Indonesia & Dampaknya</h3>
+                <p>Mempelajari sistem kerja paksa Romusha, pembentukan organisasi semimiliter, hingga persiapan kemandirian lewat BPUPKI.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/AOmWnreKCHY" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Detik-Detik Proklamasi Kemerdekaan</h3>
-                    <p>Kronologi peristiwa Rengasdengklok, penyusunan teks proklamasi di rumah Laksamana Maeda, hingga pembacaan teks 17 Agustus 1945.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=wX8uI0D9Oms" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Peristiwa Sekitar Proklamasi 1945</h3>
+                <p>Kronologi Peristiwa Rengasdengklok, perumusan teks di rumah Laksamana Maeda, hingga pembacaan Proklamasi 17 Agustus.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/5F_T_wLbyqE" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Ujian Simulasi KSM IPS Terintegrasi Sejarah</h3>
-                    <p>Bedah materi ujian kompetisi resmi madrasah yang memadukan sejarah nasional dengan perkembangan peradaban Islam nusantara.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=ZpJK0l-MOJc" target="_blank" class="btn-watch">Tonton Latihan Soal</a>
+                <h3>Soal Kompetisi Sejarah Terintegrasi</h3>
+                <p>Bedah materi ujian resmi kompetisi madrasah yang memadukan sejarah perjuangan bangsa dengan nilai-nilai religius keislaman.</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/G6M89NFrfP8" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Peninggalan Seni & Arsitektur Tradisional</h3>
-                    <p>Mengenal peninggalan sejarah non-benda seperti tradisi lisan, adat istiadat, alat musik, dan akulturasi arsitektur rumah ibadah kuno.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=Y0n9WvI42Ew" target="_blank" class="btn-watch">Tonton Video Pembelajaran</a>
+                <h3>Klasifikasi Peninggalan Sejarah</h3>
+                <p>Mengenal peninggalan berupa tulisan (prasasti, kitab), bangunan (candi, benteng, masjid), serta benda (senjata, arca, mata uang).</p>
             </div>
         </div>
 
         <div class="video-card">
-            <div class="video-banner">▶</div>
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/S2p2YAtb1eQ" allowfullscreen></iframe>
+            </div>
             <div class="video-info">
-                <div>
-                    <h3>Rangkuman Materi Sejarah OMI MI</h3>
-                    <p>Review kilat rangkuman poin-poin penting peninggalan sejarah nasional sebagai bekal penutup sebelum menghadapi kompetisi.</p>
-                </div>
-                <a href="https://www.youtube.com/watch?v=7qflesqZ2S8" target="_blank" class="btn-watch">Tonton Rangkuman Materi</a>
+                <h3>Mempertahankan Kemerdekaan RI</h3>
+                <p>Ulasan pertempuran besar setelah proklamasi (Surabaya, Ambarawa, Medan Area) guna mempertahankan kedaulatan NKRI.</p>
             </div>
         </div>
     </div>
