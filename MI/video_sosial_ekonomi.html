@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Interaksi & Ekonomi - OMI Kemenag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* TEMA KEMENAG: Hijau Deep ke Kuning Emas */
+            background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #c6a700 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.15); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #fdd835; font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 35px 70px rgba(0,0,0,0.5); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Materi: Interaksi Sosial & Ekonomi</h1>
+        <p class="sub-title">E-Learning Pengayaan Olimpiade Madrasah Ibtidaiyah (OMI)</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/gL8B-C_T9B0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pengertian & Syarat Interaksi Sosial</h3>
+                <p>Mempelajari definisi interaksi sosial serta dua syarat utamanya, yaitu adanya kontak sosial dan komunikasi antarpelaku.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/6uK_vS7F1hY" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Sosial Asosiatif</h3>
+                <p>Pembahasan mengenai bentuk interaksi yang mengarah pada persatuan, seperti kerja sama, akomodasi, asimilasi, dan akulturasi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/gH8xIqEPh7g" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Sosial Disosiatif</h3>
+                <p>Mengenal interaksi yang mengarah pada perpecahan atau kompetisi, meliputi persaingan (kompetisi), kontravensi, dan pertikaian.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/p1o7F_Y8G3w" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Tiga Pilar Kegiatan Ekonomi</h3>
+                <p>Materi IPS dasar MI mengenai alur barang/jasa dari produsen melalui distributor hingga sampai ke tangan konsumen akhir.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/K8Nl_V107_g" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Jenis Usaha Ekonomi</h3>
+                <p>Mengulas pengelolaan usaha ekonomi di Indonesia, baik yang dikelola secara perorangan maupun kelompok (Firma, CV, PT, Koperasi, BUMN).</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/v9C0_W3m7V4" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Modernisasi Ekonomi & Iptek</h3>
+                <p>Analisis dampak perkembangan teknologi informasi dan transportasi terhadap efisiensi pasar, produksi, dan belanja online.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/Yy2M5m7kbhM" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Soal Kompetisi Sosiologi & Ekonomi</h3>
+                <p>Latihan pemecahan soal penalaran tinggi (HOTS) mengenai struktur pasar, kelangkaan sumber daya, dan dinamika sosial masyarakat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/3R-Aolx_5yI" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Fungsi Lembaga Sosial</h3>
+                <p>Mengenal peran lembaga keluarga, agama, ekonomi, pendidikan, dan politik dalam mengatur tata tertib perilaku masyarakat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/x8Xg6y_Q98o" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kebutuhan vs Keinginan</h3>
+                <p>Klasifikasi kebutuhan manusia berdasarkan intensitas (primer, sekunder, tersier), sifat, waktu pemenuhan, dan subjeknya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/4I8ZfH5c4fM" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Geografi Ekonomi Nusantara</h3>
+                <p>Bagaimana perbedaan wilayah (pantai, dataran rendah, pegunungan) membentuk mata pencaharian dan komoditas utama warga.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/p1o7F_Y8G3w" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Bedah Soal KSM Ekonomi MI</h3>
+                <p>Membahas soal olimpiade ekonomi yang diintegrasikan dengan nilai-nilai keislaman, zakat, dan keadilan distribusi harta.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/8I9Z7xX5O_M" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Sejarah Uang & Sistem Barter</h3>
+                <p>Evolusi alat tukar mulai dari sistem barter barang, uang barang (kerang/garam), uang logam, uang kertas, hingga era dompet digital.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>
