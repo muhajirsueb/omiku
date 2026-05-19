@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Sains</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Warna Dasar Sains: Hijau Hutan Peat ke Emerald */
+            background: linear-gradient(135deg, #0a3d0e 0%, #2e7d32 50%, #81c784 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.1); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #c8e6c9; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Video Pengayaan: Sains (IPA)</h1>
+        <p class="sub-title">Pelajari fenomena alam dan rahasia semesta</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/hVvwbV8EOTM" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Bentuk Tubuh Hewan</h3>
+                <p>Mengenal berbagai macam bentuk tubuh hewan dan adaptasi morfologinya terhadap lingkungan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/DtIAkPQzP_U" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Bagian dan Fungsi Tubuh Manusia</h3>
+                <p>Eksplorasi organ-organ penting di dalam tubuh manusia beserta fungsinya untuk menjaga kehidupan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/hCYXlL5Z5EA" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Struktur dan Fungsi Tumbuhan</h3>
+                <p>Mempelajari susunan anatomi tumbuhan mulai dari akar hingga daun serta perannya dalam fotosintesis.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/D9YsZA_70S8" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Adaptasi Hewan</h3>
+                <p>Bagaimana hewan menyesuaikan diri dengan lingkungannya untuk bertahan hidup dari predator dan cuaca ekstrem.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/yi2XVIDuXDg" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Adaptasi Tumbuhan</h3>
+                <p>Mengenal mekanisme pertahanan dan penyesuaian diri unik pada berbagai jenis tumbuhan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/-1iU8EKV6iY" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Sistem Organisasi Makhluk Hidup</h3>
+                <p>Memahami tingkatan hierarki kehidupan mulai dari sel, jaringan, organ, sistem organ, hingga organisme.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/Lamxt6IHoXI" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Akar dan Batang</h3>
+                <p>Pembahasan mendalam mengenai struktur penopang dan penyerap nutrisi utama pada tumbuhan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/nB7HNBsJNFc" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Adaptasi Makhluk Hidup</h3>
+                <p>Ulasan komprehensif mengenai adaptasi morfologi, fisiologi, dan tingkah laku makhluk hidup.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/84is-dLCHJ8" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi OSN: Adaptasi</h3>
+                <p>Pendalaman materi khusus dan pembahasan soal olimpiade tingkat lanjut mengenai adaptasi biologi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/TX4S2ly0AdE" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Rangka Manusia</h3>
+                <p>Mempelajari sistem gerak pasif, nama-nama tulang, dan fungsi rangka dalam melindungi organ vital.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/1T_ZknxOQnw" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Adaptasi Hewan (Lanjutan)</h3>
+                <p>Studi kasus tambahan mengenai cara unik hewan dalam mengelabui musuh dan mencari makan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/dYCk-kqhBzA" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Ringkasan Materi IPA</h3>
+                <p>Rangkuman materi penting sains untuk mempermudah persiapan ujian dan review belajar cepat.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>
