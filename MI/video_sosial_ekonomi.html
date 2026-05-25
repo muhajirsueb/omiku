@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Sosial - OMI Kemenag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* KEMBALI KE TEMA KEMENAG: Hijau Deep ke Kuning Emas */
+            background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #c6a700 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        /* Overlay sedikit lebih gelap agar kesan religius & fokusnya kuat */
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.15); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            /* Stroke & Glow Putih agar tetap tajam */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #fdd835; font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 35px 70px rgba(0,0,0,0.5); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            /* Stroke putih tipis pada font judul kecil */
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Video Pengayaan: Sosial (IPS)</h1>
+        <p class="sub-title">Memahami Interaksi Sosial, Kegiatan Ekonomi, dan Keragaman Budaya Indonesia</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/qW-7jPfGZrs" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Sosial (Bagian 1)</h3>
+                <p>Memahami konsep dasar interaksi sosial dan syarat terjadinya hubungan timbal balik antarindividu.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/AcczfLYMfdg" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Manusia & Lingkungan</h3>
+                <p>Materi mengenai cara manusia beradaptasi dan memanfaatkan lingkungan alam sekitarnya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/-QJMMU3xab0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Sosial (Bagian 2)</h3>
+                <p>Pembahasan lanjutan mengenai bentuk-bentuk interaksi sosial asosiatif dan disosiatif.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/Uetx6MPbgB4" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Sosial di Berbagai Bidang</h3>
+                <p>Melihat implementasi dan contoh interaksi sosial dalam bidang ekonomi, politik, sosial, dan budaya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/JeS_4JoHubU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi Sosial (Suplemen)</h3>
+                <p>Materi penguatan untuk lebih memahami dinamika hubungan antarmasyarakat dalam kehidupan sehari-hari.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/bLtpzAsKFds" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Interaksi yang Merugikan</h3>
+                <p>Membahas bentuk interaksi manusia yang berdampak negatif terhadap lingkungan alam maupun sosial.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/U9ykua-q7fI" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kegiatan Ekonomi (Bagian 1)</h3>
+                <p>Pengenalan kegiatan ekonomi dasar masyarakat yang meliputi kegiatan produksi, distribusi, dan konsumsi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/t--F0qwGKd4" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Ekonomi & Masyarakat</h3>
+                <p>Mempelajari bagaimana pemenuhan kebutuhan ekonomi dapat mempengaruhi struktur sosial masyarakat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/lIVTb1OxTDg" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Keragaman Sosial Budaya</h3>
+                <p>Eksplorasi kekayaan budaya, suku, adat istiadat, dan agama yang tersebar di wilayah nusantara.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/oQKT01sGtNE" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kegiatan Ekonomi (Bagian 2)</h3>
+                <p>Pembahasan mendalam mengenai peran pelaku ekonomi dalam roda perputaran pasar dan kesejahteraan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/mhBJPDPWA4o" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Materi OSN (Olimpiade)</h3>
+                <p>Pembahasan materi tingkat lanjut (advance) ilmu pengetahuan sosial untuk persiapan kompetisi OSN.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/ddj3arYzuXw" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Jenis Usaha Ekonomi</h3>
+                <p>Mengenal berbagai jenis badan usaha atau pengelolaan ekonomi, baik perseorangan maupun kelompok.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/T7Qfu3N-C7I" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Aktivitas Ekonomi</h3>
+                <p>Melihat realita dan contoh nyata berbagai aktivitas ekonomi masyarakat di daerah perkotaan maupun pedesaan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/rJWhrPL6GsU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pembahasan Soal 1</h3>
+                <p>Latihan interaktif dan pembahasan kisi-kisi soal evaluasi bab interaksi sosial.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/_ugCBxFhzOY" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pembahasan Soal 2</h3>
+                <p>Uji pemahaman gelombang kedua dengan fokus bedah soal materi kegiatan ekonomi masyarakat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/_oBoe6U9S_U" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pembahasan Soal 3</h3>
+                <p>Evaluasi penutup dan pembahasan soal pengayaan integrasi IPS untuk persiapan ujian semester.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>

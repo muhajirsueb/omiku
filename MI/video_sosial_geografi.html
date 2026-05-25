@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pengayaan Sosial - OMI Kemenag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* KEMBALI KE TEMA KEMENAG: Hijau Deep ke Kuning Emas */
+            background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #c6a700 100%);
+            background-attachment: fixed; 
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 50px 20px;
+            position: relative;
+        }
+
+        /* Overlay sedikit lebih gelap agar kesan religius & fokusnya kuat */
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.15); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 40px; }
+
+        h1 { 
+            font-size: 38px; font-weight: 800; color: #ffffff; 
+            text-transform: uppercase; letter-spacing: 1px;
+            /* Stroke & Glow Putih agar tetap tajam */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4), 0 0 10px rgba(255,255,255,0.2); 
+            margin-bottom: 10px;
+        }
+
+        .sub-title {
+            font-size: 18px; color: #fdd835; font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%; margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 25px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-card:hover { transform: translateY(-15px); box-shadow: 0 35px 70px rgba(0,0,0,0.5); }
+
+        .thumbnail-container {
+            width: 100%; aspect-ratio: 16/9; background: #000;
+        }
+        .thumbnail-container iframe { width: 100%; height: 100%; border: none; }
+
+        .video-info { padding: 25px; }
+        .video-info h3 { 
+            font-size: 20px; color: #1b5e20; margin-bottom: 10px; font-weight: 800; 
+            /* Stroke putih tipis pada font judul kecil */
+            text-shadow: 0.5px 0.5px 0 #fff;
+        }
+        .video-info p { font-size: 15px; color: #4b4b4d; line-height: 1.5; font-weight: 500; }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 50px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
+            border: 2px solid #ffffff;
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Video Pengayaan: Sosial (IPS)</h1>
+        <p class="sub-title">Memahami Kenampakan Alam, Karakteristik Geografis, serta Flora & Fauna Indonesia</p>
+    </div>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/RPi5qa-BXJ4" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam Indonesia</h3>
+                <p>Materi pengayaan mengenai ragam bentuk kenampakan alam yang membentang di wilayah Indonesia.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/xS8_fhIqJwg" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam Indonesia Part 2</h3>
+                <p>Kelanjutan pembahasan detail mengenai contoh dan jenis kenampakan alam nusantara.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/RdOqnENWEDU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam</h3>
+                <p>Eksplorasi konsep dasar kenampakan alam dan bagaimana proses terbentuknya di permukaan bumi.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/8Yi0rhvp5fo" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Karakteristik Geografis Indonesia</h3>
+                <p>Mempelajari letak astronomis, geografis, serta keunikan kondisi wilayah Indonesia.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/6tjwA4enPhA" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam & SDA</h3>
+                <p>Hubungan timbal balik antara kenampakan alam dengan potensi Sumber Daya Alam di sekitarnya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/Ny2_MYQlQ2Q" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam & Buatan</h3>
+                <p>Memahami perbedaan lingkungan alam murni dengan lingkungan buatan hasil karya manusia.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/LJZY_h_Pl-M" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Ciri Kenampakan Daratan & Air</h3>
+                <p>Mengenal karakteristik visual dan fungsional dari wilayah wilayah daratan serta perairan.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/GACyjr6CgvQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam & Manfaatnya</h3>
+                <p>Membahas fungsi dan keuntungan kenampakan alam bagi kehidupan dan aktivitas ekonomi masyarakat.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/BozoA3xqiHw" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Pengaruh Letak Geografis</h3>
+                <p>Analisis dampak posisi geografis Indonesia terhadap iklim, musim, dan sosial budaya.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/C4ihBLdC520" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Kenampakan Alam (Suplemen)</h3>
+                <p>Materi tambahan untuk memperluas pemahaman materi bentang alam secara global.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/l_1W39vYi1A" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Flora & Fauna Indonesia</h3>
+                <p>Penjelajahan kekayaan keanekaragaman hayati pembagian wilayah flora dan fauna di Indonesia.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/EX3Myp4EhOs" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Contoh Soal 1</h3>
+                <p>Pembahasan contoh soal pilihan ganti dan esai seputar kenampakan alam dan geografis.</p>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="thumbnail-container">
+                <iframe src="https://www.youtube.com/embed/rV3OUxck0oU" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <h3>Latihan Soal 2</h3>
+                <p>Uji kompetensi mandiri bagian kedua untuk mengukur pemahaman materi IPS secara mendalam.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="materi_video_mi.html" class="btn-back">← Kembali ke Materi</a>
+    </div>
+
+</body>
+</html>
