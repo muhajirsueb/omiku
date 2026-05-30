@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materi Teks MI - Kurikulum OMI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            /* Warna khas MI: Hijau dan Emas */
+            background: linear-gradient(135deg, #0a3d0e 0%, #1b5e20 50%, #b89600 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; padding: 60px 20px;
+            color: #1d1d1f; position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.15); z-index: -1;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        
+        h1 { 
+            font-size: 36px; font-weight: 800; color: #ffffff; 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3); 
+        }
+
+        .sub-desc { 
+            font-size: 16px; color: #fdd835; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .mapel-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px; max-width: 1200px; width: 100%; margin-bottom: 60px;
+        }
+
+        .card-mapel {
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(15px);
+            border-radius: 30px; padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .title-mat { color: #1565c0; } 
+        .title-sai { color: #2e7d32; } 
+        .title-sos { color: #f57f17; } 
+
+        h2 { font-size: 24px; margin-bottom: 25px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+
+        .list-materi { list-style: none; }
+        
+        .list-materi li {
+            padding: 16px 20px; 
+            background: #f8f9fa; 
+            margin-bottom: 12px;
+            border-radius: 18px; 
+            cursor: pointer; 
+            transition: 0.3s;
+            font-weight: 700; 
+            color: #1d1d1f;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 14px;
+        }
+
+        /* Tombol Pelajari */
+        .btn-pelajari {
+            font-size: 11px;
+            background: #ffffff;
+            color: #555;
+            padding: 6px 14px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            border: 1px solid #ddd;
+            transition: 0.3s;
+        }
+
+        /* Hover efek per mata pelajaran */
+        .mat-item:hover { background: #1565c0; color: white; }
+        .sai-item:hover { background: #2e7d32; color: white; }
+        .sos-item:hover { background: #f57f17; color: white; }
+
+        .list-materi li:hover .btn-pelajari {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border-color: white;
+        }
+
+        .btn-back {
+            text-decoration: none; background: #ffffff; color: #1b5e20;
+            padding: 18px 45px; border-radius: 50px; font-weight: 800;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            transition: 0.3s; border: 2px solid #ffffff;
+            display: inline-block;
+        }
+        .btn-back:hover { background: #1b5e20; color: white; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Modul Teks OMI MI</h1>
+        <p class="sub-desc">Materi Bacaan disusun berdasarkan Kisi-kisi Nasional MI</p>
+    </div>
+
+    <div class="mapel-container">
+        <div class="card-mapel">
+            <h2 class="title-mat">📘 Matematika</h2>
+            <ul class="list-materi">
+                <li class="mat-item" onclick="window.location.href='teks_mtk_bilangan_mi.html'">Bilangan (Cacah & Bulat) <span class="btn-pelajari">Pelajari</span></li>
+                <li class="mat-item" onclick="window.location.href='teks_mtk_geometri_mi.html'">Geometri Dasar <span class="btn-pelajari">Pelajari</span></li>
+                <li class="mat-item" onclick="window.location.href='teks_mtk_aritmatika_mi.html'">Aritmatika Sosial <span class="btn-pelajari">Pelajari</span></li>
+                <li class="mat-item" onclick="window.location.href='teks_mtk_statistika_mi.html'">Statistika & Peluang <span class="btn-pelajari">Pelajari</span></li>
+            </ul>
+        </div>
+
+        <div class="card-mapel">
+            <h2 class="title-sai">📗 Sains (IPA)</h2>
+            <ul class="list-materi">
+                <li class="sai-item" onclick="window.location.href='teks_sains_tubuh_mi.html'">Fungsi Tubuh Makhluk Hidup <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sai-item" onclick="window.location.href='teks_sains_ekosistem_mi.html'">Ekosistem & Lingkungan <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sai-item" onclick="window.location.href='teks_sains_gaya_mi.html'">Gaya, Gerak & Energi <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sai-item" onclick="window.location.href='teks_sains_bumi_mi.html'">Bumi & Tata Surya <span class="btn-pelajari">Pelajari</span></li>
+            </ul>
+        </div>
+
+        <div class="card-mapel">
+            <h2 class="title-sos">📙 Sosial (IPS)</h2>
+            <ul class="list-materi">
+                <li class="sos-item" onclick="window.location.href='teks_sosial_ski_mi.html'">Sejarah Kebudayaan Islam <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sos-item" onclick="window.location.href='teks_sosial_geografi_mi.html'">Geografi & Alam Indonesia <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sos-item" onclick="window.location.href='teks_sosial_ekonomi_mi.html'">Kegiatan Ekonomi Masyarakat <span class="btn-pelajari">Pelajari</span></li>
+                <li class="sos-item" onclick="window.location.href='teks_sosial_sosiologi_mi.html'">Sosiologi & Budaya <span class="btn-pelajari">Pelajari</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="btn-footer">
+        <a href="dashboard_mi.html" class="btn-back">← Kembali ke Dashboard</a>
+    </div>
+
+</body>
+</html>
